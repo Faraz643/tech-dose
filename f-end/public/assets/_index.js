@@ -34,7 +34,7 @@ import reversedLogoBlur from "./images/logo/reversed-logo-blur.png";
 
 import sideUseLogo from "./images/logo/sideUse-logo.png";
 
-import TCHeaderLogo from "./images/logo/tc-header-logo.png";
+import tcHeaderLogo from "./images/logo/tc-header-logo.png";
 
 // mini icons
 
@@ -86,7 +86,7 @@ export {
   whiteStripLine,
   reversedLogoBlur,
   sideUseLogo,
-  TCHeaderLogo,
+  tcHeaderLogo,
   blogIcon,
   eventIcon,
   dropDownIcon,
