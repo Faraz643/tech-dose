@@ -1,0 +1,1 @@
+// import all images in a single file
