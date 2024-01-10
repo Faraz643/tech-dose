@@ -10,14 +10,14 @@ import bannerImagePcSvg from "./images/feature-section/banner-image-pc.svg";
 
 import bannerImagePc from "./images/feature-section/banner-image-pc.png";
 
-import backStripLine from "./images/feature-section/back-strip-line.png";
+import backStripLine from "./images/feature-section/black-strip-line.png";
 
 import flyingCar from "./images/feature-section/flying-car.jpg";
 
 import gadgets from "./images/feature-section/gadgets.jpg";
 
 import gamingConsole from "./images/feature-section/gaming-console.jpg";
-
+import vrMan from "./images/feature-section/vr-man.jpg";
 import magazineMockUp from "./images/feature-section/magazine-mockUp-pc.png";
 
 import secondFtMainImg from "./images/feature-section/second-ft-main.jpg";
@@ -26,7 +26,7 @@ import vrAudience from "./images/feature-section/vr-audience.jpg";
 
 import vrSystem from "./images/feature-section/vr-system.jpg";
 
-import whiteStripLine from "./images/feature-section/white-strip-ling.png";
+import whiteStripLine from "./images/feature-section/white-strip-line.png";
 
 // logo
 
@@ -50,7 +50,7 @@ import instagramIcon from "./images/mini-icons/instagram.svg";
 
 import aboutIcon from "./images/mini-icons/team.png";
 
-import xIcon from "./images/mini-icons/x.svg";
+import xIcon from "./images/mini-icons/x.png";
 
 // sample post thumbnails
 
@@ -79,6 +79,7 @@ export {
   flyingCar,
   gadgets,
   gamingConsole,
+  vrMan,
   magazineMockUp,
   secondFtMainImg,
   vrAudience,

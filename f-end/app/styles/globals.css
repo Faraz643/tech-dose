@@ -2,14 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+@media only screen and (max-width: 570px) {
+  .hidden-items {
+    display: none;
+  }
+}
+
+
+.navlinks:focus {
+  outline: none; 
+  -webkit-tap-highlight-color: transparent;
 }
