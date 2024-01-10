@@ -1,6 +1,6 @@
 // using nav tag for creating navbar\
 'use client'
-import { navLinks } from '../(routes)/(blog)/utils'
+import { navLinks } from '../../(routes)/(blog)/utils'
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'

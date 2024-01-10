@@ -1,9 +1,9 @@
 import localfont from "next/font/local";
 import "../../styles/globals.css";
-import CommonHeader from "@/app/_GlobalComponents/CommonHeader";
-import { Header } from "@/app/_GlobalComponents/Header";
-import Footer from "@/app/_GlobalComponents/Footer";
-import Contexts from "@/app/_GlobalComponents/Contexts";
+import CommonHeader from "@/app/_Components/_Blog/CommonHeader";
+import { Header } from "@/app/_Components/_Blog/Header";
+import Footer from "@/app/_Components/_Blog/Footer";
+import Contexts from "@/app/_Components/_Blog/Contexts";
 
 const futureEarth = localfont({
   src: [
@@ -40,10 +40,10 @@ export default function RootLayout({ children }) {
 
       <body className="bg-[#201F1E]">
         <Contexts>
-          {/* HEADER COMPONENT > LOGO+NAVBAR_C+SOCIAL_C */}
+          {/* HEADER COMPONENT */}
           <Header />
           {children}
-          {/* FOOTER NAVBAR > NAVBAR_C */}
+          {/* FOOTER NAVBAR*/}
           <Footer />
         </Contexts>
       </body>

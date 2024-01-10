@@ -1,5 +1,5 @@
 import React from 'react'
-import { socialLinks } from '../(routes)/(blog)/utils'
+import { socialLinks } from '../../(routes)/(blog)/utils'
 import Link from 'next/link'
 import Image from 'next/image'
 import { homeIcon } from '@/public/assets/_index'
