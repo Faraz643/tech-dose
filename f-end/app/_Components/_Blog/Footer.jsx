@@ -6,7 +6,7 @@ import CommonHeader from './CommonHeader'
 
 const Footer = () => {
     return (
-        <footer className='hidden absolute bottom-3 p-1'>
+        <footer className=''>
             <CommonHeader />
         </footer>
     )

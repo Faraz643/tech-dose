@@ -12,7 +12,7 @@ const CommonHeader = () => {
   const { active, setActive } = useContext(ActiveNavContext)
   return (
     <div className='flex justify-center px-1'>
-      <div className='flex flex-row justify-between items-center px-3 bg-[#D9D9D9] rounded-[100px] md:w-[900px]'>
+      <div className='flex flex-row justify-between items-center px-3 bg-[#d9d9d99d] rounded-[100px] md:w-[900px]'>
         <div className='logo-wrapper p-1 pr-3'>
           <Link href='/' onClick={() => setActive('home')}>
             <Image src={tcHeaderLogo} width={45} height={40} alt='Tech Dose Logo' />
