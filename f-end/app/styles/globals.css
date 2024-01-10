@@ -19,6 +19,9 @@ body {
   .hidden-items {
     display: none;
   }
+  footer{
+    display: block !important;
+  }
 }
 
 
@@ -26,3 +29,11 @@ body {
   outline: none; 
   -webkit-tap-highlight-color: transparent;
 }
+
+
+.banner-img-wrapper img{
+  height: auto;
+  width: auto;
+  
+}
+
