@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import { bannerImageMSvg } from '@/public/assets/_index'
-import { bannerImagePcSvg } from '@/public/assets/_index'
+import { bannerImageMSvg, bannerImagePcSvg } from '@/public/assets/_index'
 
 const HeroSection = () => {
     return (
