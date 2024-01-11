@@ -3,14 +3,15 @@ import ParentSection from './ParentSection'
 import { blackStripLine } from '@/public/assets/_index'
 import SideLogo from '../SideLogo'
 import Image from 'next/image'
+import TopImagesCard from './TopImagesCard'
 const Section3 = () => {
     return (
         <ParentSection>
 
             <div className='monthly-features w-[1200px]'>
-                <div className='bg-[#060F16] rounded-[25px] min-h-[250px] w-auto relative py-20 pt-28'>
-                    <div className='absolute top-[-50px] left-12'>
-                        {/* stack images */}
+                <div className='relative bg-[#060F16] rounded-[40px] min-h-[250px] w-auto  pb-12 pt-28 '>
+                    <div className='absolute top-[-50px] left-12 max-[450px]:left-8'>
+                        <TopImagesCard />
                     </div>
                     <div className="flex flex-col gap-6 justify-center px-4 min-[970px]:flex-row min-[970px]:justify-between">
                         <div className='min-[970px]:order-2'>

@@ -45,7 +45,13 @@ footer {
 @media only screen and (max-width: 450px) {
   .magazines-photo-wrapper {
     width: 130% !important;
+    
   }
+  .top-left-images-card div{
+    height: 80px !important;
+    width: 80px !important;
+  }
+  
 
 }
 @media only screen and (max-width: 570px) {
@@ -99,3 +105,15 @@ footer {
     width: 380px !important;
   }
 }
+
+.top-left-images-card div{
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  background-color: #a8a5a5;
+}
+
+/* .top-left-images-card div img{
+  object-fit: cover;
+  object-position: center;
+} */
