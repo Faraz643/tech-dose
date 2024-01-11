@@ -19,7 +19,7 @@ const Section3 = () => {
                         </div>
                         <div className="flex flex-col min-[970px]:order-1 min-[970px]:w-[400px] min-[970px]:gap-10">
                             <Image src={blackStripLine} alt='Black Strip Line' />
-                            <div>
+                            <div className=''>
                                 <p className='text-xl text-center my-4 min-[800px]:text-right min-[800px]:text-[1.32rem] text-[#FFFFFF]'>Get ready for a thrilling journey through the exciting world of tech! Our monthly tech chronicles offer insights, stories, and ideas that matter to you. Learn about new trends, and get equipped with knowledge that empowers your ambitions.   </p>
                             </div>
                         </div>

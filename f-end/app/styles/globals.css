@@ -42,10 +42,11 @@ body {
 footer {
   display: none;
 }
-@media screen and (max-width: 569px) and (min-width: 430px) {
+@media only screen and (max-width: 450px) {
   .magazines-photo-wrapper {
-    width: 500px !important;
+    width: 130% !important;
   }
+
 }
 @media only screen and (max-width: 570px) {
   .hidden-items {
@@ -74,11 +75,11 @@ footer {
   .magazines-photo-wrapper {
     margin-right: 0;
     margin-top: -40px;
-    width: 130%;
+    width: 95%;
     margin-right: 40px;
   }
 }
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 970px) {
   .magazine-ft-content {
     flex-direction: row;
   }
@@ -92,4 +93,9 @@ footer {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
+}
+@media screen and (min-width: 571px) and (max-width: 900px) {
+  .magazines-photo-wrapper {
+    width: 380px !important;
+  }
 }
