@@ -10,7 +10,7 @@ import bannerImagePcSvg from "./images/feature-section/banner-image-pc.svg";
 
 import bannerImagePc from "./images/feature-section/banner-image-pc.png";
 
-import backStripLine from "./images/feature-section/black-strip-line.png";
+import blackStripLine from "./images/feature-section/black-strip-line.png";
 
 import flyingCar from "./images/feature-section/flying-car.jpg";
 
@@ -75,7 +75,7 @@ export {
   bannerImageMSvg,
   bannerImagePcSvg,
   bannerImagePc,
-  backStripLine,
+  blackStripLine,
   flyingCar,
   gadgets,
   gamingConsole,

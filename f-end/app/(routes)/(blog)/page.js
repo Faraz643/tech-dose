@@ -8,6 +8,7 @@
 "use client";
 import HeroSection from "@/app/_Components/_Blog/__HomePage/HeroSection";
 import Section2 from "@/app/_Components/_Blog/__HomePage/Section2";
+import Section3 from "@/app/_Components/_Blog/__HomePage/Section3";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -19,8 +20,9 @@ const Home = () => {
     <>
       {/* SECTION 1 > HEADING_C*/}
       <HeroSection />
-      <div className="flex justify-center bg-[#ECECEC] rounded-[30px]">
+      <div className="bg-[#ECECEC] rounded-[30px]">
         <Section2 />
+        <Section3 />
         {/* SECTION 2 > HEADING_C*/}
         {/* SECTION 3 > HEADING_C*/}
         {/* SECTION 4 > HEADING_C*/}
