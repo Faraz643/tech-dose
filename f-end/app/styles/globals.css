@@ -42,17 +42,27 @@ body {
 footer {
   display: none;
 }
+
+.stack-image {
+  height: 150px;
+  width: 150px;
+}
+.top-stack {
+  height: 170px !important;
+  width: 170px !important;
+}
+.top-stack-wrapper {
+  top: -70%;
+  left: 25%;
+}
 @media only screen and (max-width: 450px) {
   .magazines-photo-wrapper {
     width: 130% !important;
-    
   }
-  .top-left-images-card div{
+  .top-left-images-card div {
     height: 80px !important;
     width: 80px !important;
   }
-  
-
 }
 @media only screen and (max-width: 570px) {
   .hidden-items {
@@ -88,6 +98,18 @@ footer {
     height: 130px !important;
     width: 300px !important;
   }
+  .stack-image {
+    height: 100px !important;
+    width: 100px !important;
+  }
+  .top-stack {
+    height: 120px !important;
+    width: 120px !important;
+  }
+  .top-stack-wrapper {
+    top: -70%;
+    left: 25%;
+  }
 }
 
 @media only screen and (max-width: 400px) {
@@ -95,7 +117,6 @@ footer {
     height: 130px !important;
     width: 100% !important;
   }
-
 }
 
 @media only screen and (min-width: 970px) {
@@ -119,10 +140,14 @@ footer {
   }
 }
 
-.top-left-images-card div{
+.top-left-images-card div,
+.stack-image {
+  border-radius: 100%;
+}
+
+.top-left-images-card div {
   height: 100px;
   width: 100px;
-  border-radius: 100%;
   background-color: #a8a5a5;
 }
 
@@ -131,14 +156,9 @@ footer {
   width: 500px;
 }
 
-
-
 @media only screen and (max-width: 1010px) {
   .bottom-feature-image {
     height: 150px;
     width: 300px;
   }
 }
-
-
- 

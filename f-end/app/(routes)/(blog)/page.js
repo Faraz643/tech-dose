@@ -10,6 +10,7 @@ import HeroSection from "@/app/_Components/_Blog/__HomePage/HeroSection";
 import Section2 from "@/app/_Components/_Blog/__HomePage/Section2";
 import Section3 from "@/app/_Components/_Blog/__HomePage/Section3";
 import Section4 from "@/app/_Components/_Blog/__HomePage/Section4";
+import Section5 from "@/app/_Components/_Blog/__HomePage/Section5";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -25,6 +26,7 @@ const Home = () => {
         <Section2 />
         <Section3 />
         <Section4 />
+        <Section5 />
         {/* SECTION 2 > HEADING_C*/}
         {/* SECTION 3 > HEADING_C*/}
         {/* SECTION 4 > HEADING_C*/}
