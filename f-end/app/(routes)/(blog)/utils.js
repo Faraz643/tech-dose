@@ -13,25 +13,25 @@ import {
 
 const navLinks = [
   {
-    id: 'home',
+    id: "home",
     title: "Home",
     link: "/",
     icon: homeIcon,
   },
   {
-    id: 'blog',
+    id: "blog",
     title: "Blog",
     link: "/blog",
     icon: blogIcon,
   },
   {
-    id: 'events',
+    id: "events",
     title: "Events",
     link: "/events",
     icon: eventIcon,
   },
   {
-    id: 'about',
+    id: "about",
     title: "About",
     link: "/about",
     icon: aboutIcon,
@@ -40,13 +40,13 @@ const navLinks = [
 
 const socialLinks = [
   {
-    id: 'x',
+    id: "x",
     socialName: "X",
     socialIcon: xIcon,
     socialLink: "https://x.com",
   },
   {
-    id: 'instagram',
+    id: "instagram",
     socialName: "Instagram",
     socialIcon: instagramIcon,
     socialLink: "https://instagram.com",
@@ -55,16 +55,19 @@ const socialLinks = [
 
 const topImagesCard = [
   {
+    key: 1,
     imageSrc: gamingConsole,
-    alt: 'Gaming Console'
+    alt: "Gaming Console",
   },
   {
+    key: 2,
     imageSrc: gadgets,
-    alt: 'Gadgets'
+    alt: "Gadgets",
   },
   {
+    key: 3,
     imageSrc: vrMan,
-    alt: 'Man wearing VR headset'
+    alt: "Man wearing VR headset",
   },
 ];
 

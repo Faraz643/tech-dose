@@ -127,8 +127,8 @@ footer {
 }
 
 .bottom-feature-image {
-  height: 200px;
-  width: 450px;
+  height: 180px;
+  width: 500px;
 }
 
 
@@ -140,7 +140,5 @@ footer {
   }
 }
 
-/* .top-left-images-card div img{
-  object-fit: cover;
-  object-position: center;
-} */
+
+ 

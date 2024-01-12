@@ -7,7 +7,7 @@ const TopImagesCard = () => {
         <div className='top-left-images-card flex gap-6 max-[450px]:gap-3'>
             {
                 topImagesCard.map((image) => (
-                    <div className='relative overflow-hidden border-[6px] max-[450px]:border-[5px]'>
+                    <div key={image.key} className='relative overflow-hidden border-[6px] max-[450px]:border-[5px]'>
                         <Image src={image.imageSrc} alt={image.alt} fill className='object-cover ' />
                     </div>
                 ))
