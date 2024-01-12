@@ -55,13 +55,16 @@ const socialLinks = [
 
 const topImagesCard = [
   {
-    image: gamingConsole,
+    imageSrc: gamingConsole,
+    alt: 'Gaming Console'
   },
   {
-    image: gadgets,
+    imageSrc: gadgets,
+    alt: 'Gadgets'
   },
   {
-    image: vrMan,
+    imageSrc: vrMan,
+    alt: 'Man wearing VR headset'
   },
 ];
 

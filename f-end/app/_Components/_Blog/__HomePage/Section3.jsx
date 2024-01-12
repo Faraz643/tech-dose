@@ -4,6 +4,7 @@ import { blackStripLine } from '@/public/assets/_index'
 import SideLogo from '../SideLogo'
 import Image from 'next/image'
 import TopImagesCard from './TopImagesCard'
+import BottomFeatureImage from './BottomFeatureImage'
 const Section3 = () => {
     return (
         <ParentSection>
@@ -24,6 +25,9 @@ const Section3 = () => {
                                 <p className='text-xl text-center my-4 min-[800px]:text-right min-[800px]:text-[1.32rem] text-[#FFFFFF]'>Get ready for a thrilling journey through the exciting world of tech! Our monthly tech chronicles offer insights, stories, and ideas that matter to you. Learn about new trends, and get equipped with knowledge that empowers your ambitions.   </p>
                             </div>
                         </div>
+                    </div>
+                    <div className='absolute bottom-[-100px] right-12 max-[450px]:left-10 max-[570px]:bottom-[-90px]'>
+                        <BottomFeatureImage />
                     </div>
                 </div>
             </div>

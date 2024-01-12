@@ -84,7 +84,20 @@ footer {
     width: 95%;
     margin-right: 40px;
   }
+  .bottom-feature-image {
+    height: 130px !important;
+    width: 300px !important;
+  }
 }
+
+@media only screen and (max-width: 400px) {
+  .bottom-feature-image {
+    height: 130px !important;
+    width: 100% !important;
+  }
+
+}
+
 @media only screen and (min-width: 970px) {
   .magazine-ft-content {
     flex-direction: row;
@@ -111,6 +124,20 @@ footer {
   width: 100px;
   border-radius: 100%;
   background-color: #a8a5a5;
+}
+
+.bottom-feature-image {
+  height: 200px;
+  width: 450px;
+}
+
+
+
+@media only screen and (max-width: 1010px) {
+  .bottom-feature-image {
+    height: 150px;
+    width: 300px;
+  }
 }
 
 /* .top-left-images-card div img{

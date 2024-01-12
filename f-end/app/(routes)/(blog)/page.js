@@ -20,7 +20,7 @@ const Home = () => {
     <>
       {/* SECTION 1 > HEADING_C*/}
       <HeroSection />
-      <div className="bg-[#ECECEC] rounded-[30px]">
+      <div className="bg-[#ECECEC] rounded-[30px] min-h-[100vh]">
         <Section2 />
         <Section3 />
         {/* SECTION 2 > HEADING_C*/}
