@@ -4,7 +4,7 @@ import { bannerImageMSvg, bannerImagePcSvg } from '@/public/assets/_index'
 
 const HeroSection = () => {
     return (
-        <section className='min-h-[70vh] min-[570px]:min-h-[100vh]'>
+        <section className='min-h-[70vh] min-[570px]:min-h-[100vh]' >
             <div className='flex flex-col items-center justify-between h-[60%]'>
                 {/* mobile - smaller than 570px */}
                 <div className="max-[570px]:block hidden banner-img-wrapper py-16">

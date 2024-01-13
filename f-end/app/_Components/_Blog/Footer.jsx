@@ -6,7 +6,7 @@ import CommonHeader from './CommonHeader'
 
 const Footer = () => {
     return (
-        <footer className=''>
+        <footer className='min-[570px]:pt-10'>
             <CommonHeader />
         </footer>
     )
