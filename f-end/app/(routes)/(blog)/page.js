@@ -5,7 +5,7 @@
 //       console.log(data.message);
 //     });
 // }, []);
-"use client";
+// const LOCAL_DOMAIN = "http://localhost:3000";
 import HeroSection from "@/app/_Components/_Blog/__HomePage/HeroSection";
 import Section2 from "@/app/_Components/_Blog/__HomePage/Section2";
 import Section3 from "@/app/_Components/_Blog/__HomePage/Section3";
@@ -13,16 +13,11 @@ import Section4 from "@/app/_Components/_Blog/__HomePage/Section4";
 import Section5 from "@/app/_Components/_Blog/__HomePage/Section5";
 import Section6 from "@/app/_Components/_Blog/__HomePage/Section6";
 import Heading from "@/app/_Components/_Blog/Heading";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import React from "react";
-
-const LOCAL_DOMAIN = "http://localhost:3000";
-
-const Home = () => {
+import RootLayout from "./layout";
+const HomePage = () => {
   return (
-    <>
-      {/* SECTION 1 > HEADING_C*/}
+    <div className="">
       <HeroSection />
       <div className="bg-[#ECECEC] rounded-[30px] min-h-[100vh]">
         <Section2 />
@@ -30,13 +25,10 @@ const Home = () => {
         <Section4 />
         <Section5 />
         <Section6 />
-        {/* SECTION 2 > HEADING_C*/}
-        {/* SECTION 3 > HEADING_C*/}
-        {/* SECTION 4 > HEADING_C*/}
-        {/* SECTION 5 > HEADING_C */}
+        
       </div>
-    </>
+    </div>
   );
 };
 
-export default Home;
+export default HomePage;

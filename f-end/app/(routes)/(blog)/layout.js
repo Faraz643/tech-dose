@@ -1,6 +1,5 @@
 import localfont from "next/font/local";
 import "../../styles/globals.css";
-import CommonHeader from "@/app/_Components/_Blog/CommonHeader";
 import { Header } from "@/app/_Components/_Blog/Header";
 import Footer from "@/app/_Components/_Blog/Footer";
 import Contexts from "@/app/_Components/_Blog/Contexts";
@@ -31,6 +30,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  console.log();
   return (
     <html
       lang="en"
@@ -38,16 +38,15 @@ export default function RootLayout({ children }) {
     >
       <head></head>
 
-      <body className="bg-[#201F1E]">
+      <body>
         <Contexts>
-          {/* HEADER COMPONENT */}
           <Header />
-          {children}
-          {/* FOOTER NAVBAR*/}
-          <Footer />
-        <Heading />
+          <Heading elementFor={"/blog"} />
 
+          {children}
+          {/* <Footer /> */}
         </Contexts>
+        <Heading elementFor={"/"} />
       </body>
     </html>
   );

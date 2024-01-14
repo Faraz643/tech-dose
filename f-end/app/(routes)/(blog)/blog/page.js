@@ -1,12 +1,9 @@
 import Image from "next/image";
-
-export default function Home() {
+import "../blog/styles.css"
+export default function BlogPage() {
   return (
-    <>
-      {/* HEADER COMPONENT > LOGO+NAVBAR_C+SOCIAL_C */}
-      {/* BLOG POST CARD_C */}
-      {/* FOOTER NAV */}
+    <div>
       <h1>THIS IS ARTICLES PAGE</h1>
-    </>
+    </div>
   );
 }
