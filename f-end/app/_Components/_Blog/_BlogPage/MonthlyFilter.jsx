@@ -19,8 +19,8 @@ const MonthlyFilter = () => {
         }
     }
     return (
-        <div className='flex justify-end p-10 bg-[#ffffff06]'>
-            <div className='mr-32 relative'>
+        <div className='flex justify-end p-10 bg-[#ffffff06] z-10'>
+            <div className=' relative'>
                 <button className='flex justify-between items-center w-[150px] bg-[#C8CCCF] p-2 font-futureEarth rounded-[10px] active:border-[#33323290] active:border-[2px] duration-100' onClick={handleFilterOpen}>{`${selectedMonth} `}
                     {filterOpen ? <Arrow rotate={true} /> : <Arrow />}
                 </button>

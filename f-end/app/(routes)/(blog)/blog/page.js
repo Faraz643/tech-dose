@@ -1,6 +1,7 @@
 import Image from "next/image";
 import "../blog/styles.css";
 import MonthlyFilter from "@/app/_Components/_Blog/_BlogPage/MonthlyFilter";
+import ArticleCard from "@/app/_Components/_Blog/_BlogPage/ArticleCard";
 export default function BlogPage() {
   return (
     <div className="flex justify-center bg-[#ff000000]">
@@ -14,7 +15,7 @@ export default function BlogPage() {
               Latest News
             </span>
           </div>
-          <div className="text-2xl text-center w-[700px] px-2 max-[570px]:w-[auto] max-[570px]:text-xl">
+          <div className="text-2xl text-center w-[700px] px-7 max-[570px]:w-[auto] max-[570px]:text-[1.2rem]">
             <p className="text-[#585454] ">
               Stay Updated with latest trends, tips, and insights in web design
               through our informative and inspiring tech magazine.
@@ -22,6 +23,7 @@ export default function BlogPage() {
           </div>
         </div>
         <MonthlyFilter />
+        <ArticleCard/>
       </div>
     </div>
   );

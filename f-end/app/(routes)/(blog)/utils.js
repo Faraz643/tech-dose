@@ -9,6 +9,13 @@ import {
   gamingConsole,
   gadgets,
   vrMan,
+  twitterFeedThumbnail,
+  iPhone15Thumbnail,
+  metaArVrThumbnail,
+  flyingCarThumbnail,
+  smartRingThumbnail,
+  appleWatchThumbnail,
+  transparentTechThumbnail,
 } from "@/public/assets/_index";
 
 const navLinks = [
@@ -86,4 +93,57 @@ const months = [
   { month: "December", id: 12 },
 ];
 
-export { navLinks, socialLinks, topImagesCard, months };
+const articleDetails = [
+  {
+    id: 1,
+    thumbnail: twitterFeedThumbnail,
+    title: "Metas Threads: From Boom to Search for New Users",
+    description: "",
+    tag: 'Twitter'
+  },
+  {
+    id: 2,
+    thumbnail: appleWatchThumbnail,
+    title: "Metas Threads: From Boom to Search for New Users",
+    description: "",
+    tag: 'Apple'
+  },
+  {
+    id: 3,
+    thumbnail: smartRingThumbnail,
+    title: "Metas Threads: From Boom to Search for New Users",
+    description: "",
+    tag: 'Tech'
+  },
+  {
+    id: 4,
+    thumbnail: flyingCarThumbnail,
+    title: "Metas Threads: From Boom to Search for New Users",
+    description: "",
+    tag: 'Future Tech'
+  },
+  {
+    id: 5,
+    thumbnail: metaArVrThumbnail,
+    title: "Metas Threads: From Boom to Search for New Users",
+    description: "",
+    tag: 'Tech'
+  },
+  {
+    id: 6,
+    thumbnail: iPhone15Thumbnail,
+    title: "Metas Threads: From Boom to Search for New Users",
+    description: "",
+    tag: 'Apple'
+  },
+
+  {
+    id: 7,
+    thumbnail: transparentTechThumbnail,
+    title: "Metas Threads: From Boom to Search for New Users",
+    description: "",
+    tag: 'Gadgets'
+  },
+];
+
+export { navLinks, socialLinks, topImagesCard, months, articleDetails };
