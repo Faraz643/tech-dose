@@ -37,16 +37,15 @@ export default function RootLayout({ children }) {
       className={`${futureEarth.variable} ${futuraBKBT.variable} font-futura`}
     >
       <head></head>
-
       <body>
         <Contexts>
           <Header />
-          <Heading elementFor={"/blog"} />
+          <Heading headingFor={"/blog"} color="#000000" />
 
           {children}
           {/* <Footer /> */}
+          <Heading headingFor={"/"} />
         </Contexts>
-        <Heading elementFor={"/"} />
       </body>
     </html>
   );

@@ -17,7 +17,7 @@ import React from "react";
 import RootLayout from "./layout";
 const HomePage = () => {
   return (
-    <div className="">
+    <>
       <HeroSection />
       <div className="bg-[#ECECEC] rounded-[30px] min-h-[100vh]">
         <Section2 />
@@ -25,9 +25,8 @@ const HomePage = () => {
         <Section4 />
         <Section5 />
         <Section6 />
-        
       </div>
-    </div>
+    </>
   );
 };
 
