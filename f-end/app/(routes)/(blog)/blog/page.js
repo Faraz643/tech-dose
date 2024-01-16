@@ -11,7 +11,7 @@ export default function BlogPage() {
             <span className="bg-[#E1FF4A] py-2 px-4 rounded-[100px]">Blog</span>
           </div>
           <div>
-            <span className="py-2 px-4 rounded-[100px] text-5xl text-center">
+            <span className="py-2 px-4 rounded-[100px] text-5xl text-center max-[570px]:text-3xl">
               Latest News
             </span>
           </div>

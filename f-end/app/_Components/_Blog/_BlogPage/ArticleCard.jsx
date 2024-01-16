@@ -20,8 +20,8 @@ const ArticleCard = () => {
     border: '1px solid rgba(255, 255, 255, 0.18)',
   }
   return (
-    <div className='p-10 bg-[#00000000]'>
-      <div className='flex justify-between items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>
+    <div className='p-10 bg-[#00000000] flex justify-center'>
+      <div className='flex justify-center items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>
         {
           articleDetails.map((article) => (
             <Link key={article.id} href='#' className='w-[300px] h-[370px]'>

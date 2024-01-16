@@ -30,7 +30,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  console.log();
   return (
     <html
       lang="en"
@@ -40,7 +39,7 @@ export default function RootLayout({ children }) {
       <body>
         <Contexts>
           <Header />
-          <Heading headingFor={"/blog"} color="#000000" />
+          <Heading headingFor={"/blog"} />
 
           {children}
           {/* <Footer /> */}
