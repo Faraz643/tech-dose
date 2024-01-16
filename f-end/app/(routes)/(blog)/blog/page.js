@@ -24,6 +24,7 @@ export default function BlogPage() {
         </div>
         <MonthlyFilter />
         <ArticleCard/>
+        
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { Header } from "@/app/_Components/_Blog/Header";
 import Footer from "@/app/_Components/_Blog/Footer";
 import Contexts from "@/app/_Components/_Blog/Contexts";
 import Heading from "@/app/_Components/_Blog/Heading";
+import { FooterSignature } from "@/app/_Components/FooterSignature";
 const futureEarth = localfont({
   src: [
     {
@@ -42,8 +43,9 @@ export default function RootLayout({ children }) {
           <Heading headingFor={"/blog"} />
 
           {children}
-          {/* <Footer /> */}
+          <Footer />
           <Heading headingFor={"/"} />
+          <FooterSignature />
         </Contexts>
       </body>
     </html>
