@@ -6,16 +6,17 @@
 //     });
 // }, []);
 // const LOCAL_DOMAIN = "http://localhost:3000";
+"use client";
 import HeroSection from "@/app/_Components/_Blog/__HomePage/HeroSection";
 import Section2 from "@/app/_Components/_Blog/__HomePage/Section2";
 import Section3 from "@/app/_Components/_Blog/__HomePage/Section3";
 import Section4 from "@/app/_Components/_Blog/__HomePage/Section4";
 import Section5 from "@/app/_Components/_Blog/__HomePage/Section5";
 import Section6 from "@/app/_Components/_Blog/__HomePage/Section6";
-import Heading from "@/app/_Components/_Blog/Heading";
-import React from "react";
-import RootLayout from "./layout";
+import React, { useEffect, useState } from "react";
 const HomePage = () => {
+  
+     
   return (
     <>
       <HeroSection />

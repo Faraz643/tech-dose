@@ -10,13 +10,20 @@
 
 html,
 body {
+  overflow-x: hidden;
+}
+body {
+  background-color: #201f1e;
+}
+html {
   height: 100%;
   margin: 0;
   padding: 0;
+
   overflow-x: hidden;
 }
-
-.navlinks:focus, button {
+.navlinks:focus,
+button {
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -67,9 +74,17 @@ body {
   }
   footer {
     display: block !important;
-    position: absolute;
+    position: fixed;
     width: 100%;
-    bottom: 10px;
+    bottom: 35px;
+    transition: transform 0.2s ease;
+    transform: translateY(160%);
+  }
+  .footer-show {
+    transform: translateY(50%);
+  }
+  .footer-top-heading {
+    transform: translateY(-30%);
   }
   .magazine-ft-wrapper {
     height: 350px;
@@ -159,4 +174,3 @@ body {
     width: 300px;
   }
 }
-

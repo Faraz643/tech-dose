@@ -7,7 +7,6 @@ import Navbar from './Navbar'
 import Link from 'next/link'
 import SocialLink from './SocialLink'
 import { ActiveNavContext } from './Contexts'
-import { bodyBgColor } from '@/app/(routes)/(blog)/utils'
 
 const CommonHeader = () => {
   const { setActive } = useContext(ActiveNavContext)

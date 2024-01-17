@@ -4,7 +4,7 @@ import React from 'react'
 
 export const Header = () => {
   return (
-    <header className='p-1 py-3'>
+    <header className='p-1 py-3' id='header'>
         <CommonHeader />
     </header>
   )
