@@ -6,6 +6,10 @@ import CommonHeader from './CommonHeader'
 const Footer = () => {
 
   const [mobFooterActive, setMobFooterActive] = useState('0');
+  // Accepted Values for mobFooterActive  :
+  // '0'-> false (footer hidden)
+  // '1'-> show footer
+  // '11'-> when footer reaches bottom, translate it above the Heading
   useEffect(() => {
     const header = document.getElementById('header')
     const handleScroll = (event) => {
@@ -18,10 +22,10 @@ const Footer = () => {
         setMobFooterActive('1')
       }
       else {
-        // console.log('reached bottom')
+        
         setMobFooterActive('0')
       }
-      if (totalScreenHeight >= bodyHeight) {
+      if ((totalScreenHeight+120) >= bodyHeight) {  // reached bottom of the screen
         setMobFooterActive('11')
       }
     }
