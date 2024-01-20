@@ -24,7 +24,7 @@ const ArticleCard = () => {
       <div className='flex justify-center items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>
         {
           articleDetails.map((article) => (
-            <Link key={article.id} href='#' className='w-[300px] h-[370px]'>
+            <Link key={article.id} href='/blog/article/3' className='w-[300px] h-[370px]'>
               <div className="relative article-card w-[100%] h-[100%]  border-[#29292800] rounded-[20px] duration-300 hover:!bg-[length:260%]"
                 style={{ ...thumbnailStyling, backgroundImage: `url('${article.thumbnail.src}')` }}>
                 <div className='flex flex-col justify-between h-full p-3'>
