@@ -5,7 +5,7 @@ export default function Home({params}) {
     <>
       {/* HEADER COMPONENT > LOGO+NAVBAR_C+SOCIAL_C */}
       {/* SINGLE BLOG POST_C */}
-      <h1 className="text-white">THIS IS SINGLE ARTICLE PAGE </h1>
+      <h1 className="text-yellow-400">THIS IS SINGLE ARTICLE PAGE </h1>
     </>
   );
 }
