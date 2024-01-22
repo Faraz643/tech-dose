@@ -4,7 +4,7 @@ import { Header } from "@/app/_Components/_Blog/Header";
 import Footer from "@/app/_Components/_Blog/Footer";
 import Contexts from "@/app/_Components/_Blog/Contexts";
 import Heading from "@/app/_Components/_Blog/Heading";
-import { FooterSignature } from "@/app/_Components/FooterSignature";
+import { FooterSignature } from "@/app/_Components/_Blog/FooterSignature";
 const futureEarth = localfont({
   src: [
     {
@@ -31,7 +31,7 @@ export const metadata = {
 };
 
 export default function RootLayout(props) {
-  console.log(props)
+  // console.log(props)
   return (
     <html
       lang="en"
@@ -45,7 +45,6 @@ export default function RootLayout(props) {
           {props.children}
           <Footer />
           <Heading headingFor={"/"} />
-          {props.team}
           {props.modal}
           <FooterSignature />
         </Contexts>
