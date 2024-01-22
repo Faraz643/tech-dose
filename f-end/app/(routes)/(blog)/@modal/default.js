@@ -1,8 +1,7 @@
 import React from "react";
-import ModalPage from "./(...)article/[slug]/page";
-ModalPage;
+import ModalPage from "./(...)blog/article/[slug]/page";
 const Default = () => {
-  return <ModalPage />;
+  return null;
 };
 
 export default Default;

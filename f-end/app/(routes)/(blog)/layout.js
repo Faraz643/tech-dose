@@ -31,7 +31,7 @@ export const metadata = {
 };
 
 export default function RootLayout(props) {
-  // console.log(props)
+  console.log(props)
   return (
     <html
       lang="en"
@@ -45,6 +45,7 @@ export default function RootLayout(props) {
           {props.children}
           <Footer />
           <Heading headingFor={"/"} />
+          {props.team}
           {props.modal}
           <FooterSignature />
         </Contexts>
