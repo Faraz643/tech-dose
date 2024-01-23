@@ -1,6 +1,9 @@
-import React from 'react'
+import { SlugDetails } from '@/app/(routes)/(blog)/@modal/(...)blog/article/[slug]/page'
+import React, { useContext } from 'react'
 
 const ArticleTitle = () => {
+  const { articleDetails } = useContext(SlugDetails) // articleDetails.title
+
     const articleTitle = 'smart rings smart rings smart rings smart rings smart rings smart rings smart rings'
     return (
         <div>

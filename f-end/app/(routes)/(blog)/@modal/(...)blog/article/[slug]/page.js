@@ -1,19 +1,25 @@
 "use client";
 import ArticleModal from "@/app/_Components/_Blog/_SingleArticle/ArticleModal";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { createContext, useContext } from "react";
-
 
 export const SlugDetails = createContext();
 
 const Page = () => {
+  const pageHistory = useRouter();
   const params = useParams();
-  const articleDetails = params.slug;
-  // context that will provide the fetched article details in all of its' children
-  // > ArticleModal_c(provide SlugDetails context for its children component as articleDetails) > ArticleContentBox_C > Thumbnail_C+CloseButton_C+EditorName_C+ArticleContent_C
+  const articleDetails = params.slug; // write logic here fetch data with params.slug
+  // articleDetails.thumbnails
+  // articleDetails.title
+  // articleDetails.author_name
+  // articleDetails.content
+  const onModalClose = () => {
+    pageHistory.back();
+  };
 
   return (
-    <SlugDetails.Provider value={articleDetails}>
+    <SlugDetails.Provider value={{ articleDetails, onModalClose }}>
       <ArticleModal />
     </SlugDetails.Provider>
   );
