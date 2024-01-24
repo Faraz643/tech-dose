@@ -50,6 +50,7 @@ import instagramIcon from "./images/mini-icons/instagram.svg";
 import aboutIcon from "./images/mini-icons/team.png";
 
 import xIcon from "./images/mini-icons/x.png";
+import downArrow from "./images/mini-icons/arrow-down.png";
 
 // sample post thumbnails
 
@@ -94,6 +95,7 @@ export {
   instagramIcon,
   aboutIcon,
   xIcon,
+  downArrow,
   appleWatchThumbnail,
   flyingCarThumbnail,
   iPhone15Thumbnail,
