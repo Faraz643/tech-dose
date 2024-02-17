@@ -5,7 +5,7 @@ import Footer from "@/app/_Components/_Blog/Footer";
 import Contexts from "@/app/_Components/_Blog/Contexts";
 import Heading from "@/app/_Components/_Blog/Heading";
 import { FooterSignature } from "@/app/_Components/_Blog/FooterSignature";
-const futureEarth = localfont({
+export const futureEarth = localfont({
   src: [
     {
       path: "../../../public/assets/fonts/future-earth/future-earth.ttf",
@@ -15,7 +15,7 @@ const futureEarth = localfont({
   variable: "--font-futureEarth",
 });
 
-const futuraBKBT = localfont({
+export const futuraBKBT = localfont({
   src: [
     {
       path: "../../../public/assets/fonts/futura-bk-bt/FutuBk.ttf",

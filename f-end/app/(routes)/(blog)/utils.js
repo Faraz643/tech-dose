@@ -16,6 +16,18 @@ import {
   smartRingThumbnail,
   appleWatchThumbnail,
   transparentTechThumbnail,
+  greeting,
+  article,
+  editors,
+  home,
+  loading,
+  logout,
+  search,
+  setting,
+  slug,
+  tag,
+  text,
+  userProfile,
 } from "@/public/assets/_index";
 
 const navLinks = [
@@ -60,6 +72,33 @@ const socialLinks = [
   },
 ];
 
+const adminMenuLink = [
+  {
+    id: "dashboard",
+    menuName: "Dashboard",
+    menulink: "/admin/dashboard",
+    menuIcon: home,
+  },
+  {
+    id: "createPost",
+    menuName: "Create Post",
+    menulink: "/admin/create-post",
+    menuIcon: article,
+  },
+  {
+    id: "manageTags",
+    menuName: "Manage Tags",
+    menulink: "/admin/manage-tags",
+    menuIcon: tag,
+  },
+  {
+    id: "manageEditors",
+    menuName: "Manage Editors",
+    menulink: "/admin/manage-editors",
+    menuIcon: editors,
+  },
+];
+
 const topImagesCard = [
   {
     key: 1,
@@ -99,42 +138,42 @@ const articleDetails = [
     thumbnail: twitterFeedThumbnail,
     title: "Metas Threads: From Boom to Search for New Users",
     description: "",
-    tag: 'Twitter'
+    tag: "Twitter",
   },
   {
     id: 2,
     thumbnail: appleWatchThumbnail,
     title: "Metas Threads: From Boom to Search for New Users",
     description: "",
-    tag: 'Apple'
+    tag: "Apple",
   },
   {
     id: 3,
     thumbnail: smartRingThumbnail,
     title: "Metas Threads: From Boom to Search for New Users",
     description: "",
-    tag: 'Tech'
+    tag: "Tech",
   },
   {
     id: 4,
     thumbnail: flyingCarThumbnail,
     title: "Metas Threads: From Boom to Search for New Users",
     description: "",
-    tag: 'Future Tech'
+    tag: "Future Tech",
   },
   {
     id: 5,
     thumbnail: metaArVrThumbnail,
     title: "Metas Threads: From Boom to Search for New Users",
     description: "",
-    tag: 'Tech'
+    tag: "Tech",
   },
   {
     id: 6,
     thumbnail: iPhone15Thumbnail,
     title: "Metas Threads: From Boom to Search for New Users",
     description: "",
-    tag: 'Apple'
+    tag: "Apple",
   },
 
   {
@@ -142,8 +181,15 @@ const articleDetails = [
     thumbnail: transparentTechThumbnail,
     title: "Metas Threads: From Boom to Search for New Users",
     description: "",
-    tag: 'Gadgets'
+    tag: "Gadgets",
   },
 ];
 
-export { navLinks, socialLinks, topImagesCard, months, articleDetails };
+export {
+  navLinks,
+  socialLinks,
+  topImagesCard,
+  months,
+  articleDetails,
+  adminMenuLink,
+};

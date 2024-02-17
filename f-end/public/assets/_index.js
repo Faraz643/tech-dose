@@ -68,6 +68,21 @@ import smartRingThumbnail from "./images/sample-post-thumbnails/smart-ring.webp"
 
 import transparentTechThumbnail from "./images/sample-post-thumbnails/transparent-tech.webp";
 
+// Admin Icons
+
+import greeting from "./images/admin-icons/greeting.png";
+import article from "./images/admin-icons/article.png";
+import editors from "./images/admin-icons/editors.png";
+import home from "./images/admin-icons/home.png";
+import loading from "./images/admin-icons/loading.png";
+import logout from "./images/admin-icons/logout.png";
+import search from "./images/admin-icons/search.png";
+import setting from "./images/admin-icons/setting.png";
+import slug from "./images/admin-icons/slug.png";
+import tag from "./images/admin-icons/tag.png";
+import text from "./images/admin-icons/text.png";
+import userProfile from "./images/admin-icons/user-profile.jpg";
+
 // export
 
 export {
@@ -103,4 +118,16 @@ export {
   twitterFeedThumbnail,
   smartRingThumbnail,
   transparentTechThumbnail,
+  greeting,
+  article,
+  editors,
+  home,
+  loading,
+  logout,
+  search,
+  setting,
+  slug,
+  tag,
+  text,
+  userProfile,
 };

@@ -217,7 +217,12 @@ button {
   /* transform: skew(-200deg); */
   line-height: 50px;
   /* background-color: rgb(195, 250, 165); */
-  background: linear-gradient(to right, rgba(195, 250, 123, 0.928),rgba(195, 250, 123, 0.651), rgba(255, 255, 255, 0.326));
+  background: linear-gradient(
+    to right,
+    rgba(195, 250, 123, 0.928),
+    rgba(195, 250, 123, 0.651),
+    rgba(255, 255, 255, 0.326)
+  );
   color: rgb(40, 39, 39);
   white-space: nowrap;
   overflow: hidden;
@@ -235,4 +240,23 @@ button {
   100% {
     transform: translate(-100%, 0);
   }
+}
+
+/* ------ADMIN------ */
+
+.admin-layout {
+  background-image: url("../../public/assets/images/admin-layout-wallpaper/and-machines-vqTWfa4DjEk-unsplash.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.bg-blur{
+  background: rgba( 255, 255, 255, 0.25 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+/* border-radius: 10px; */
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+border: 1.5px solid black
 }
