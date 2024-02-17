@@ -2,10 +2,10 @@ import React from 'react'
 
 const page = () => {
   return (
-    <main className='bg-blur flex-1 rounded-[25px]'>
-      <div className=''>
+    <main className='bg-blur flex-1 rounded-[25px] z-0'>
+      {/* <div className=''> */}
 
-      </div>
+      {/* </div> */}
     </main>
   )
 }

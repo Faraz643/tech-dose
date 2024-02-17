@@ -15,7 +15,7 @@ const ProfileInfoHeader = () => {
   }
 
   return (
-    <section>
+    <section className='z-[999]'>
       <div className='bg-blur h-[100px] rounded-[25px]'>
         <div className='h-[100%] w-full flex justify-between p-5 items-center'>
           <div className='flex gap-2'>
