@@ -14,12 +14,10 @@ export default function DashboardLayout({ children }) {
       className={`${futureEarth.variable} ${futuraBKBT.variable} font-futura`}
     >
       <head></head>
-      <body>
-        <div className="admin-layout flex justify-center">
-          <div className="flex gap-5 px-2 py-10 h-[100vh] w-[1200px] relative">
-            <div>
-              <SideMenu />
-            </div>
+      <body className="admin-layout">
+        <div className=" flex justify-center">
+          <div className="flex gap-5 px-1 py-4 h-[100vh] w-[1200px] relative max-[500px]:w-[100%] max-[500px]:px-2">
+            <SideMenu />
             <div className="w-full flex flex-col gap-2 justify-between">
               <ProfileInfoHeader />
               {/* <SideMenuResponsive /> */}

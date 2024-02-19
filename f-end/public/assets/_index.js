@@ -82,7 +82,7 @@ import slug from "./images/admin-icons/slug.png";
 import tag from "./images/admin-icons/tag.png";
 import text from "./images/admin-icons/text.png";
 import userProfile from "./images/admin-icons/user-profile.jpg";
-
+import redirect from "./images/admin-icons/redirect.png";
 // export
 
 export {
@@ -130,4 +130,5 @@ export {
   tag,
   text,
   userProfile,
+  redirect,
 };
