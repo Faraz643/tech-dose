@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }) {
             <SideMenu />
             <div className="w-full flex flex-col gap-2 justify-between">
               <ProfileInfoHeader />
-              {/* <SideMenuResponsive /> */}
+              <SideMenuResponsive />
               {children}
             </div>
           </div>

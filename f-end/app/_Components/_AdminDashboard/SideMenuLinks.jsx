@@ -9,8 +9,8 @@ import { usePathname } from 'next/navigation'
 
 const SideMenuLinks = () => {
     const pathName = usePathname()
-    const foundObject = adminMenuLink.find((e) => 
-        (e.menulink === pathName) 
+    const foundObject = adminMenuLink.find((e) =>
+        (e.menulink === pathName)
     )
     const [activeDash, setActiveDash] = useState(foundObject.id)
 

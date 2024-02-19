@@ -273,3 +273,12 @@ backdrop-filter: blur( 4px );
 border: 1px solid rgba( 255, 255, 255, 0.18 );
 border: 1.5px solid black
 }
+
+
+.menu-carousel{
+overflow-x: scroll;  
+-webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
