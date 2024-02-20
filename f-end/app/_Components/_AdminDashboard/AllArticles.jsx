@@ -7,6 +7,52 @@ const AllArticles = () => {
             <ArticleCard />
             <ArticleCard />
             <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
+            <ArticleCard />
         </div>
     )
 }

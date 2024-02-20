@@ -12,7 +12,6 @@ html,
 body {
   overflow-x: hidden;
   scroll-behavior: smooth;
-
 }
 body {
   background-color: #ececec;
@@ -255,30 +254,50 @@ button {
   scroll-behavior: smooth;
 }
 
-.bg-blur{
-  background: rgba( 255, 255, 255, 0.25 );
-/* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
-backdrop-filter: blur( 4px );
--webkit-backdrop-filter: blur( 4px );
-/* border-radius: 10px; */
-border: 1px solid rgba( 255, 255, 255, 0.18 );
-border: 1.5px solid black
+@media only screen and (max-width: 450px) {
+  .admin-layout {
+    background-image: (
+      url("../../public/assets/images/admin-layout-wallpaper/adrien-converse-kCrrUx7US04-unsplash.jpg")
+    ) ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* height: 100%; */
+    scroll-behavior: smooth;
+  }
 }
-.bg-blur-white{
+
+.bg-blur {
+  background: rgba(255, 255, 255, 0.25);
+  /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  /* border-radius: 10px; */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1.5px solid black;
+}
+.bg-blur-white {
   background: rgba(255, 255, 255, 0.561);
-/* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
-backdrop-filter: blur( 4px );
--webkit-backdrop-filter: blur( 4px );
-/* border-radius: 10px; */
-border: 1px solid rgba( 255, 255, 255, 0.18 );
-border: 1.5px solid black
+  /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  /* border-radius: 10px; */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1.5px solid black;
 }
 
-
-.menu-carousel{
-overflow-x: scroll;  
--webkit-overflow-scrolling: touch;
+.menu-carousel {
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+*:focus {
+  outline: none;
 }

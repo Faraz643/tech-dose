@@ -18,14 +18,16 @@ const page = () => {
       {/* show all article */}
       <div className="mt-7">
         {/* filtering menu */}
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-2 max-[400px]:justify-center">
           {/* filter by Tag/Month*/}
           <div className="flex gap-2 items-center z-10">
             <FilteringTag tagName="Tags" />
             <input
               type="date"
-              className="rounded-[100px] outline-none focus:outline-none border-[1.5px] border-[black] py-1 px-4 bg-blur-white hover:bg-[#ffffffcc]"
-            placeholder="Month"/>
+              className="!w-[55px] rounded-[100px] outline-none focus:outline-none border-[1.5px] border-[black] py-1 px-4 bg-blur-white hover:bg-[#ffffffcc]"
+              placeholder="Month"
+              title="Filter by Month"
+            />
           </div>
           {/* filter by search Component*/}
           <div>
@@ -33,8 +35,7 @@ const page = () => {
           </div>
         </div>
         {/* all articles */}
-        <AllArticles/>
-        
+        <AllArticles />
       </div>
     </main>
   );
