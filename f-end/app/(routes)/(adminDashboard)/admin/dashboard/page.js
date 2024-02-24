@@ -25,7 +25,6 @@ const page = () => {
             <input
               type="date"
               className="!w-[55px] rounded-[100px] outline-none focus:outline-none border-[1.5px] border-[black] py-1 px-4 bg-blur-white hover:bg-[#ffffffcc]"
-              placeholder="Month"
               title="Filter by Month"
             />
           </div>

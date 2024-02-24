@@ -7,7 +7,7 @@ import { tcHeaderLogo } from '@/public/assets/_index'
 
 const SideMenu = () => {
   return (
-    <aside className='fixed w-[300px] bg-blur flex justify-evenly flex-col gap-20 items-center rounded-[25px] py-2 max-[810px]:hidden'>
+    <aside className='min-h-[600px] bg-blur flex justify-evenly flex-col gap-20 items-center rounded-[25px] py-2 '>
       <div>
         <Image src={tcHeaderLogo} width={60} />
       </div>

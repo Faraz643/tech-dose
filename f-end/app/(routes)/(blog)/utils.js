@@ -187,39 +187,38 @@ const articleDetails = [
 
 const sampleTags = [
   {
-  id:1,
-  tag:'Meta',
-},
+    id: 1,
+    tag: "Meta",
+  },
   {
-  id:2,
-  tag:'blogs',
-},
+    id: 2,
+    tag: "blogs",
+  },
   {
-  id:3,
-  tag:'X',
-},
+    id: 3,
+    tag: "X",
+  },
   {
-  id:4,
-  tag:'Mobiles',
-},
+    id: 4,
+    tag: "Mobiles",
+  },
   {
-  id:5,
-  tag:'AI/ML',
-},
+    id: 5,
+    tag: "AI/ML",
+  },
   {
-  id:6,
-  tag:'Data Science',
-},
+    id: 6,
+    tag: "Data Science",
+  },
   {
-  id:7,
-  tag:'Technologies',
-},
+    id: 7,
+    tag: "Technologies",
+  },
   {
-  id:8,
-  tag:'IT Trends',
-},
-]
-
+    id: 8,
+    tag: "IT Trends",
+  },
+];
 
 export {
   navLinks,
@@ -228,5 +227,5 @@ export {
   months,
   articleDetails,
   adminMenuLink,
-  sampleTags
+  sampleTags,
 };

@@ -18,10 +18,10 @@ export default function DashboardLayout({ children }) {
       <body className="admin-layout">
         <div className=" flex justify-center">
           <div className="flex gap-5 px-1 py-4 h-[100vh] w-[1200px] relative max-[500px]:w-[100%] max-[500px]:px-2">
-            <div className="min-h-[600px] w-[300px] relative bg-red-800">
+            <div className="w-[280px]  bg-red- fixed max-[810px]:hidden">
               <SideMenu />
             </div>
-            <div className="w-full flex flex-col gap-2 justify-between">
+            <div className="w-full flex flex-col gap-2 justify-between min-[810px]:ml-[300px]">
               <ProfileInfoHeader />
               <SideMenuResponsive />
               {children}
@@ -32,11 +32,3 @@ export default function DashboardLayout({ children }) {
     </html>
   );
 }
-
-// }
-// {
-//   /* Create layout design here with  Side Menu Component and profile Component and Main Content Component (children) inside it*/
-// }
-// {
-//   /* Create Side Menu Component, render here  */
-// }

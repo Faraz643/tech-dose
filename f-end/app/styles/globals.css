@@ -6,6 +6,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  outline: none;
 }
 
 html,
@@ -258,12 +259,32 @@ button {
   .admin-layout {
     background-image: (
       url("../../public/assets/images/admin-layout-wallpaper/adrien-converse-kCrrUx7US04-unsplash.jpg")
-    ) ;
+    );
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     /* height: 100%; */
     scroll-behavior: smooth;
+  }
+  /* Date picker Input */
+  /* WebKit (Chrome, Safari) */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    visibility: hidden;
+    /* appearance: none; */
+  }
+
+
+
+  /* Firefox */
+  input[type="date"] {
+    appearance: none;
+    -moz-appearance: textfield;
+  }
+  input[type="date"] {
+    background-image: url("../../public/assets/images/admin-icons/calendar.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px;
   }
 }
 
@@ -298,6 +319,5 @@ textarea:focus,
 input:focus {
   outline: none;
 }
-*:focus {
-  outline: none;
-}
+
+

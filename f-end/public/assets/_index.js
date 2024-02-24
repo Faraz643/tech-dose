@@ -83,6 +83,7 @@ import tag from "./images/admin-icons/tag.png";
 import text from "./images/admin-icons/text.png";
 import userProfile from "./images/admin-icons/user-profile.jpg";
 import redirect from "./images/admin-icons/redirect.png";
+import calendar from "./images/admin-icons/calendar.png";
 // export
 
 export {
@@ -131,4 +132,5 @@ export {
   text,
   userProfile,
   redirect,
+  calendar
 };

@@ -10,7 +10,7 @@ const AllTags = () => {
 
 
     return (
-        <div className='absolute min-h-[150px] min-w-[200px] bg-white top-12 left-1 rounded-[15px] flex flex-wrap gap-2 p-1'>
+        <div className='absolute min-h-[150px] min-w-[200px] bg-white top-10 left-0 rounded-[15px] flex flex-wrap gap-2 p-1 text-center'>
             {tagList}
         </div>
     )
