@@ -1,14 +1,14 @@
 "use client";
-
 import AllArticles from "@/app/_Components/_AdminDashboard/AllArticles";
 import DashboardInfoCard from "@/app/_Components/_AdminDashboard/DashboardInfoCard";
 import FilteringTag from "@/app/_Components/_AdminDashboard/FilteringTag";
+import MainContentWrapper from "@/app/_Components/_AdminDashboard/MainContentWrapper";
 import { SearchBar } from "@/app/_Components/_AdminDashboard/SearchBar";
 import React from "react";
 
 const page = () => {
   return (
-    <main className="bg-blur flex-1 rounded-[25px] p-5">
+    <MainContentWrapper>
       {/* info (Stats) Cards */}
       <div className="flex flex-wrap max-[500px]:flex-nowrap gap-2 justify-around ">
         <DashboardInfoCard title={"Total Article Published"} counts={"23"} />
@@ -36,8 +36,10 @@ const page = () => {
         {/* all articles */}
         <AllArticles />
       </div>
-    </main>
+    </MainContentWrapper>
   );
 };
+{
+}
 
 export default page;

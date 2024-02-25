@@ -80,9 +80,9 @@ const adminMenuLink = [
     menuIcon: home,
   },
   {
-    id: "createPost",
-    menuName: "Create Post",
-    menulink: "/admin/create-post",
+    id: "add-article",
+    menuName: "Add an Article",
+    menulink: "/admin/add-article",
     menuIcon: article,
   },
   {

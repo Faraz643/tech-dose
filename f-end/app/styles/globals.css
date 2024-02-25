@@ -273,8 +273,6 @@ button {
     /* appearance: none; */
   }
 
-
-
   /* Firefox */
   input[type="date"] {
     appearance: none;
@@ -320,4 +318,27 @@ input:focus {
   outline: none;
 }
 
+.span-line::before {
+  content: "";
+  display: inline-block;
+  width: 100px;
+  height: 2px;
+  background: black;
+  text-align: center;
+  margin-right: 10px;
+}
+.span-line::after {
+  content: "";
+  display: inline-block;
+  width: 100px;
+  height: 2px;
+  background: black;
+  text-align: center;
+  margin-left: 10px;
+}
 
+#article-thumbnail {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
