@@ -24,7 +24,7 @@ const ArticleCard = () => {
                     <Tags backgC='rgba(255, 5, 5, 0.47)' textC='#C20000' actionText='Delete' />
                 </div>
                 <Link href='#'>
-                    <Image src={redirect} width={25} />
+                    <Image src={redirect} width={25} alt='{post_title}'/>
                 </Link>
             </div>
         </div>

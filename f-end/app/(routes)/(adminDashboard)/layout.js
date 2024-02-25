@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }) {
       className={`${futureEarth.variable} ${futuraBKBT.variable} font-futura`}
     >
       <head></head>
-      <body className="admin-layout">
+      <body suppressHydrationWarning={true} className="admin-layout">
         <div className=" flex justify-center">
           <div className="flex gap-5 px-1 py-4 h-[100vh] w-[1200px] relative max-[500px]:w-[100%] max-[500px]:px-2">
             <div className="w-[280px]  bg-red- fixed max-[810px]:hidden">

@@ -24,7 +24,7 @@ const ProfileInfoHeader = () => {
           <div className='flex gap-2'>
             <span className='text-black text-[1.3rem] max-[500px]:text-[1.1rem]'>Welcome, Dane Ronny</span>
             <span>
-              <Image src={greeting} width={25} alt='Hello'/>
+              <Image src={greeting} width={25} alt='Hello {user_name}'/>
             </span>
           </div>
           <div className='relative'>
