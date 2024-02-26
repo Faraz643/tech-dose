@@ -337,8 +337,23 @@ input:focus {
   margin-left: 10px;
 }
 
-#article-thumbnail {
+#thumbail-view {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.input-text {
+  border: 3px solid rgb(108, 108, 108);
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+.input-text input::placeholder {
+  color: rgb(108, 108, 108);
+}
+.input-text input {
+  background-color: transparent;
+  margin-left: 10px;
+  width: 100%;
 }
