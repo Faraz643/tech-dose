@@ -3,7 +3,8 @@ import { slug, text } from '@/public/assets/_index'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import Tags from '../_AdminDashboard/Tags'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ArticleForm = () => {
     // states
     const [thumbnailFile, setThumbnailFile] = useState('')
@@ -34,7 +35,7 @@ const ArticleForm = () => {
         e.currentTarget.style.border = '3px solid #7262ec';
 
         // Search for and focus on the input element
-        const inputElement = e.currentTarget.querySelector('input');
+        const inputElement = e.currentTarget.querySelector('input')
         if (inputElement) {
             inputElement.focus();
         }
@@ -44,21 +45,29 @@ const ArticleForm = () => {
         e.stopPropagation()
         e.preventDefault()
         e.currentTarget.style.border = '3px solid rgb(108, 108, 108)'
-        const inputElement = e.currentTarget.querySelector('input');
+        const inputElement = e.currentTarget.querySelector('.input-area');
         if (inputElement) {
             inputElement.blur();
         }
 
     }
 
+
+    const notify = ()=> toast('React Toast Notification')
+    function onSubmitForm(e) {
+        console.log('form submitted')
+        // add validations- required fields
+        // when submit button is clicked , create an alert (pop-up) message for > page reload will clear form fields ||and confirm submission message
+    }
+
     return (
-        <div className='my-5'>
-            <form autoComplete='off'>
+        <div className='my-1'>
+            <form autoComplete='off' method='post' onSubmit={onSubmitForm}>
                 <div className='flex gap-10'>
                     {/* file input */}
                     <div className='flex flex-col gap-1'>
                         <span>Thumbnail</span>
-                        <label id='drop-area' htmlFor="article-thumbnail" className='thumbnail-label w-[500px] h-[200px] bg-blur !border-dashed !border-[#7262EC] flex justify-center items-center cursor-pointer rounded-[20px]'
+                        <label id='drop-area' htmlFor="article-thumbnail" className='thumbnail-label w-[500px] h-[190px] bg-blur !border-dashed !border-[#7262EC] flex justify-center items-center cursor-pointer rounded-[20px]'
                             onDragOver={(e) => e.preventDefault()}
                             onDropCapture={handleDrop}>
 
@@ -104,8 +113,19 @@ const ArticleForm = () => {
                         {/* slug */}
                     </div>
                 </div>
-                <div>
+                <div className='mt-5'>
                     {/* description */}
+                    <label htmlFor="article-description" onClick={notify}>Description</label>
+                    <div className='ac-t flex input-text' onClick={borderActive} onBlur={borderInActive}>
+                        <div>
+                            <Image src={text} width={30} alt='title' />
+                        </div>
+                        <textarea name='area-text' id='article-description' rows="5" ></textarea>
+                        {/* <input type="text" placeholder='Meta to reveal its plan' /> */}
+                    </div>
+                </div>
+                <div className='flex justify-center items-center mt-2'>
+                    <input type="submit" value='Publish' id='publish-article' className='text-white px-5 py-2 bg-[#7262EC] rounded-[5px] hover:cursor-pointer hover:bg-[#6152d3]' />
                 </div>
             </form>
         </div>
