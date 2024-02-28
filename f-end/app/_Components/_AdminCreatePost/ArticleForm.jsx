@@ -10,6 +10,10 @@ const ArticleForm = () => {
     const [thumbnailFile, setThumbnailFile] = useState('')
     // handle file drag and drop
 
+    function notify() {
+        toast('React Notification')
+    }
+
     function uploadImage() {
         // console.log(document.getElementById("article-thumbnail").files[0])
         let imgLink = URL.createObjectURL(document.getElementById("article-thumbnail").files[0])
@@ -53,15 +57,30 @@ const ArticleForm = () => {
     }
 
 
-    const notify = ()=> toast('React Toast Notification')
     function onSubmitForm(e) {
-        console.log('form submitted')
+        e.preventDefault()
+        const formData = e['target']
+        const validateThumbnail = formData['article-thumbnail'].files[0]
+        const validateTitle = formData['article-title'].value
+        const validateDescription = formData['article-description'].value
+
+        const warnThumbnail = toast.warn('Please add a thumbnail for article')
+        const warnTitle = toast.warn('Please add title')
+        const warnDesc = toast.warn('Please add description')
+        const showWarning = (!validateThumbnail) ? warnThumbnail : (validateTitle.length === 0) ? warnTitle : (validateDescription.length === 0) ? warnDesc : ''
+        showWarning
+
+        // else condition to submit form and use toast.promise to display message
+
+        // console.log((!(!validateThumbnail)), validateTitle, validateDescription)
+        // console.log('form submitted')
         // add validations- required fields
         // when submit button is clicked , create an alert (pop-up) message for > page reload will clear form fields ||and confirm submission message
     }
 
     return (
         <div className='my-1'>
+            <ToastContainer />
             <form autoComplete='off' method='post' onSubmit={onSubmitForm}>
                 <div className='flex gap-10'>
                     {/* file input */}
@@ -115,7 +134,7 @@ const ArticleForm = () => {
                 </div>
                 <div className='mt-5'>
                     {/* description */}
-                    <label htmlFor="article-description" onClick={notify}>Description</label>
+                    <label htmlFor="article-description" >Description</label>
                     <div className='ac-t flex input-text' onClick={borderActive} onBlur={borderInActive}>
                         <div>
                             <Image src={text} width={30} alt='title' />
