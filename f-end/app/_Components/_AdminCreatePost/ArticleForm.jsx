@@ -64,16 +64,23 @@ const ArticleForm = () => {
         const validateTitle = formData['article-title'].value
         const validateDescription = formData['article-description'].value
 
-        const warnThumbnail = toast.warn('Please add a thumbnail for article')
-        const warnTitle = toast.warn('Please add title')
-        const warnDesc = toast.warn('Please add description')
-        const showWarning = (!validateThumbnail) ? warnThumbnail : (validateTitle.length === 0) ? warnTitle : (validateDescription.length === 0) ? warnDesc : ''
-        showWarning
+        const warnThumbnail = 'Please add a thumbnail for article'
+        const warnTitle = 'Please add title'
+        const warnDesc = 'Please add description'
 
+
+        const showWarning = (!validateThumbnail) ? toast.warn(warnThumbnail, 1) :
+            (validateTitle.length === 0) ? toast.warn(warnTitle, { toastId: 2 }) :
+                (validateDescription.length === 0) ? toast.warn(warnDesc, { toastId: 3 }) :
+                    submitForm()
+        showWarning
+        function submitForm() {
+
+            toast.success('Published')
+
+        }
         // else condition to submit form and use toast.promise to display message
 
-        // console.log((!(!validateThumbnail)), validateTitle, validateDescription)
-        // console.log('form submitted')
         // add validations- required fields
         // when submit button is clicked , create an alert (pop-up) message for > page reload will clear form fields ||and confirm submission message
     }
