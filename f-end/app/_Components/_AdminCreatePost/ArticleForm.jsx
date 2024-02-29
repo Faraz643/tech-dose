@@ -8,11 +8,30 @@ import 'react-toastify/dist/ReactToastify.css';
 const ArticleForm = () => {
     // states
     const [thumbnailFile, setThumbnailFile] = useState('')
+    const [articleData, setArticleData] = useState({
+        thumbnail: "",
+        title: "d",
+        slug: "meta-reveal-its-plan",
+        description: "dd"
+    })
+
+    function handleInput(e) {
+        // console.log(e.target.value)
+        const inputName = e.target.name
+        const inputValue = e.target.value
+        setArticleData({ ...articleData, [inputName]: inputValue })
+    }
 
     // handle file drag and drop
     function uploadImage() {
         let imgLink = URL.createObjectURL(document.getElementById("article-thumbnail").files[0])
         setThumbnailFile(imgLink)
+        const fileReader = new FileReader()
+        fileReader.onload = function () {
+            const imgData = fileReader.result
+            setArticleData({ ...articleData, thumbnail: imgData })
+        }
+        fileReader.readAsArrayBuffer(document.getElementById("article-thumbnail").files[0])
         document.getElementById('thumbail-view').textContent = ''
         document.getElementById('drop-area').style.border = '0'
     }
@@ -45,7 +64,7 @@ const ArticleForm = () => {
         }
     }
 
-    function onSubmitForm(e) {
+    function handleSubmitForm(e) {
         e.preventDefault()
         const formData = e['target']
         // get form values
@@ -72,12 +91,13 @@ const ArticleForm = () => {
         // function for submitting form if no validation error
         function submitForm() {
             toast.success('Published') // instead use promises when working on backend, if God wills
+            console.log(articleData)
         }
     }
 
     return (
         <div className='my-1'>
-            <form autoComplete='off' method='post' onSubmit={onSubmitForm}>
+            <form autoComplete='off' method='post' onSubmit={handleSubmitForm}>
                 <div className='flex flex-wrap justify-center gap-10 items-center '>
                     {/* file input */}
                     <div className='flex flex-col gap-1'>
@@ -101,7 +121,7 @@ const ArticleForm = () => {
                             <label htmlFor="article-title">Title</label>
                             <div className='ac-t flex input-text' onClick={borderActive} onBlur={borderInActive}>
                                 <Image src={text} width={30} alt='title' />
-                                <input type="text" id='article-title' placeholder='Meta to reveal its plan' />
+                                <input onChange={handleInput} type="text" name='title' id='article-title' placeholder='Meta to reveal its plan' value={articleData.title} />
                             </div>
                         </div>
                         {/* slug */}
@@ -115,7 +135,7 @@ const ArticleForm = () => {
                             </div>
                             <div className='ac-s flex input-text' onClick={borderActive} onBlur={borderInActive}>
                                 <Image src={slug} width={30} htmlFor='article-slug' alt='auto generated slug' />
-                                <input type="text" readOnly id='article-slug' value='meta-to-reveal-its-big-plan' contentEditable={false} />
+                                <input onChange={handleInput} type="text" name='slug' readOnly id='article-slug' value={articleData.slug} contentEditable={false} />
                             </div>
                         </div>
                     </div>
@@ -127,7 +147,7 @@ const ArticleForm = () => {
                         <div>
                             <Image src={text} width={30} alt='title' />
                         </div>
-                        <textarea name='area-text' id='article-description' rows="5" ></textarea>
+                        <textarea onChange={handleInput} name='description' id='article-description' rows="5" value={articleData.description} />
                     </div>
                 </div>
                 {/* Submit Button */}
