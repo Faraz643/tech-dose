@@ -7,14 +7,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const ArticleForm = () => {
     // states
+    const [slugGenerated, setSlugGenerated] = useState('')
     const [thumbnailFile, setThumbnailFile] = useState('')
     const [articleData, setArticleData] = useState({
         thumbnail: "",
-        title: "d",
-        slug: "meta-reveal-its-plan",
-        description: "dd"
+        title: "",
+        slug: "",
+        description: ""
     })
-
     function handleInput(e) {
         // console.log(e.target.value)
         const inputName = e.target.name
@@ -84,13 +84,13 @@ const ArticleForm = () => {
         }
         // show warning logic
         const showWarning = (!validateThumbnail) ? notify(warnThumbnail, 1) :
-            (validateTitle.length === 0) ? notify(warnTitle, 2) :
-                (validateDescription.length === 0) ? notify(warnDesc, 3) :
+            (validateTitle.trim() === '') ? notify(warnTitle, 2) :
+                (validateDescription.trim() === '') ? notify(warnDesc, 3) :
                     submitForm()
         showWarning
         // function for submitting form if no validation error
         function submitForm() {
-            toast.success('Published') // instead use promises when working on backend, if God wills
+            toast.success('Published', { autoClose: 1800, closeOnClick: true }) // instead use promises when working on backend, if God wills
             console.log(articleData)
         }
     }
@@ -129,13 +129,18 @@ const ArticleForm = () => {
                             <div className='flex justify-between items-end'>
 
                                 <label htmlFor="article-slug">Slug</label>
+                                {/* slug generated tag */}
                                 <div className='auto-gen-tag'>
-                                    <Tags backgC='#B1FAB0' textC='#03D100' actionText='Auto-Generated' />
+                                    {
+                                        slugGenerated === 'generated' ?
+                                            <Tags backgC='#B1FAB0' textC='#03D100' actionText='Auto-Generated' /> : slugGenerated === 'generating' ?
+                                                <Tags backgC='#FFD99F' textC='#D47800' actionText='Generating Slug...' /> : ''
+                                    }
                                 </div>
                             </div>
                             <div className='ac-s flex input-text' onClick={borderActive} onBlur={borderInActive}>
                                 <Image src={slug} width={30} htmlFor='article-slug' alt='auto generated slug' />
-                                <input onChange={handleInput} type="text" name='slug' readOnly id='article-slug' value={articleData.slug} contentEditable={false} />
+                                <input onChange={handleInput} type="text" name='slug' readOnly id='article-slug' value={articleData.slug} contentEditable={false} className='hover:cursor-default' />
                             </div>
                         </div>
                     </div>
