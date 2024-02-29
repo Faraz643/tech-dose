@@ -77,13 +77,12 @@ const ArticleForm = () => {
 
     return (
         <div className='my-1'>
-            <ToastContainer />
             <form autoComplete='off' method='post' onSubmit={onSubmitForm}>
-                <div className='flex gap-10'>
+                <div className='flex flex-wrap justify-center gap-10 items-center '>
                     {/* file input */}
                     <div className='flex flex-col gap-1'>
                         <span>Thumbnail</span>
-                        <label id='drop-area' htmlFor="article-thumbnail" className='thumbnail-label w-[500px] h-[190px] bg-blur !border-dashed !border-[#7262EC] flex justify-center items-center cursor-pointer rounded-[20px]'
+                        <label id='drop-area' htmlFor="article-thumbnail" className='thumbnail-label w-[500px] h-[190px] max-[520px]:w-[300px]  bg-blur !border-dashed !border-[#7262EC] flex justify-center items-center cursor-pointer rounded-[20px]'
                             onDragOver={(e) => e.preventDefault()}
                             onDropCapture={handleDrop}>
                             <input type="file" id='article-thumbnail' accept='image/*' multiple={false} hidden
@@ -96,9 +95,9 @@ const ArticleForm = () => {
                             </div>
                         </label>
                     </div>
-                    <div className='flex flex-col gap-10'>
+                    <div className='flex flex-col gap-10 w-full'>
                         {/* Title */}
-                        <div className='flex flex-col gap-1 w-[300px]' >
+                        <div className='flex flex-col gap-1' >
                             <label htmlFor="article-title">Title</label>
                             <div className='ac-t flex input-text' onClick={borderActive} onBlur={borderInActive}>
                                 <Image src={text} width={30} alt='title' />
@@ -132,6 +131,8 @@ const ArticleForm = () => {
                     </div>
                 </div>
                 {/* Submit Button */}
+                <ToastContainer />
+
                 <div className='flex justify-center items-center mt-2'>
                     <input type="submit" value='Publish' id='publish-article' className='text-white px-5 py-2 bg-[#7262EC] rounded-[5px] hover:cursor-pointer hover:bg-[#6152d3]' />
                 </div>
