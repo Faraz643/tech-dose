@@ -15,6 +15,10 @@ import Section4 from "@/app/_Components/_Blog/__HomePage/Section4";
 import Section5 from "@/app/_Components/_Blog/__HomePage/Section5";
 import Section6 from "@/app/_Components/_Blog/__HomePage/Section6";
 const HomePage = () => {
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/api/test").then((res)=>console.log('error'))
+  // }, []);
+
   return (
     <>
       <HeroSection />
