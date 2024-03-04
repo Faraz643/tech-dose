@@ -1,13 +1,13 @@
 'use client'
-import { article, slug, text } from '@/public/assets/_index'
+import { slug, text } from '@/public/assets/_index'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Tags from '../_AdminDashboard/Tags'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const ArticleForm = () => {
     // states
-    const [slugStatus, setSlugStatus] = useState('') // 'generated || 'generating'
+    const [slugGenerated, setSlugGenerated] = useState('')
     const [thumbnailFile, setThumbnailFile] = useState('')
     const [articleData, setArticleData] = useState({
         thumbnail: "",
@@ -15,28 +15,11 @@ const ArticleForm = () => {
         slug: "",
         description: ""
     })
-
-
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            changeSlug()
-        }, 900);
-        // Cleanup function to clear the timeout if component unmounts or if title changes again
-        return () => clearTimeout(timeoutId);
-    }, [articleData.title])
-
     function handleInput(e) {
-        const { name, value } = e.target
-        setArticleData(prevData => ({ ...prevData, [name]: value }));
-        if (name === 'title' && value.trim() != '') {
-            setSlugStatus('generating')
-        }
-    }
-
-    function changeSlug() {
-        articleData.title.trim() != "" ? setSlugStatus('generated') : setSlugStatus('')
-        const slugValue = articleData.title.split(' ').join('-');
-        setArticleData({ ...articleData, slug: slugValue })
+        // console.log(e.target.value)
+        const inputName = e.target.name
+        const inputValue = e.target.value
+        setArticleData({ ...articleData, [inputName]: inputValue })
     }
 
     // handle file drag and drop
@@ -107,10 +90,8 @@ const ArticleForm = () => {
         showWarning
         // function for submitting form if no validation error
         function submitForm() {
-            console.log('Final Data ', articleData)
-            // toast.success('Published', { autoClose: 1800, closeOnClick: true })
-
-            // instead use promises when working on backend, if God wills
+            toast.success('Published', { autoClose: 1800, closeOnClick: true }) // instead use promises when working on backend, if God wills
+            console.log(articleData)
         }
     }
 
@@ -140,7 +121,7 @@ const ArticleForm = () => {
                             <label htmlFor="article-title">Title</label>
                             <div className='ac-t flex input-text' onClick={borderActive} onBlur={borderInActive}>
                                 <Image src={text} width={30} alt='title' />
-                                <input type="text" name='title' id='article-title' placeholder='Meta to reveal its plan' value={articleData.title} onChange={handleInput} />
+                                <input onChange={handleInput} type="text" name='title' id='article-title' placeholder='Meta to reveal its plan' value={articleData.title} />
                             </div>
                         </div>
                         {/* slug */}
@@ -151,8 +132,8 @@ const ArticleForm = () => {
                                 {/* slug generated tag */}
                                 <div className='auto-gen-tag'>
                                     {
-                                        slugStatus === 'generated' ?
-                                            <Tags backgC='#B1FAB0' textC='#03D100' actionText='Auto-Generated' /> : slugStatus === 'generating' ?
+                                        slugGenerated === 'generated' ?
+                                            <Tags backgC='#B1FAB0' textC='#03D100' actionText='Auto-Generated' /> : slugGenerated === 'generating' ?
                                                 <Tags backgC='#FFD99F' textC='#D47800' actionText='Generating Slug...' /> : ''
                                     }
                                 </div>
