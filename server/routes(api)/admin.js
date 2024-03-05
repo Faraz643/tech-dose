@@ -3,11 +3,14 @@ import {
   adminAddPost,
   adminDeletePost,
   adminUpdatePost,
+  authoriseIsAdmin,
 } from "../controllers/admin.js";
 const router = express.Router();
 
-router.post("/add-post", adminAddPost);
-router.patch("/update-post", adminUpdatePost);
-router.delete("/delete-post", adminDeletePost);
+router.get("/:id", authoriseIsAdmin);
+router
+  .post("/article", adminAddPost)
+  .delete(adminDeletePost)
+  .patch(adminUpdatePost);
 
 export default router;

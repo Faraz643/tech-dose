@@ -1,3 +1,6 @@
+export const authoriseIsAdmin = (req, res) => {
+  res.json({ status: "Is admin" });
+};
 
 export const adminAddPost = (req, res) => {
   console.log("Admin api working !");

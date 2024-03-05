@@ -5,7 +5,7 @@ import commonApi from "./routes(api)/commonApi.js";
 const app = express();
 const port = 3000;
 
-app.use("/api", commonApi);
+app.use("/api/article", commonApi);
 app.use("/api/admin", adminRouter);
 app.use("/api/auth", authRouter);
 
