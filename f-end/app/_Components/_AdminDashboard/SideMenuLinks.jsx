@@ -21,6 +21,7 @@ const SideMenuLinks = () => {
 
             {
                 adminMenuLink.map((links) => (
+                    links.for === pathName.split('/')[1] &&
                     <Link key={links.id} href={links.menulink}
                         className={` !border-none p-2 text-center text-lg rounded-[20px] flex gap-2 items-center ${activeDash === links.id ? '!bg-white' : 'bg-blur'} hover:bg-[#ffffff90] duration-100`} onClick={() => {
                             setActiveDash(links.id)

@@ -74,24 +74,42 @@ const socialLinks = [
 
 const adminMenuLink = [
   {
-    id: "dashboard",
+    for: 'admin',
+    id: "AdminDashboard",
     menuName: "Dashboard",
     menulink: "/admin/dashboard",
     menuIcon: home,
   },
   {
+    for: "editor",
+    id: "editorDashboard",
+    menuName: "Dashboard",
+    menulink: "/editor/dashboard",
+    menuIcon: home,
+  },
+  {
+    for: "admin",
     id: "add-article",
     menuName: "Add an Article",
     menulink: "/admin/add-article",
     menuIcon: article,
   },
   {
+    for: "editor",
+    id: "add-article",
+    menuName: "Add an Article",
+    menulink: "/editor/add-article",
+    menuIcon: article,
+  },
+  {
+    for: "admin",
     id: "manageTags",
     menuName: "Manage Tags",
     menulink: "/admin/manage-tags",
     menuIcon: tag,
   },
   {
+    for: "admin",
     id: "manageEditors",
     menuName: "Manage Editors",
     menulink: "/admin/manage-editors",

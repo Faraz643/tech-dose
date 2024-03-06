@@ -4,9 +4,15 @@ import DashboardInfoCard from "@/app/_Components/_AdminDashboard/DashboardInfoCa
 import FilteringTag from "@/app/_Components/_AdminDashboard/FilteringTag";
 import MainContentWrapper from "@/app/_Components/_AdminDashboard/MainContentWrapper";
 import { SearchBar } from "@/app/_Components/_AdminDashboard/SearchBar";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 const page = () => {
+
+  const router = useRouter()
+  const path  = usePathname()
+  // console.log(router.query.userRole)
+  console.log(path.split('/'))
   return (
     <MainContentWrapper>
       {/* info (Stats) Cards */}
