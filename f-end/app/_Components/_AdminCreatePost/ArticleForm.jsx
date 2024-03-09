@@ -15,6 +15,7 @@ const ArticleForm = () => {
         slug: "",
         description: ""
     })
+    const [dataURL, setDataURL] = useState('')
 
 
     useEffect(() => {
@@ -41,16 +42,23 @@ const ArticleForm = () => {
 
     // handle file drag and drop
     function uploadImage() {
-        let imgLink = URL.createObjectURL(document.getElementById("article-thumbnail").files[0])
+        const imgFile = document.getElementById("article-thumbnail").files[0]
+        let imgLink = URL.createObjectURL(imgFile)
         setThumbnailFile(imgLink)
         const fileReader = new FileReader()
         fileReader.onload = function () {
             const imgData = fileReader.result
+            const blob = new Blob([fileReader.result], { type: imgFile.type })
             setArticleData({ ...articleData, thumbnail: imgData })
+            // showImage()
+
         }
         fileReader.readAsArrayBuffer(document.getElementById("article-thumbnail").files[0])
         document.getElementById('thumbail-view').textContent = ''
         document.getElementById('drop-area').style.border = '0'
+    }
+    function showImage() {
+        // console.log(articleData.thumbnail)
     }
 
     function handleDrop(e) {
@@ -103,20 +111,50 @@ const ArticleForm = () => {
         const showWarning = (!validateThumbnail) ? notify(warnThumbnail, 1) :
             (validateTitle.trim() === '') ? notify(warnTitle, 2) :
                 (validateDescription.trim() === '') ? notify(warnDesc, 3) :
-                    submitForm()
-        showWarning
-        // function for submitting form if no validation error
-        function submitForm() {
-            console.log('Final Data ', articleData)
-            // toast.success('Published', { autoClose: 1800, closeOnClick: true })
+                    publishArticle(validateThumbnail, validateTitle, validateDescription)
+        showWarning  // function for submitting form if no validation error
 
-            // instead use promises when working on backend, if God wills
+    }
+    async function publishArticle(thumbnail, title, desc,) {
+        const formData = new FormData()
+        formData.append('thumbnail', thumbnail)
+        formData.append('title', title)
+        formData.append('description', desc)
+        formData.append('slug', articleData.slug)
+        // console.log(thumbnail)
+        // console.log(articleData.thumbnail)
+        // const clientPayLoad = {
+        //     thumbnail: articleData.thumbnail,
+        //     title: title,
+        //     description: desc,
+        //     slug: articleData.slug,
+        // };
+
+        try {
+            const response = await fetch('http://localhost:3001/api/article', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                // Handle non-2xx status codes:
+                const errorData = await response.json();
+                throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+            }
+
+            const data = await response.json();
+            console.log('Form data submitted successfully:', data);
+            // Handle successful submission
+        } catch (error) {
+            console.error('Error submitting form:', error.message);
+            // Handle errors
         }
     }
 
+
     return (
         <div className='my-1'>
-            <form autoComplete='off' method='post' onSubmit={handleSubmitForm}>
+            <form autoComplete='off' method='post' onSubmit={handleSubmitForm} encType='multipart/form-data'>
                 <div className='flex flex-wrap justify-center gap-10 items-center '>
                     {/* file input */}
                     <div className='flex flex-col gap-1'>
@@ -181,6 +219,7 @@ const ArticleForm = () => {
                     <input type="submit" value='Publish' id='publish-article' className='text-white px-5 py-2 bg-[#7262EC] rounded-[5px] hover:cursor-pointer hover:bg-[#6152d3]' />
                 </div>
             </form>
+
         </div>
     )
 }

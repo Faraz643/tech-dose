@@ -1,6 +1,6 @@
 export const showAllArticles = (req, res) => {
   // send user role to req while fetching from client, if role is admin ? showAll: fetch article from db using loggedin author name
-  res.json({ Status: `Show All Posts` });
+  // res.send(req.body)
 };
 
 export const showSingleArticle = (req, res) => {
@@ -10,7 +10,10 @@ export const showSingleArticle = (req, res) => {
 
 // @middleware -> check if user is admin || or editor
 export const addArticle = (req, res) => {
-  res.json({ status: "Article added" });
+  const { title, description, slug } = req.body;
+  const thumbnailFile = req.file;
+  console.log("server got data", title, description, slug, thumbnailFile);
+  res.status(200).send({title: title, desc: description, slug: slug, image: thumbnailFile});
 };
 
 // @middleware -> check if user is admin || updating article author name === loggedin user name
