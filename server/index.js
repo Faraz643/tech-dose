@@ -7,12 +7,20 @@ import { createRolesTable } from "./models/roles.js";
 import { createArticlesTables } from "./models/articles.js";
 import cors from "cors";
 import bodyParser from "body-parser";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 const port = 3001;
+// middleWares
+app.use(express.static("images"));
 app.use(cors());
-// app.use(express.urlencoded());
-app.use(express.urlencoded({ extended: true })); // Adjust extended option if needed
+const patth = path.join("images");
+console.log(patth);
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 
 function createAllTables() {

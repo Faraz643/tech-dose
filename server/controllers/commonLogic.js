@@ -2,7 +2,17 @@ import { connection } from "../db.config.js";
 
 export const showAllArticles = (req, res) => {
   // send user role to req while fetching from client, if role is admin ? showAll: fetch article from db using loggedin author name
-  // res.send(req.body)
+  const showAllArticlesQuery = `SELECT * FROM articles`;
+  connection
+    .query(showAllArticlesQuery)
+    .then((result) => {
+      res.status(200).json(result);
+      // console.log(result);
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Error Occured" });
+      console.log(error);
+    });
 };
 
 export const showSingleArticle = (req, res) => {

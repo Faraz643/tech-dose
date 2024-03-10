@@ -1,5 +1,5 @@
 'use client'
-import { article, slug, text } from '@/public/assets/_index'
+import { slug, text } from '@/public/assets/_index'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Tags from '../_AdminDashboard/Tags'
