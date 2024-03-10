@@ -29,10 +29,10 @@ function createAllTables() {
 }
 
 // comment out below line to create all tables
-createAllTables();
-createArticlesTables()
-  .then(() => console.log("Article table created !"))
-  .catch((err) => console.log("Error while creating articles table !", err));
+// createAllTables();
+// createArticlesTables()
+//   .then(() => console.log("Article table created !"))
+//   .catch((err) => console.log("Error while creating articles table !", err));
 app.use(express.json());
 app.use("/api/article", articleActions);
 app.use("/api/admin", adminRouter);

@@ -111,35 +111,7 @@ const ArticleForm = () => {
         showWarning  // function for submitting form if no validation error
 
     }
-    async function publishArticle(thumbnail, title, desc,) {
-        const formData = new FormData()
-        formData.append('thumbnail', thumbnail)
-        formData.append('title', title)
-        formData.append('description', desc)
-        formData.append('slug', articleData.slug)
 
-
-        try {
-            const response = await fetch('http://localhost:3001/api/article', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                // Handle non-2xx status codes:
-                const errorData = await response.json();
-                throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
-            }
-
-            const data = await response.json();
-            console.log('Form data submitted successfully:');
-            // Handle successful submission
-        } catch (error) {
-            console.error('Error submitting form:', error.message);
-            // Handle errors
-        }
-        clearFormData()
-    }
     function clearFormData() {
         setArticleData({
             thumbnail: "",
@@ -154,7 +126,28 @@ const ArticleForm = () => {
         document.getElementById('drop-area').style.border = 'initial'
 
     }
+    async function publishArticle(thumbnail, title, desc,) {
+        const formData = new FormData()
+        formData.append('thumbnail', thumbnail)
+        formData.append('title', title)
+        formData.append('description', desc)
+        formData.append('slug', articleData.slug)
+        try {
+            const response = await fetch('http://localhost:3001/api/article', {
+                method: 'POST',
+                body: formData,
+            });
 
+            if (!response.ok) {
+                // Handle non-2xx status codes:
+                const errorData = await response.json();
+                throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+            }
+            clearFormData()
+        } catch (error) {
+            console.error('Error submitting form:', error.message);
+        }
+    }
 
     return (
         <div className='my-1'>
