@@ -48,7 +48,7 @@ const ArticleForm = () => {
         const fileReader = new FileReader()
         fileReader.onload = function () {
             const imgData = fileReader.result
-            const blob = new Blob([fileReader.result], { type: imgFile.type })
+            // const blob = new Blob([fileReader.result], { type: imgFile.type })
             setArticleData({ ...articleData, thumbnail: imgData })
             // showImage()
 
@@ -57,10 +57,6 @@ const ArticleForm = () => {
         document.getElementById('thumbail-view').textContent = ''
         document.getElementById('drop-area').style.border = '0'
     }
-    function showImage() {
-        // console.log(articleData.thumbnail)
-    }
-
     function handleDrop(e) {
         e.preventDefault()
         document.getElementById("article-thumbnail").files = e.dataTransfer.files
@@ -121,14 +117,7 @@ const ArticleForm = () => {
         formData.append('title', title)
         formData.append('description', desc)
         formData.append('slug', articleData.slug)
-        // console.log(thumbnail)
-        // console.log(articleData.thumbnail)
-        // const clientPayLoad = {
-        //     thumbnail: articleData.thumbnail,
-        //     title: title,
-        //     description: desc,
-        //     slug: articleData.slug,
-        // };
+
 
         try {
             const response = await fetch('http://localhost:3001/api/article', {
@@ -143,12 +132,27 @@ const ArticleForm = () => {
             }
 
             const data = await response.json();
-            console.log('Form data submitted successfully:', data);
+            console.log('Form data submitted successfully:');
             // Handle successful submission
         } catch (error) {
             console.error('Error submitting form:', error.message);
             // Handle errors
         }
+        clearFormData()
+    }
+    function clearFormData() {
+        setArticleData({
+            thumbnail: "",
+            title: "",
+            slug: "",
+            description: ""
+        })
+        setThumbnailFile('')
+        document.getElementById('thumbail-view').innerHTML = `<h1 class='text-xl'>Drag and Drop here</h1>
+        <span class='span-line text-center'>OR</span>
+        <h1 class='text-[#7262EC] text-xl'>Browse Files</h1>`
+        document.getElementById('drop-area').style.border = 'initial'
+
     }
 
 

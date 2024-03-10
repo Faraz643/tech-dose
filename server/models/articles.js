@@ -6,20 +6,24 @@ export async function createArticlesTables() {
       id INT AUTO_INCREMENT PRIMARY KEY,
       title VARCHAR(255) NOT NULL,
       description TEXT NOT NULL,
-      thumbnail BLOB NOT NULL,
+      thumbnail VARCHAR(255) NOT NULL,
       slug VARCHAR(300) NOT NULL,
-      tag VARCHAR(50),  -- Optional tag
-      month DATETIME NOT NULL,
-      written_by INT NOT NULL,
-      CONSTRAINT fk_written_by FOREIGN KEY (written_by) REFERENCES users(id)
-    );
-  `;
+      );
+      `;
+  // CONSTRAINT fk_written_by FOREIGN KEY (written_by) REFERENCES users(id)
+  // month DATETIME DEFAULT(getdate()) NOT NULL,
+  // tag VARCHAR(50),
+  // written_by INT NOT NULL,
 
-  try {
-    await connection.query(createArticleTablesQuery);
-    console.log("Article table setup");
-  } catch (err) {
-    console.error("Error setting up articles table:", err);
-    // Handle specific errors if needed
-  }
+  // try {
+  //   await connection.query(createArticleTablesQuery);
+  //   console.log("Article table setup");
+  // } catch (err) {
+  //   console.error("Error setting up articles table:", err);
+  //   // Handle specific errors if needed
+  // }
+  return connection
+    .query(createArticleTablesQuery)
+    .then(() => console.log("articles Table setup successfully!"))
+    .catch((err) => console.error("Error setting article table:", err));
 }

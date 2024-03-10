@@ -26,14 +26,14 @@ function createAllTables() {
       )
     )
     .catch((err) => console.error("Error triggering table creation:", err));
-  createArticlesTables()
-    .then(() => console.log("Article table created !"))
-    .catch((err) => console.log("Error while creating articles table !", err));
 }
 
 // comment out below line to create all tables
-// createAllTables();
-app.use(express.json())
+createAllTables();
+createArticlesTables()
+  .then(() => console.log("Article table created !"))
+  .catch((err) => console.log("Error while creating articles table !", err));
+app.use(express.json());
 app.use("/api/article", articleActions);
 app.use("/api/admin", adminRouter);
 app.use("/api/auth", authRouter);

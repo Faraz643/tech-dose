@@ -11,8 +11,7 @@ const page = () => {
 
   const router = useRouter()
   const path  = usePathname()
-  // console.log(router.query.userRole)
-  console.log(path.split('/'))
+  // console.log(path.split('/'))
   return (
     <MainContentWrapper>
       {/* info (Stats) Cards */}

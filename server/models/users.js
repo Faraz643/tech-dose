@@ -33,7 +33,7 @@ async function addNewColumnUsersTable() {
     
 `;
   try {
-    await connection.query(createArticleTablesQuery);
+    await connection.query(addNewColumnsQuery);
     console.log("adding a new column in users!");
   } catch (err) {
     console.error("Error adding a new column in users", err);
@@ -44,7 +44,7 @@ async function addNewColumnUsersTable() {
 async function deleteUsersTable() {
   const deleteTable = `DROP TABLE users`;
   try {
-    await connection.query(createArticleTablesQuery);
+    await connection.query(deleteTable);
     console.log("deleting article table!");
   } catch (err) {
     console.error("Error deleting articles table:", err);
