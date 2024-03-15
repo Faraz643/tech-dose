@@ -22,7 +22,7 @@ const ProfileInfoHeader = () => {
           <Image src={tcHeaderLogo} width={40} alt='Tech Dose logo'/>
           </span>
           <div className='flex gap-2'>
-            <span className='text-black text-[1.3rem] max-[500px]:text-[1.1rem]'>Welcome, Dane Ronny</span>
+            <span className='text-black text-[1.3rem] max-[500px]:text-[1.1rem]'>Welcome, Faraz Rasool</span>
             <span>
               <Image src={greeting} width={25} alt='Hello {user_name}'/>
             </span>

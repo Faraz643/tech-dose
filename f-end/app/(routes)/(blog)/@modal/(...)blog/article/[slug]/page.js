@@ -6,6 +6,8 @@ import React, { createContext, useContext } from "react";
 
 export const SlugDetails = createContext();
 
+// fetch single article through api, get response as json, destructrue article details, send details in value prop of context provider (SlugDetails), get each element and pass as props in their individual component
+
 const Page = () => {
   const pageHistory = useRouter();
   const params = useParams();

@@ -1,4 +1,5 @@
 import { connection } from "../db.config.js";
+import path from "path";
 
 export const showAllArticles = (req, res) => {
   // send user role to req while fetching from client, if role is admin ? showAll: fetch article from db using loggedin author name
@@ -6,7 +7,8 @@ export const showAllArticles = (req, res) => {
   connection
     .query(showAllArticlesQuery)
     .then((result) => {
-      res.status(200).json(result);
+      res.status(200).json(result[0]);
+
       // console.log(result);
     })
     .catch((error) => {
@@ -14,7 +16,19 @@ export const showAllArticles = (req, res) => {
       console.log(error);
     });
 };
-
+export const showImage = function (req, res) {
+  // get the file param and define file path
+  const fileName = req.params.fileName;
+  const fileDestination = {
+    root: "./images/article-thumbnail",
+  };
+  // send file
+  res.sendFile(fileName, fileDestination, (err) => {
+    if (err) {
+      console.error("Error while sending file:", err);
+    }
+  });
+};
 export const showSingleArticle = (req, res) => {
   console.log(req.params); // search single article
   res.json({ status: "Show Single Article" });
@@ -23,7 +37,8 @@ export const showSingleArticle = (req, res) => {
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
   const { title, description, slug } = req.body;
-  const thumbnailPath = req.file.destination + "/" + req.file.filename;
+  // const thumbnailPath = req.file.destination + "/" + req.file.filename;
+  const thumbnailPath = req.file.filename;
   const insertArticleQuery = `
   INSERT INTO articles (title, description, thumbnail, slug)
   VALUES (?, ?, ?, ?)

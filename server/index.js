@@ -16,12 +16,10 @@ const __dirname = dirname(__filename);
 const app = express();
 const port = 3001;
 // middleWares
-app.use(express.static("images"));
 app.use(cors());
-const patth = path.join("images");
-console.log(patth);
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
+app.use(express.static("images"));
 
 function createAllTables() {
   createRolesTable()
