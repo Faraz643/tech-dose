@@ -8,6 +8,7 @@ export const showAllArticles = (req, res) => {
     .query(showAllArticlesQuery)
     .then((result) => {
       res.status(200).json(result[0]);
+      console.log(result);
 
       // console.log(result);
     })
@@ -30,8 +31,20 @@ export const showImage = function (req, res) {
   });
 };
 export const showSingleArticle = (req, res) => {
-  console.log(req.params); // search single article
-  res.json({ status: "Show Single Article" });
+  // console.log(req.params); // search single article
+  const slug = req.params.slug;
+  const getSingleArticle = `
+  SELECT * FROM articles WHERE slug=?
+  `;
+  connection
+    .query(getSingleArticle, [slug])
+    .then((result) => {
+      res.status(200).json(result[0]);
+      console.log(slug, result);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err });
+    });
 };
 
 // @middleware -> check if user is admin || or editor

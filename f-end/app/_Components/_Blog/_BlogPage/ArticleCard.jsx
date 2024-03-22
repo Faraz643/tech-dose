@@ -4,11 +4,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { twitterFeedThumbnail } from '@/public/assets/_index'
 import { articleDetails } from '@/app/(routes)/(blog)/utils'
-import { useRouter } from 'next/router'
 const ArticleCard = () => {
 
   const [articles, setArticles] = useState([])
-  const router = useRouter()
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,16 +25,7 @@ const ArticleCard = () => {
   }, []);
 
 
-  function handleArticleLink(event) {
-    const slug = event.currentTarget.getAttribute('data-slug')
-    // console.log(slug)
-    const singleArticleLink = async () => {
-      router.push('/blog/3')
-    }
-  }
-
-
-  // console.log(articles)
+// console.log(articles)
   // articles.map((elem) => console.log(elem))
   // articles.map((elem) => console.log(`http://localhost:3001/api/article/img/${elem.thumbnail}`))
 
@@ -57,13 +46,12 @@ const ArticleCard = () => {
     border: '1px solid rgba(255, 255, 255, 0.18)',
   }
 
- 
   return (
     <div className='p-10 bg-[#00000000] flex justify-center'>
       <div className='flex justify-center items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>
         {
           articles.map((article) => (
-            <div key={article.id} className='w-[300px] h-[370px]' onClick={handleArticleLink} data-slug={`${article.slug}`}>
+            <Link key={article.id} href={`/blog/article/${article.slug}`} className='w-[300px] h-[370px]'>
               <div className="relative article-card w-[100%] h-[100%]  border-[#29292800] rounded-[20px] duration-300 hover:!bg-[length:260%]"
                 style={{ ...thumbnailStyling, backgroundImage: `url(http://localhost:3001/api/article/img/${article.thumbnail})` }}>
                 <div className='flex flex-col justify-between h-full p-3'>
@@ -73,7 +61,7 @@ const ArticleCard = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         }
 

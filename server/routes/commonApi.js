@@ -16,7 +16,7 @@ router
 // router.get("/image/:filePath", showImage);
 router.get("/img/:fileName", showImage);
 router
-  .get("/:id", showSingleArticle) // show single article on blog page
+  .get("/:slug", showSingleArticle) // show single article on blog page
   .put("/:id", updateArticle) // update article via admin/editor page
   .delete("/:id", deleteArticle); //  delete article via admin/editor page
 
