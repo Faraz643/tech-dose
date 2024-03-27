@@ -7,11 +7,11 @@ import React, { Children, createContext, useContext, useEffect, useState } from 
 
 const ArticleDetails = createContext({});
 
-const ArticleDetailsContext = ({children}) => {
+const ArticleDetailsContext = ({ children }) => {
+  const router = useRouter();
   const [articleDetails, setArticleDetails] = useState({});
-  const pageHistory = useRouter();
   const params = useParams();
-  const slug = params.slug; // write logic here fetch data with params.slug
+  const slug = useParams().slug;
   useEffect(() => {
     const fetchArticle = async () => {
       try {
@@ -22,18 +22,18 @@ const ArticleDetailsContext = ({children}) => {
           }
         );
         const result = await response.json();
-        console.log(result[0]);
         setArticleDetails(result[0]);
       } catch (err) {
         console.log("An error occured:", err);
       }
     };
     fetchArticle();
-  }, []);
 
+  }, []);
  
+
   const onModalClose = () => {
-    pageHistory.back();
+    router.back();
   };
 
   return (
@@ -43,4 +43,4 @@ const ArticleDetailsContext = ({children}) => {
   );
 };
 
-export {ArticleDetailsContext, ArticleDetails}
+export { ArticleDetailsContext, ArticleDetails }

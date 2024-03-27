@@ -25,7 +25,7 @@ const ArticleCard = () => {
   }, []);
 
 
-// console.log(articles)
+  // console.log(articles)
   // articles.map((elem) => console.log(elem))
   // articles.map((elem) => console.log(`http://localhost:3001/api/article/img/${elem.thumbnail}`))
 
@@ -45,13 +45,14 @@ const ArticleCard = () => {
     borderEadius: '10px',
     border: '1px solid rgba(255, 255, 255, 0.18)',
   }
+ 
 
   return (
     <div className='p-10 bg-[#00000000] flex justify-center'>
       <div className='flex justify-center items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>
         {
           articles.map((article) => (
-            <Link key={article.id} href={`/blog/article/${article.slug}`} className='w-[300px] h-[370px]'>
+            <Link key={article.id} href={`/blog/article/${article.slug}`} target='_blank' rel='noopener noreferrer' className='w-[300px] h-[370px]'>
               <div className="relative article-card w-[100%] h-[100%]  border-[#29292800] rounded-[20px] duration-300 hover:!bg-[length:260%]"
                 style={{ ...thumbnailStyling, backgroundImage: `url(http://localhost:3001/api/article/img/${article.thumbnail})` }}>
                 <div className='flex flex-col justify-between h-full p-3'>

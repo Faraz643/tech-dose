@@ -1,7 +1,7 @@
 'use client'
 
 
-import { SlugDetails } from '@/app/(routes)/(blog)/@modal/(...)blog/article/[slug]/page'
+// import { SlugDetails } from '@/app/(routes)/(blog)/@modal/(...)blog/article/[slug]/page'
 import { smartRingThumbnail, appleWatchThumbnail, article } from '@/public/assets/_index'
 import Image from 'next/image'
 import React, { useContext } from 'react'

@@ -1,5 +1,6 @@
-"use client";
+// "use client";
 import ArticleCard from "@/app/_Components/_Blog/_BlogPage/ArticleCard";
+import { ArticleDetailsContext } from "@/app/_Components/_Blog/_BlogPage/InterceptionContext";
 import ArticleAuthorName from "@/app/_Components/_Blog/_SingleArticle/ArticleAuthorName";
 import ArticleContent from "@/app/_Components/_Blog/_SingleArticle/ArticleContent";
 import ArticleThumbnail from "@/app/_Components/_Blog/_SingleArticle/ArticleThumbnail";
@@ -8,8 +9,9 @@ import { downArrow } from "@/public/assets/_index";
 import Image from "next/image";
 
 export default function Home() {
+  
   return (
-    <>
+    <ArticleDetailsContext>
       <div className="text-center p-4">
         <h1 className="font-futureEarth text-3xl text-black">tech-dose/blog</h1>
       </div>
@@ -38,6 +40,6 @@ export default function Home() {
       </div>
       {/* implement logic to render articles based fetched on the currently fetched article's month */}
       <ArticleCard />
-    </>
+    </ArticleDetailsContext>
   );
 }
