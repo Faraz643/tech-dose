@@ -14,6 +14,7 @@ export default function SingleArticlePage() {
   const [articleDetails, setArticleDetails] = useState({});
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [placeholder, setPlaceholder] = useState('skeleton')
   const params = useParams();
   const slug = useParams().slug;
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function SingleArticlePage() {
         if (response.ok) {
           const result = await response.json();
           setArticleDetails(result.articleData[0]);
+          setPlaceholder('')
         } else {
           setNotFound(true);
         }
@@ -36,6 +38,7 @@ export default function SingleArticlePage() {
         setNotFound(true);
       } finally {
         setLoading(false);
+        setPlaceholder('')
       }
     };
     fetchArticle();
@@ -49,28 +52,26 @@ export default function SingleArticlePage() {
       <div className="text-center p-4">
         <h1 className="font-futureEarth text-3xl text-black">tech-dose/blog</h1>
       </div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
+      
         <div className="flex justify-center p-4 h-auto">
           <div className="max-w-[1200px] p-2 bg-[#201F1E] rounded-[23px] max-[1440px]:w-[100%] max-[2000px]:w-[1200px]">
             <div className="single-article-wrapper bg-[#f6c79700] w-full">
-              <ArticleTitle />
+              <ArticleTitle titleFor={placeholder} />
               <div className="flex justify-between flex-wrap mt-14 gap-10 max-[1220px]:justify-center">
                 <div className="max-[1220px]:order-2 w-[600px]">
-                  <ArticleContent />
+                  <ArticleContent contentFor={placeholder}/>
                 </div>
                 <div className="single-page-article-thumbnail">
-                  <ArticleThumbnail />
+                  <ArticleThumbnail thumbnailFor={placeholder}/>
                 </div>
               </div>
               <div className="p-4">
-                <ArticleAuthorName />
+                <ArticleAuthorName authorFor={placeholder}/>
               </div>
             </div>
           </div>
         </div>
-      )}
+     
 
       <div className="text-center text-3xl my-10 marquee ">
         <p>

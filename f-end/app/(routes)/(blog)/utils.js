@@ -28,6 +28,7 @@ import {
   tag,
   text,
   userProfile,
+  imagePlaceholder
 } from "@/public/assets/_index";
 
 const navLinks = [

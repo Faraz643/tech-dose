@@ -68,6 +68,8 @@ import smartRingThumbnail from "./images/sample-post-thumbnails/smart-ring.webp"
 
 import transparentTechThumbnail from "./images/sample-post-thumbnails/transparent-tech.webp";
 
+import imagePlaceholder from "./images/sample-post-thumbnails/image-loading-placeholder.png";
+
 // Admin Icons
 
 import greeting from "./images/admin-icons/greeting.png";
@@ -132,5 +134,6 @@ export {
   text,
   userProfile,
   redirect,
-  calendar
+  calendar,
+  imagePlaceholder,
 };
