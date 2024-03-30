@@ -8,13 +8,13 @@ export const showAllArticles = (req, res) => {
     .query(showAllArticlesQuery)
     .then((result) => {
       res.status(200).json(result[0]);
-      console.log(result);
+      // console.log(result);
 
       // console.log(result);
     })
     .catch((error) => {
       res.status(500).json({ message: "Error Occured" });
-      console.log(error);
+      // console.log(error);
     });
 };
 export const showImage = function (req, res) {
@@ -26,7 +26,10 @@ export const showImage = function (req, res) {
   // send file
   res.sendFile(fileName, fileDestination, (err) => {
     if (err) {
-      console.error("Error while sending file:", err);
+      console.error(
+        "Error while sending/Showing file:(Might be No Such file)",
+        err
+      );
     }
   });
 };
@@ -39,11 +42,17 @@ export const showSingleArticle = (req, res) => {
   connection
     .query(getSingleArticle, [slug])
     .then((result) => {
-      res.status(200).json(result[0]);
-      console.log(slug, result);
+      // if(result)
+      if (result[0].length === 0) {
+        return res
+          .status(404)
+          .send({ message: "Article Not found in database" });
+      }
+      res.status(200).json({ articleData: result[0] });
+      // console.log(slug, "Result length is:", result[0].length);
     })
     .catch((err) => {
-      res.status(500).json({ message: err });
+      res.status(500).send({ message: err });
     });
 };
 

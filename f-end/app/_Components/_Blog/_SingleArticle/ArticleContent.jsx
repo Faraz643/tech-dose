@@ -1,11 +1,11 @@
 'use client'
 
+import { SingleArticleContext } from '@/app/(routes)/(blog)/blog/article/[slug]/page'
 // import { SlugDetails } from '@/app/(routes)/(blog)/@modal/(...)blog/article/[slug]/page'
 import React, { useContext } from 'react'
-import { ArticleDetails } from '../_BlogPage/InterceptionContext'
 
 const ArticleContent = ({ contentFor }) => {
-  const { articleDetails, onModalClose } = useContext(ArticleDetails) // articleDetails.content
+  const { articleDetails, onModalClose } = useContext(SingleArticleContext) // articleDetails.content
 
   return (
     <article className='px-8 max-[570px]:px-4'>

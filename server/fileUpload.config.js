@@ -6,7 +6,7 @@ const thumbnailStorage = multer.diskStorage({
   filename: function (req, file, cb) {
     const originalFilename = file.originalname;
     const sanitizedFileName = sanitize(originalFilename);
-    cb(null, Date.now() + "-"+ originalFilename);
+    cb(null, Date.now() + "-"+ sanitizedFileName);
   },
 });
 
