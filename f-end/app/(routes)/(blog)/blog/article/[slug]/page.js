@@ -28,6 +28,7 @@ export default function SingleArticlePage() {
         );
         if (response.ok) {
           const result = await response.json();
+          console.log(result.articleData[0])
           setArticleDetails(result.articleData[0]);
           setPlaceholder('')
         } else {
@@ -78,7 +79,7 @@ export default function SingleArticlePage() {
           More from {`this month`}. Stay updated with our latest tech news 👇
         </p>
       </div>
-      {/* implement logic to render articles based fetched on the currently fetched article's month */}
+      {/* logic for recommended articles */}
       <ArticleCard />
     </SingleArticleContext.Provider>
   );

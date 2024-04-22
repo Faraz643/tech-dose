@@ -46,10 +46,9 @@ export const showSingleArticle = (req, res) => {
       if (result[0].length === 0) {
         return res
           .status(404)
-          .send({ message: "Article Not found in database" });
+          .json({ message: "Article Not found in database" });
       }
       res.status(200).json({ articleData: result[0] });
-      // console.log(slug, "Result length is:", result[0].length);
     })
     .catch((err) => {
       res.status(500).send({ message: err });
@@ -59,7 +58,6 @@ export const showSingleArticle = (req, res) => {
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
   const { title, description, slug } = req.body;
-  // const thumbnailPath = req.file.destination + "/" + req.file.filename;
   const thumbnailPath = req.file.filename;
   const insertArticleQuery = `
   INSERT INTO articles (title, description, thumbnail, slug)
@@ -83,6 +81,18 @@ export const updateArticle = (req, res) => {
 
 // @middleware -> check if user is admin || deleting article author name === loggedin user name
 export const deleteArticle = (req, res) => {
-  console.log(req.params); // delete article
+  const slug = req.params.slug;
+  const deleteQuery = `
+    DELETE FROM articles WHERE slug=?`;
+  connection
+    .query(deleteQuery, [slug])
+    .then((result) => {
+      res.status(204).end();
+      console.log({ message: "Article Deleted Successfully" });
+    })
+    .catch((error) => {
+      res.status(200).json({ message: "Resource can not be Deleted" });
+      console.log({ message: "An error occured" });
+    });
   res.json({ status: "Article deleted" });
 };

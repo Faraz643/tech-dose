@@ -97,7 +97,7 @@ const adminMenuLink = [
   },
   {
     for: "editor",
-    id: "add-article",
+    id: "editor-add-article",
     menuName: "Add an Article",
     menulink: "/editor/add-article",
     menuIcon: article,

@@ -17,6 +17,7 @@ const SideMenuResponsive = () => {
       <div className='bg-blur flex gap-2  p-2 overflow-hidden rounded-[15px] menu-carousel'>
         {
           adminMenuLink.map((menu) => (
+            (menu.for === pathName.split('/')[1]) &&
             <Link
               key={menu.id}
               href={menu.menulink}
