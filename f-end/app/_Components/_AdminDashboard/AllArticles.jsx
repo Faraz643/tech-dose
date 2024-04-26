@@ -8,7 +8,6 @@ const AllArticles = () => {
     const [articleDeleted, setArticleDeleted] = useState(true)
     const { allArticles, fetchData } = useFetchArticles()
     useEffect(() => {
-        // placeholder
         fetchData()
     }, [articleDeleted])
 

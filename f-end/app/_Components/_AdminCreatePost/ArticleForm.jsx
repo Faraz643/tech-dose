@@ -5,7 +5,9 @@ import React, { useEffect, useState } from 'react'
 import Tags from '../_AdminDashboard/Tags'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const ArticleForm = () => {
+import { redirect, useRouter } from 'next/navigation'
+
+const ArticleForm = ({ updatingArticleSlug }) => {
     // states
     const [slugStatus, setSlugStatus] = useState('') // 'generated || 'generating'
     const [thumbnailFile, setThumbnailFile] = useState('')
@@ -16,6 +18,7 @@ const ArticleForm = () => {
         description: ""
     })
     const [dataURL, setDataURL] = useState('')
+    const router = useRouter()
 
 
     useEffect(() => {
@@ -25,6 +28,35 @@ const ArticleForm = () => {
         // Cleanup function to clear the timeout if component unmounts or if title changes again
         return () => clearTimeout(timeoutId);
     }, [articleData.title])
+
+
+    useEffect(() => {
+        const fetchArticle = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/api/article/${updatingArticleSlug}`, {
+                    method: 'GET',
+                })
+                if (response.ok) {
+                    const data = await response.json()
+                    const fetchedData = data.articleData[0]
+                    setArticleData({
+                        ...articleData,
+                        title: fetchedData.title,
+                        description: fetchedData.description,
+                        slug: fetchedData.slug,
+                        thumbnail: fetchedData.thumbnail,
+                    })
+                } 
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        if (updatingArticleSlug) {
+            fetchArticle()
+        }else{
+            router.replace('/admin/dashboard')
+        }
+    }, [updatingArticleSlug])
 
     function handleInput(e) {
         const { name, value } = e.target

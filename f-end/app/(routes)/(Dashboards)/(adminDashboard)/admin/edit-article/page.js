@@ -5,9 +5,9 @@ import React from "react";
 const page = () => {
   return (
     <MainContentWrapper>
-      <h1 className="text-center text-2xl">Create a new post</h1>
+      <h1 className="text-center text-2xl">Edit Post</h1>
       <div id="form-area">
-        <ArticleForm updatingArticleSlug={null}/>
+        <ArticleForm />
       </div>
     </MainContentWrapper>
   );

@@ -82,6 +82,13 @@ const adminMenuLink = [
     menuIcon: home,
   },
   {
+    for: 'admin',
+    id: "edit-article",
+    menuName: "Edit an Article",
+    menulink: "/admin/edit-article",
+    menuIcon: article,
+  },
+  {
     for: "editor",
     id: "editorDashboard",
     menuName: "Dashboard",
