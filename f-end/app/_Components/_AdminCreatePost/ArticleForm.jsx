@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react'
 import Tags from '../_AdminDashboard/Tags'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { redirect, useRouter } from 'next/navigation'
+import { redirect, usePathname, useRouter } from 'next/navigation'
 
-const ArticleForm = ({ updatingArticleSlug }) => {
+const ArticleForm = ({ updatingArticleSlug, formMode }) => {
     // states
     const [slugStatus, setSlugStatus] = useState('') // 'generated || 'generating'
     const [thumbnailFile, setThumbnailFile] = useState('')
@@ -18,7 +18,6 @@ const ArticleForm = ({ updatingArticleSlug }) => {
         description: ""
     })
     const [dataURL, setDataURL] = useState('')
-    const router = useRouter()
 
 
     useEffect(() => {
@@ -46,14 +45,26 @@ const ArticleForm = ({ updatingArticleSlug }) => {
                         slug: fetchedData.slug,
                         thumbnail: fetchedData.thumbnail,
                     })
-                } 
+                }
             } catch (err) {
                 console.log(err)
             }
         }
-        if (updatingArticleSlug) {
+        if (formMode === 'add') {
+            return;
+        }
+        else if (formMode = 'edit' && updatingArticleSlug) {
             fetchArticle()
-        }else{
+        }
+        else if (formMode = 'edit' && !updatingArticleSlug) {
+            router.replace('/admin/dashboard')
+        }
+        // if (formMode = 'edit' && updatingArticleSlug) {
+        //     fetchArticle()
+        // } else if (formMode = 'add') {
+        //     return;
+        // }
+        else {
             router.replace('/admin/dashboard')
         }
     }, [updatingArticleSlug])
@@ -122,6 +133,7 @@ const ArticleForm = ({ updatingArticleSlug }) => {
         const formData = e['target']
         // get form values
         const validateThumbnail = formData['article-thumbnail'].files[0]
+        // console.log(formData['article-thumbnail'].files[0])
         const validateTitle = formData['article-title'].value
         const validateDescription = formData['article-description'].value
         // warning messages for validations
@@ -160,15 +172,23 @@ const ArticleForm = ({ updatingArticleSlug }) => {
     }
     async function publishArticle(thumbnail, title, desc,) {
         const formData = new FormData()
+        // console.log('this is thumbnail from publishArticle function', thumbnail)
         formData.append('thumbnail', thumbnail)
         formData.append('title', title)
         formData.append('description', desc)
         formData.append('slug', articleData.slug)
+        console.log('this is thumbnail from publishArticle function', articleData.slug)
+
+        const prefixAPi = 'http://localhost:3001/api/article'
+        const api = updatingArticleSlug ? prefixAPi + `/${updatingArticleSlug}` : prefixAPi
+        const methodIs = updatingArticleSlug ? 'PUT' : 'POST'
         try {
-            const response = await fetch('http://localhost:3001/api/article', {
-                method: 'POST',
+            const response = await fetch(api, {
+                method: methodIs,
                 body: formData,
             });
+
+
 
             if (!response.ok) {
                 // Handle non-2xx status codes:

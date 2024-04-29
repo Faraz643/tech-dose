@@ -73,10 +73,24 @@ export const addArticle = async (req, res) => {
 };
 
 // @middleware -> check if user is admin || updating article author name === loggedin user name
-export const updateArticle = (req, res) => {
-  console.log(req.params); // update  article
-
-  res.json({ status: "Article updated" });
+export const updateArticle = async (req, res) => {
+  const { title, description, slug } = req.body;
+  const thumbnailPath = req.file.filename;
+  const articleToBeUpdated = req.params.slug;
+  const updateArticleQuery = `
+UPDATE articles SET title=?, description=?, thumbnail=?, slug=? WHERE slug=?`;
+  connection
+    .query(updateArticleQuery, [
+      title,
+      description,
+      thumbnailPath,
+      slug,
+      articleToBeUpdated,
+    ])
+    .then(() => {
+      res.status(201).json({ message: "Article Updated" });
+    })
+    .catch((err) => console.log("Error Updating article:", err));
 };
 
 // @middleware -> check if user is admin || deleting article author name === loggedin user name

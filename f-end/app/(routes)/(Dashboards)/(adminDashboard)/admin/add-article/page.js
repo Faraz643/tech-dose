@@ -7,7 +7,7 @@ const page = () => {
     <MainContentWrapper>
       <h1 className="text-center text-2xl">Create a new post</h1>
       <div id="form-area">
-        <ArticleForm updatingArticleSlug={null}/>
+        <ArticleForm updatingArticleSlug={null} formMode={'add'}/>
       </div>
     </MainContentWrapper>
   );
