@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Tags from '../_AdminDashboard/Tags'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { redirect, useParams, useSearchParams } from 'next/navigation'
+import { redirect, useParams, useRouter, useSearchParams } from 'next/navigation'
 
 
 const ArticleForm = ({ formMode }) => {
@@ -20,7 +20,9 @@ const ArticleForm = ({ formMode }) => {
     })
     const [dataURL, setDataURL] = useState('')
     const searchParams = useSearchParams()
+    const router = useRouter()
     const querySlug = searchParams.get('slug')
+
 
 
     useEffect(() => {
@@ -68,7 +70,7 @@ const ArticleForm = ({ formMode }) => {
         //     return;
         // }
         else {
-            router.replace('/admin/dashboard')
+            router.push('/admin/dashboard')
         }
     }, [querySlug])
 
@@ -103,6 +105,7 @@ const ArticleForm = ({ formMode }) => {
         document.getElementById('thumbail-view').textContent = ''
         document.getElementById('drop-area').style.border = '0'
     }
+
     function handleDrop(e) {
         e.preventDefault()
         document.getElementById("article-thumbnail").files = e.dataTransfer.files
@@ -151,7 +154,7 @@ const ArticleForm = ({ formMode }) => {
             )
         }
         // show warning logic
-        const showWarning = (!validateThumbnail) ? notify(warnThumbnail, 1) :
+        const showWarning = (!validateThumbnail && formMode != 'edit') ? notify(warnThumbnail, 1) :
             (validateTitle.trim() === '') ? notify(warnTitle, 2) :
                 (validateDescription.trim() === '') ? notify(warnDesc, 3) :
                     publishArticle(validateThumbnail, validateTitle, validateDescription)
@@ -160,6 +163,9 @@ const ArticleForm = ({ formMode }) => {
     }
 
     function clearFormData() {
+        if (formMode === 'edit') {
+            router.replace('/admin/add-article')
+        }
         setArticleData({
             thumbnail: "",
             title: "",
@@ -176,7 +182,7 @@ const ArticleForm = ({ formMode }) => {
     async function publishArticle(thumbnail, title, desc,) {
         const formData = new FormData()
         // console.log('this is thumbnail from publishArticle function', thumbnail)
-        formData.append('thumbnail', thumbnail)
+        thumbnailFile && formData.append('thumbnail', thumbnail)
         formData.append('title', title)
         formData.append('description', desc)
         formData.append('slug', articleData.slug)
@@ -211,16 +217,24 @@ const ArticleForm = ({ formMode }) => {
                     {/* file input */}
                     <div className='flex flex-col gap-1'>
                         <span>Thumbnail</span>
-                        <label id='drop-area' htmlFor="article-thumbnail" className='thumbnail-label w-[500px] h-[190px] max-[520px]:w-[300px]  bg-blur !border-dashed !border-[#7262EC] flex justify-center items-center cursor-pointer rounded-[20px]'
+                        <label id='drop-area' htmlFor="article-thumbnail" className={`thumbnail-label w-[500px] h-[190px] max-[520px]:w-[300px]  bg-blur !border-dashed !border-[#7262EC] ${formMode === 'edit' && '!border-[0]'} flex justify-center items-center cursor-pointer rounded-[20px]`}
                             onDragOver={(e) => e.preventDefault()}
-                            onDropCapture={handleDrop}>
+                            onDropCapture={handleDrop} onload={!thumbnailFile}>
                             <input type="file" id='article-thumbnail' accept='image/*' multiple={false} hidden
                                 onChange={uploadImage} />
                             {/* show selected file area*/}
-                            <div id='thumbail-view' className='w-[100%] h-[90%] text-center flex flex-col gap-6' style={{ backgroundImage: `url(${thumbnailFile})` }}>
-                                <h1 className='text-xl'>Drag and Drop here</h1>
-                                <span className='span-line text-center'>OR</span>
-                                <h1 className='text-[#7262EC] text-xl'>Browse Files</h1>
+                            {/* <div id='thumbail-view' className='w-[100%] h-[90%] text-center flex flex-col gap-6' style={{ backgroundImage: `url(${formMode === 'add' ? thumbnailFile : `http://localhost:3001/api/article/img/${articleData.thumbnail}`})` }}> */}
+                            <div id='thumbail-view' className='w-[100%] h-[90%] text-center flex flex-col gap-6' style={{
+                                backgroundImage: `url(${thumbnailFile ? thumbnailFile : `http://localhost:3001/api/article/img/${articleData.thumbnail}`})`
+                            }}>
+                                {
+                                    formMode === 'add' &&
+                                    <>
+                                        <h1 className='text-xl'>Drag and Drop here</h1>
+                                        <span className='span-line text-center'>OR</span>
+                                        <h1 className='text-[#7262EC] text-xl'>Browse Files</h1>
+                                    </>
+                                }
                             </div>
                         </label>
                     </div>
@@ -253,9 +267,9 @@ const ArticleForm = ({ formMode }) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div >
                 {/* description */}
-                <div className='mt-5'>
+                < div className='mt-5' >
                     <label htmlFor="article-description" >Description</label>
                     <div className='ac-t flex input-text' onClick={borderActive} onBlur={borderInActive}>
                         <div>
@@ -263,16 +277,16 @@ const ArticleForm = ({ formMode }) => {
                         </div>
                         <textarea onChange={handleInput} name='description' id='article-description' rows="5" value={articleData.description} />
                     </div>
-                </div>
+                </div >
                 {/* Submit Button */}
-                <ToastContainer />
+                < ToastContainer />
 
                 <div className='flex justify-center items-center mt-2'>
-                    <input type="submit" value='Publish' id='publish-article' className='text-white px-5 py-2 bg-[#7262EC] rounded-[5px] hover:cursor-pointer hover:bg-[#6152d3]' />
+                    <input type="submit" value={formMode === 'add' ? 'Publish' : 'Update'} id='publish-article' className='text-white px-5 py-2 bg-[#7262EC] rounded-[5px] hover:cursor-pointer hover:bg-[#6152d3]' />
                 </div>
-            </form>
+            </form >
 
-        </div>
+        </div >
     )
 }
 

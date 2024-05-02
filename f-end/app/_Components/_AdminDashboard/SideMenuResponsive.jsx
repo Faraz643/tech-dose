@@ -2,11 +2,9 @@
 import { adminMenuLink } from '@/app/(routes)/(blog)/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
 import React, { useState } from 'react'
 
 const SideMenuResponsive = () => {
-
   const pathName = usePathname()
   const foundObject = adminMenuLink.find((e) =>
     (e.menulink === pathName)
@@ -29,6 +27,7 @@ const SideMenuResponsive = () => {
           ))
         }
       </div>
+
     </section>
   )
 }

@@ -75,18 +75,19 @@ export const addArticle = async (req, res) => {
 // @middleware -> check if user is admin || updating article author name === loggedin user name
 export const updateArticle = async (req, res) => {
   const { title, description, slug } = req.body;
-  const thumbnailPath = req.file.filename;
+  const thumbnailPath = req.file?.filename || null;
   const articleToBeUpdated = req.params.slug;
+  let tableColumns = [title, description, slug];
   const updateArticleQuery = `
-UPDATE articles SET title=?, description=?, thumbnail=?, slug=? WHERE slug=?`;
+UPDATE articles SET title=?, description=?, slug=? ${
+    thumbnailPath ? ", thumbnail=?" : ""
+  } WHERE slug=?`;
+  if (thumbnailPath) {
+    tableColumns.push(thumbnailPath);
+  }
+  tableColumns.push(articleToBeUpdated);
   connection
-    .query(updateArticleQuery, [
-      title,
-      description,
-      thumbnailPath,
-      slug,
-      articleToBeUpdated,
-    ])
+    .query(updateArticleQuery, tableColumns)
     .then(() => {
       res.status(201).json({ message: "Article Updated" });
     })
