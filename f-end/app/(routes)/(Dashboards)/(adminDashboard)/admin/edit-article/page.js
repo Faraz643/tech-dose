@@ -7,7 +7,7 @@ const page = () => {
     <MainContentWrapper>
       <h1 className="text-center text-2xl">Edit Post</h1>
       <div id="form-area">
-        <ArticleForm updatingArticleSlug={"mew-postss"} formMode={'edit'} />
+        <ArticleForm formMode={'edit'} />
       </div>
     </MainContentWrapper>
   );

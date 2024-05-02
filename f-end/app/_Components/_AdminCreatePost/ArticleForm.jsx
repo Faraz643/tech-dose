@@ -5,9 +5,10 @@ import React, { useEffect, useState } from 'react'
 import Tags from '../_AdminDashboard/Tags'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { redirect, usePathname, useRouter } from 'next/navigation'
+import { redirect, useParams, useSearchParams } from 'next/navigation'
 
-const ArticleForm = ({ updatingArticleSlug, formMode }) => {
+
+const ArticleForm = ({ formMode }) => {
     // states
     const [slugStatus, setSlugStatus] = useState('') // 'generated || 'generating'
     const [thumbnailFile, setThumbnailFile] = useState('')
@@ -18,6 +19,8 @@ const ArticleForm = ({ updatingArticleSlug, formMode }) => {
         description: ""
     })
     const [dataURL, setDataURL] = useState('')
+    const searchParams = useSearchParams()
+    const querySlug = searchParams.get('slug')
 
 
     useEffect(() => {
@@ -32,7 +35,7 @@ const ArticleForm = ({ updatingArticleSlug, formMode }) => {
     useEffect(() => {
         const fetchArticle = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/api/article/${updatingArticleSlug}`, {
+                const response = await fetch(`http://localhost:3001/api/article/${querySlug}`, {
                     method: 'GET',
                 })
                 if (response.ok) {
@@ -53,13 +56,13 @@ const ArticleForm = ({ updatingArticleSlug, formMode }) => {
         if (formMode === 'add') {
             return;
         }
-        else if (formMode = 'edit' && updatingArticleSlug) {
+        else if (formMode = 'edit' && querySlug) {
             fetchArticle()
         }
-        else if (formMode = 'edit' && !updatingArticleSlug) {
+        else if (formMode = 'edit' && !querySlug) {
             router.replace('/admin/dashboard')
         }
-        // if (formMode = 'edit' && updatingArticleSlug) {
+        // if (formMode = 'edit' && querySlug) {
         //     fetchArticle()
         // } else if (formMode = 'add') {
         //     return;
@@ -67,7 +70,7 @@ const ArticleForm = ({ updatingArticleSlug, formMode }) => {
         else {
             router.replace('/admin/dashboard')
         }
-    }, [updatingArticleSlug])
+    }, [querySlug])
 
     function handleInput(e) {
         const { name, value } = e.target
@@ -180,8 +183,8 @@ const ArticleForm = ({ updatingArticleSlug, formMode }) => {
         console.log('this is thumbnail from publishArticle function', articleData.slug)
 
         const prefixAPi = 'http://localhost:3001/api/article'
-        const api = updatingArticleSlug ? prefixAPi + `/${updatingArticleSlug}` : prefixAPi
-        const methodIs = updatingArticleSlug ? 'PUT' : 'POST'
+        const api = querySlug ? prefixAPi + `/${querySlug}` : prefixAPi
+        const methodIs = querySlug ? 'PUT' : 'POST'
         try {
             const response = await fetch(api, {
                 method: methodIs,

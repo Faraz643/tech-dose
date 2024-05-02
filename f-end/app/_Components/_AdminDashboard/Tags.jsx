@@ -1,7 +1,8 @@
 import { text } from '@/public/assets/_index'
+import { useRouter } from 'next/navigation'
 import React from 'react'
-
 const Tags = ({ backgC, textC, actionText, slug, renderOnDelete }) => {
+    const router = useRouter()
     const bgColor = backgC
     const textColor = textC
     const action = actionText
@@ -22,8 +23,7 @@ const Tags = ({ backgC, textC, actionText, slug, renderOnDelete }) => {
 
     }
     function handleUpdate() {
-        console.log('updated')
-
+        router.push(`/admin/edit-article?slug=${slug}`)
     }
 
     return (
