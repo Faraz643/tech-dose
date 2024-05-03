@@ -6,7 +6,7 @@ import { twitterFeedThumbnail } from '@/public/assets/_index'
 import { articleDetails } from '@/app/(routes)/(blog)/utils'
 import useFetchArticles from '@/app/(routes)/(blog)/useFetchArticles'
 
-const ArticleCard = () => {
+const ArticleCard = ({ filteredMonth }) => {
 
   // const [articles, setArticles] = useState([])
   // useEffect(() => {
@@ -35,7 +35,6 @@ const ArticleCard = () => {
 
   const { allArticles } = useFetchArticles()
 
-
   const thumbnailStyling = {
     backgroundImage: `url('${twitterFeedThumbnail.src}')`,
     backgroundPosition: 'center',
@@ -52,12 +51,16 @@ const ArticleCard = () => {
     border: '1px solid rgba(255, 255, 255, 0.18)',
   }
 
+  // if (!allArticles || allArticles.length === 0) {
+  //   return <div>Loading...</div>;
+  // }
 
+  const filteredArticles = filteredMonth === 'Show All' ? allArticles : allArticles.filter((article) => article.title === filteredMonth)
   return (
     <div className='p-10 bg-[#00000000] flex justify-center'>
       <div className='flex justify-center items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>
         {
-          allArticles.map((article) => (
+          filteredArticles.map((article) => (
             <Link key={article.id} href={`/blog/article/${article.slug}`} target='_blank' rel='noopener noreferrer' className='w-[300px] h-[370px]'>
               <div className="relative article-card w-[100%] h-[100%]  border-[#29292800] rounded-[20px] duration-300 hover:!bg-[length:260%]"
                 style={{ ...thumbnailStyling, backgroundImage: `url(http://localhost:3001/api/article/img/${article.thumbnail})` }}>

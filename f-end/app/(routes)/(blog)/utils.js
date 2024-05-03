@@ -144,6 +144,7 @@ const topImagesCard = [
 ];
 
 const months = [
+  { month: "Show All", id: 0},
   { month: "January", id: 1 },
   { month: "February", id: 2 },
   { month: "March", id: 3 },

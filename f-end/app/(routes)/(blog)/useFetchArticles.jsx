@@ -8,9 +8,6 @@ const useFetchArticles = (slug = null) => {
   const [allArticles, setallArticles] = useState([])
   const [placeholder, setPlaceholder] = useState('skeleton') // ''
 
-
-
-
   const fetchData = async () => {
 
     try {
@@ -34,9 +31,11 @@ const useFetchArticles = (slug = null) => {
       setPlaceholder('')
     }
   }
-  fetchData()
 
 
+  useEffect(() => {
+    fetchData()
+  }, [])
   return { singleArticleDetails, allArticles, placeholder, fetchData }
 }
 

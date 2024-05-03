@@ -22,9 +22,9 @@ export default function BlogPage() {
             </p>
           </div>
         </div>
-        <MonthlyFilter />
-        <ArticleCard/>
-        
+        <MonthlyFilter>
+          <ArticleCard />
+        </MonthlyFilter>
       </div>
     </div>
   );
