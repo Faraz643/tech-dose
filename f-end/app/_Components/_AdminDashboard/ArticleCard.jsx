@@ -20,14 +20,14 @@ const ArticleCard = ({ articleDetails, onDelete }) => {
                 <p className='leading-tight '>{articleDetails.title}</p>
             </div>
             <div>
-                <span className='text-[#7A7A7A]'>January</span>
+                <span className='text-[#7A7A7A]'>{articleDetails.month}</span>
             </div>
             <div className='flex justify-between items-center'>
                 <div className='flex gap-1'>
                     <Tags backgC='#FFD99F' textC='#D47800' actionText='Update' slug={articleDetails.slug} />
                     <Tags backgC='rgba(255, 5, 5, 0.47)' textC='#C20000' actionText='Delete' slug={articleDetails.slug} renderOnDelete={onDelete} />
                 </div>
-                <Link href='#'>
+                <Link href={`/blog/article/${articleDetails.slug}`} target='_blank'>
                     <Image src={redirect} width={25} alt='{post_title}' />
                 </Link>
             </div>

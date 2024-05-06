@@ -57,14 +57,21 @@ export const showSingleArticle = (req, res) => {
 
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
-  const { title, description, slug } = req.body;
+  const { title, description, slug, month, year } = req.body;
   const thumbnailPath = req.file.filename;
   const insertArticleQuery = `
-  INSERT INTO articles (title, description, thumbnail, slug)
-  VALUES (?, ?, ?, ?)
+  INSERT INTO articles (title, description, thumbnail, slug, month, year)
+  VALUES (?, ?, ?, ?, ?, ?)
 `;
   connection
-    .query(insertArticleQuery, [title, description, thumbnailPath, slug])
+    .query(insertArticleQuery, [
+      title,
+      description,
+      thumbnailPath,
+      slug,
+      month,
+      year,
+    ])
     .then(() => {
       res.status(201).json({ message: "Article Published" });
       console.log("Article Published");

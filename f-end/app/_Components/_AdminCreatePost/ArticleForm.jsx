@@ -51,6 +51,10 @@ const ArticleForm = ({ formMode }) => {
                         thumbnail: fetchedData.thumbnail,
                     })
                 }
+                else {
+                    router.replace('/admin/dashboard')
+
+                }
             } catch (err) {
                 console.log(err)
             }
@@ -180,14 +184,19 @@ const ArticleForm = ({ formMode }) => {
 
     }
     async function publishArticle(thumbnail, title, desc,) {
+
         const formData = new FormData()
         // console.log('this is thumbnail from publishArticle function', thumbnail)
+        // Getting full month name (e.g. "September")
+        const today = new Date();
+        const month = today.toLocaleString('default', { month: 'long' });
+        const year = today.getFullYear()
         thumbnailFile && formData.append('thumbnail', thumbnail)
         formData.append('title', title)
         formData.append('description', desc)
         formData.append('slug', articleData.slug)
-        console.log('this is thumbnail from publishArticle function', articleData.slug)
-
+        !querySlug && formData.append('month', month)
+        !querySlug && formData.append('year', year)
         const prefixAPi = 'http://localhost:3001/api/article'
         const api = querySlug ? prefixAPi + `/${querySlug}` : prefixAPi
         const methodIs = querySlug ? 'PUT' : 'POST'
