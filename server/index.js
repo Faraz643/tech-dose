@@ -10,17 +10,26 @@ import bodyParser from "body-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-
+import cookieParser from "cookie-parser";
+import { createProxyMiddleware } from "http-proxy-middleware";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
+
 const port = 3001;
 // middleWares
-app.use(cors());
+
+const corsOptions = {
+  origin: "http://localhost:3000", // Replace with your frontend origin
+  credentials: true, // Allow cookies (optional)
+  exposedHeaders: ["Set-Cookie", "X-My-Custom-Header", "Content-Range"], // List of headers to expose
+};
+
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
-
+app.use(cookieParser());
 function createAllTables() {
   createRolesTable()
     .then(() => console.log("Roles table created !"))
@@ -39,6 +48,15 @@ function createAllTables() {
 // createArticlesTables()
 //   .then(() => console.log("Article table created !"))
 //   .catch((err) => console.log("Error while creating articles table !", err));
+
+// Proxy all requests to backend
+// const proxy = createProxyMiddleware({
+//   target: "http://localhost:3001", // Change to your actual backend URL
+//   changeOrigin: true, // Important for cookie sharing
+// });
+
+// app.use("/", proxy); // Apply proxy to all routes
+
 app.use(express.json());
 app.use("/api/article", articleActions);
 app.use("/api/admin", adminRouter);

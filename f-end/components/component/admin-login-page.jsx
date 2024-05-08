@@ -27,13 +27,20 @@ export function AdminLoginPage() {
         {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
           enrollmentId: userId,
           password: userPass,
         })
       })
+      if (!response.ok) {
+        throw new Error('Login Failed')
+      }
+      const data = await response.json()
+      // localStorage.setItem('token', data.token)
+      console.log('Login Successfull', data)
     } catch (err) {
-      console.log(err)
+      console.error(err);
 
     }
   }
