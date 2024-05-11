@@ -41,18 +41,11 @@ export const adminSignIn = async (req, res) => {
         const token = jwt.sign({ enrollmentId }, SECRET_KEY, {
           expiresIn: "30m",
         });
-        res.cookie(
-          "token",
-          token,
-          {
-            httpOnly: true,
-            secure: true,
-            sameSite: "lax",
-          }
-          // {
-          //   maxAge: 10000,
-          // }
-        );
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "lax",
+        });
         res.json({ message: "Cookie added" });
       } else {
         res.status(401).json({ message: "User exists but wrong password" });
