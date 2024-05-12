@@ -36,7 +36,7 @@ export const adminSignIn = async (req, res) => {
   if (!enrollmentId || !password) {
     return res
       .status(400)
-      .json({ message: "Missing enrollment ID or password" });
+      .json({ message: "Missing Enrollment ID or Password" });
   }
   try {
     const getUserQuery = `SELECT * FROM users WHERE enroll_id=?`;
@@ -55,11 +55,11 @@ export const adminSignIn = async (req, res) => {
         secure: true,
         sameSite: "lax",
       });
-      return res.json({ message: "Cookie added" });
+      return res.json({ message: "User Session Created" });
     } else {
       return res
         .status(401)
-        .json({ message: "User exists but wrong password" });
+        .json({ message: "Enrollment Id or Password is Incorrect" });
     }
   } catch (error) {
     console.log(error);

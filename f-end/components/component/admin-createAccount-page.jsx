@@ -71,7 +71,7 @@ export function AdminSignUpPage() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+                className="absolute right-3 top-1/2 h-5 w-5 text-gray-400"
               >
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
@@ -100,7 +100,7 @@ export function AdminSignUpPage() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+                className="absolute right-3 top-1/2 h-5 w-5 text-gray-400"
               >
                 <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>

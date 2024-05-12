@@ -10,8 +10,10 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Router } from "next/router"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useState } from "react"
 
 export function AdminLoginPage() {
+  const [inputWarning, setInputWarning] = useState('')
   const router = useRouter()
   const searchParams = useSearchParams()
   const nextUrl = searchParams.get('next') || '/dashboard'
@@ -19,11 +21,10 @@ export function AdminLoginPage() {
 
   async function handleLogin(e) {
     e.preventDefault()
+    setInputWarning('')
     const formData = e['target']
     const userId = formData['enrollmentId'].value
     const userPass = formData['password'].value
-    console.log(userId)
-    console.log(userPass)
 
 
     try {
@@ -39,14 +40,14 @@ export function AdminLoginPage() {
           password: userPass,
         })
       })
-      if (!response.ok) {
-        throw new Error('Login Failed')
-      }
       const data = await response.json()
-      // localStorage.setItem('token', data.token)
-      console.log('Login Successfull', data)
-      router.replace(`/admin/${nextUrl}`)
-      // console.log('Requested url is', nextUrl)
+
+      if (!response.ok) {
+        setInputWarning(data.message)
+      }
+      else if (response.ok) {
+        router.replace(`/admin/${nextUrl}`)
+      }
     } catch (err) {
       console.error(err);
 
@@ -63,9 +64,10 @@ export function AdminLoginPage() {
           </div>
           <div className="rounded-lg bg-white/50 backdrop-blur-lg shadow-lg dark:bg-gray-900/50">
             <form className="space-y-4 p-6" onSubmit={handleLogin}>
+              <p className="text-[#d42525] text-center">{inputWarning}</p>
               <div className="relative">
                 <label
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
                   htmlFor="enrollmentId"
                 >
                   Enrollment ID
@@ -86,7 +88,7 @@ export function AdminLoginPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+                  className="absolute right-3 top-1/2  h-5 w-5 text-gray-400"
                 >
                   <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
@@ -94,7 +96,7 @@ export function AdminLoginPage() {
               </div>
               <div className="relative">
                 <label
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   htmlFor="password"
                 >
                   Password
@@ -115,7 +117,7 @@ export function AdminLoginPage() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+                  className="absolute right-3 top-1/2  h-5 w-5 text-gray-400"
                 >
                   <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
                   <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
