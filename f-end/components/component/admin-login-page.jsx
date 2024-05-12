@@ -8,8 +8,14 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Router } from "next/router"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 export function AdminLoginPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const nextUrl = searchParams.get('next') || '/dashboard'
+
 
   async function handleLogin(e) {
     e.preventDefault()
@@ -39,6 +45,8 @@ export function AdminLoginPage() {
       const data = await response.json()
       // localStorage.setItem('token', data.token)
       console.log('Login Successfull', data)
+      router.replace(`/admin/${nextUrl}`)
+      // console.log('Requested url is', nextUrl)
     } catch (err) {
       console.error(err);
 

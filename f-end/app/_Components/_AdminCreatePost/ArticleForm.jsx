@@ -98,7 +98,7 @@ const ArticleForm = ({ formMode }) => {
         let imgLink = URL.createObjectURL(imgFile)
         setThumbnailFile(imgLink)
         const fileReader = new FileReader()
-        fileReader.onload = function () {
+        fileReader.onLoad = function () {
             const imgData = fileReader.result
             // const blob = new Blob([fileReader.result], { type: imgFile.type })
             setArticleData({ ...articleData, thumbnail: imgData })
@@ -228,7 +228,7 @@ const ArticleForm = ({ formMode }) => {
                         <span>Thumbnail</span>
                         <label id='drop-area' htmlFor="article-thumbnail" className={`thumbnail-label w-[500px] h-[190px] max-[520px]:w-[300px]  bg-blur !border-dashed !border-[#7262EC] ${formMode === 'edit' && '!border-[0]'} flex justify-center items-center cursor-pointer rounded-[20px]`}
                             onDragOver={(e) => e.preventDefault()}
-                            onDropCapture={handleDrop} onload={!thumbnailFile}>
+                            onDropCapture={handleDrop} onLoad={!thumbnailFile}>
                             <input type="file" id='article-thumbnail' accept='image/*' multiple={false} hidden
                                 onChange={uploadImage} />
                             {/* show selected file area*/}

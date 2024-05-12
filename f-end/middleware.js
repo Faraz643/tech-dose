@@ -1,29 +1,34 @@
 import { NextResponse, NextRequest } from "next/server";
 import { useState, useEffect } from "react";
-// import jwtVerify from "jose";
 import { jwtVerify } from "jose";
 
-const SECRET_KEY = "538c3d37acf0995cfbd51276c0f1053d";
+const SECRET_KEY = new TextEncoder().encode("538c3d37acf0995cfbd51276c0f1053d");
 
 export function middleware(req) {
   const nextUrl = req.nextUrl;
+  const path = req.nextUrl.pathname;
+  const isPublicPath = path === "/admin/signin";
   const token = req.cookies.get("token")?.value;
-  if (token) {
+  if (isPublicPath && token) {
     try {
       const decoded = jwtVerify(token, SECRET_KEY);
-      const userId = decoded.enrollmentId;
-      return NextResponse.redirect(new URL("/admin/dashboard", req.url.origin));
-
-      // NextResponse.next();
+      return NextResponse.redirect(new URL("/admin/dashboard", nextUrl.origin));
     } catch (err) {
       console.error(err);
       return NextResponse.redirect(new URL("/admin/signin", nextUrl.origin));
     }
-  } else {
-    return NextResponse.redirect(new URL("/admin/signin", nextUrl.origin));
+  }
+  if (!isPublicPath && !token) {
+    return NextResponse.redirect(
+      new URL(
+        `/admin/signin?next=${nextUrl.pathname.split("/")[2]}`,
+        nextUrl.origin
+      )
+    );
   }
 }
 
 export const config = {
-  matcher: ["/admin/((?!signin).*)"],
+  matcher: ["/admin/:path*"],
 };
+

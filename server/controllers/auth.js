@@ -20,6 +20,16 @@ export const adminSignup = async (req, res) => {
     });
 };
 
+// compare password logic
+
+async function comparePasswords(password, hashedPassword) {
+  try {
+    return await bcrypt.compare(password, hashedPassword);
+  } catch (error) {
+    throw new Error("Error comparing passwords: " + error.message);
+  }
+}
+
 // @middleware -> validate user data and user role, access token
 export const adminSignIn = async (req, res) => {
   const { enrollmentId, password } = req.body;
@@ -28,30 +38,31 @@ export const adminSignIn = async (req, res) => {
       .status(400)
       .json({ message: "Missing enrollment ID or password" });
   }
-  const getUserQuery = `SELECT * FROM users WHERE enroll_id=?`;
-  await connection
-    .query(getUserQuery, [enrollmentId])
-    .then((result) => {
-      if (!result[0].length) {
-        res.status(401).json({ message: "User Not Found" });
-      }
-      const userPass = result[0][0].password;
-      const isPassMatch = bcrypt.compare(password, userPass);
-      if (enrollmentId && isPassMatch) {
-        const token = jwt.sign({ enrollmentId }, SECRET_KEY, {
-          expiresIn: "30m",
-        });
-        res.cookie("token", token, {
-          httpOnly: true,
-          secure: true,
-          sameSite: "lax",
-        });
-        res.json({ message: "Cookie added" });
-      } else {
-        res.status(401).json({ message: "User exists but wrong password" });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    const getUserQuery = `SELECT * FROM users WHERE enroll_id=?`;
+    const result = await connection.query(getUserQuery, [enrollmentId]);
+    if (!result[0].length) {
+      return res.status(401).json({ message: "User Not Found" });
+    }
+    const userPass = result[0][0].password;
+    const isPassMatch = await comparePasswords(password, userPass);
+    if (isPassMatch) {
+      const token = jwt.sign({ enrollmentId }, SECRET_KEY, {
+        expiresIn: "30m",
+      });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+      });
+      return res.json({ message: "Cookie added" });
+    } else {
+      return res
+        .status(401)
+        .json({ message: "User exists but wrong password" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
 };
