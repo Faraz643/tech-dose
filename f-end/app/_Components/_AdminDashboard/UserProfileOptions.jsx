@@ -10,8 +10,10 @@ const UserProfileOptions = () => {
     async function handleLogout() {
         try {
             const response = await fetch('http://localhost:3001/api/auth/sign-out', {
-                method: 'POST'
-            })
+                method: 'POST',
+                credentials: 'include'
+            },
+            )
             if (!response.ok) {
                 console.log('Error logging out')
             }

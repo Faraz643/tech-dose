@@ -8,16 +8,22 @@ import {
   showImage,
 } from "../controllers/commonLogic.js";
 import { uploadThumbnail } from "../fileUpload.config.js";
+import { authMiddleware } from "../authMiddleware.config.js";
+
 const router = express.Router();
 
 router
   .get("/", showAllArticles)
-  .post("/", uploadThumbnail.single("thumbnail"), addArticle); // show(get) all or add(post) article on admin/blog page
-// router.get("/image/:filePath", showImage);
+  .post("/", authMiddleware, uploadThumbnail.single("thumbnail"), addArticle);
 router.get("/img/:fileName", showImage);
 router
   .get("/:slug", showSingleArticle) // show single article on blog page
-  .put("/:slug", uploadThumbnail.single("thumbnail"), updateArticle) // update article via admin/editor page
-  .delete("/:slug", deleteArticle); //  delete article via admin/editor page
+  .put(
+    "/:slug",
+    authMiddleware,
+    uploadThumbnail.single("thumbnail"),
+    updateArticle
+  ) // update article via admin/editor page
+  .delete("/:slug", authMiddleware, deleteArticle); //  delete article via admin/editor page
 
 export default router;

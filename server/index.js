@@ -30,18 +30,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
 app.use(cookieParser());
-function createAllTables() {
-  createRolesTable()
-    .then(() => console.log("Roles table created !"))
-    .catch((err) => console.log("Error while creating roles table !", err));
-  createUsersTable()
-    .then(() =>
-      console.log(
-        "Table creation triggered (actual execution might be asynchronous)"
-      )
-    )
-    .catch((err) => console.error("Error triggering table creation:", err));
-}
+// function createAllTables() {
+//   createRolesTable()
+//     .then(() => console.log("Roles table created !"))
+//     .catch((err) => console.log("Error while creating roles table !", err));
+//   createUsersTable()
+//     .then(() =>
+//       console.log(
+//         "Table creation triggered (actual execution might be asynchronous)"
+//       )
+//     )
+//     .catch((err) => console.error("Error triggering table creation:", err));
+// }
 
 // comment out below line to create all tables
 // createAllTables();
