@@ -10,6 +10,7 @@ const Tags = ({ backgC, textC, actionText, slug, renderOnDelete }) => {
         // console.log('article deleted', slug)
         const response = await fetch(`http://localhost:3001/api/article/${slug}`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
             }

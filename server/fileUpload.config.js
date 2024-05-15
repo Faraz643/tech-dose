@@ -6,8 +6,7 @@ const thumbnailStorage = multer.diskStorage({
   filename: function (req, file, cb) {
     let originalFilename = file.originalname;
     originalFilename = originalFilename.split(" ").join("-");
-    // const sanitizedFileName = encodeURIComponent(originalFilename);
-    // const sanitizedFileName = sanitize(originalFilename);
+
     cb(null, Date.now().toString());
   },
 });

@@ -184,7 +184,7 @@ const ArticleForm = ({ formMode }) => {
 
     }
     async function publishArticle(thumbnail, title, desc,) {
-
+        // const token = getCookes().token
         const formData = new FormData()
         // console.log('this is thumbnail from publishArticle function', thumbnail)
         // Getting full month name (e.g. "September")
@@ -203,6 +203,8 @@ const ArticleForm = ({ formMode }) => {
         try {
             const response = await fetch(api, {
                 method: methodIs,
+                // headers: { 'Authorization': `Bearer ${token}` },
+                credentials: 'include',
                 body: formData,
             });
 
