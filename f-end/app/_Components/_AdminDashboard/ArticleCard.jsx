@@ -25,7 +25,7 @@ const ArticleCard = ({ articleDetails, onDelete }) => {
             <div className='flex justify-between items-center'>
                 <div className='flex gap-1'>
                     <Tags backgC='#FFD99F' textC='#D47800' actionText='Update' slug={articleDetails.slug} />
-                    <Tags backgC='rgba(255, 5, 5, 0.47)' textC='#C20000' actionText='Delete' slug={articleDetails.slug} renderOnDelete={onDelete} />
+                    <Tags backgC='rgba(255, 5, 5, 0.47)' textC='#C20000' actionText='Delete' slug={articleDetails.slug} thumbnail={articleDetails.thumbnail} renderOnDelete={onDelete} />
                 </div>
                 <Link href={`/blog/article/${articleDetails.slug}`} target='_blank'>
                     <Image src={redirect} width={25} alt='{post_title}' />

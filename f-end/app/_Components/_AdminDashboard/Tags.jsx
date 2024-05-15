@@ -1,7 +1,7 @@
 import { text } from '@/public/assets/_index'
 import { useRouter } from 'next/navigation'
 import React from 'react'
-const Tags = ({ backgC, textC, actionText, slug, renderOnDelete }) => {
+const Tags = ({ backgC, textC, actionText, slug, renderOnDelete, thumbnail }) => {
     const router = useRouter()
     const bgColor = backgC
     const textColor = textC
@@ -13,7 +13,8 @@ const Tags = ({ backgC, textC, actionText, slug, renderOnDelete }) => {
             credentials: 'include',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
-            }
+            },
+            body: JSON.stringify({ thumbnailPath: thumbnail })
         })
         renderOnDelete((prev) => !prev)
 

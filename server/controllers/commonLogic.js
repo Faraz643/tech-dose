@@ -1,6 +1,7 @@
 import { connection } from "../db.config.js";
 import path from "path";
-
+// const fs = require("fs").promises;
+import fs from "fs/promises";
 export const showAllArticles = (req, res) => {
   // send user role to req while fetching from client, if role is admin ? showAll: fetch article from db using loggedin author name
   const showAllArticlesQuery = `SELECT * FROM articles`;
@@ -58,7 +59,6 @@ export const showSingleArticle = (req, res) => {
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
   const { title, description, slug, month, year } = req.body;
-  // if(req.file && )
   const thumbnailPath = req.file.filename;
   console.log(req.file);
   const insertArticleQuery = `
@@ -103,9 +103,18 @@ UPDATE articles SET title=?, description=?, slug=? ${
     .catch((err) => console.log("Error Updating article:", err));
 };
 
-// @middleware -> check if user is admin || deleting article author name === loggedin user name
+async function deleteFile(filePath) {
+  try {
+    await fs.unlink("images/article-thumbnail/" + filePath);
+    // await fs.unlink(toString(filePath));
+  } catch (err) {
+    console.error({ message: "Error while deleting file", err });
+  }
+}
+
 export const deleteArticle = (req, res) => {
   const slug = req.params.slug;
+  const thumbnailPath = req.body.thumbnailPath;
   const deleteQuery = `
     DELETE FROM articles WHERE slug=?`;
   connection
@@ -118,5 +127,6 @@ export const deleteArticle = (req, res) => {
       res.status(200).json({ message: "Resource can not be Deleted" });
       console.log({ message: "An error occured" });
     });
+  deleteFile(thumbnailPath);
   res.json({ status: "Article deleted" });
 };

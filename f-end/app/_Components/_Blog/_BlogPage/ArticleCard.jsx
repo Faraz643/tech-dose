@@ -55,7 +55,7 @@ const ArticleCard = ({ filteredMonth }) => {
   //   return <div>Loading...</div>;
   // }
 
-  const filteredArticles = filteredMonth === 'Show All' ? allArticles : allArticles.filter((article) => article.title === filteredMonth)
+  const filteredArticles = filteredMonth === 'Show All' ? allArticles : allArticles.filter((article) => article.month === filteredMonth)
   return (
     <div className='p-10 bg-[#00000000] flex justify-center'>
       <div className='flex justify-center items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>
