@@ -4,13 +4,12 @@ import DashboardInfoCard from "@/app/_Components/_AdminDashboard/DashboardInfoCa
 import FilteringTag from "@/app/_Components/_AdminDashboard/FilteringTag";
 import MainContentWrapper from "@/app/_Components/_AdminDashboard/MainContentWrapper";
 import { SearchBar } from "@/app/_Components/_AdminDashboard/SearchBar";
+import MonthlyFilter from "@/app/_Components/_Blog/_BlogPage/MonthlyFilter";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-
 const page = () => {
-
-  const router = useRouter()
-  const path  = usePathname()
+  const router = useRouter();
+  const path = usePathname();
   // console.log(path.split('/'))
   return (
     <MainContentWrapper>
@@ -23,23 +22,25 @@ const page = () => {
       {/* show all article */}
       <div className="mt-7">
         {/* filtering menu */}
-        <div className="flex justify-between gap-2 max-[400px]:justify-center">
+        <div className="flex flex-col justify-end flex-wrap gap-2 max-[400px]:justify-center">
           {/* filter by Tag/Month*/}
-          <div className="flex gap-2 items-center z-10">
-            <FilteringTag tagName="Tags" />
-            <input
+          {/* <div className="flex gap-2 items-center z-10"> */}
+          {/* <FilteringTag tagName="Tags" /> */}
+          {/* <input
               type="date"
               className="!w-[55px] rounded-[100px] outline-none focus:outline-none border-[1.5px] border-[black] py-1 px-4 bg-blur-white hover:bg-[#ffffffcc]"
               title="Filter by Month"
-            />
-          </div>
-          {/* filter by search Component*/}
-          <div>
-            <SearchBar />
-          </div>
+            /> */}
+          <MonthlyFilter filterFor={"dashboard"}>
+            {/* </div> */}
+            {/* filter by search Component*/}
+            {/* <div> */}
+            {/* <SearchBar /> */}
+            {/* </div> */}
+            {/* all articles */}
+            <AllArticles />
+          </MonthlyFilter>
         </div>
-        {/* all articles */}
-        <AllArticles />
       </div>
     </MainContentWrapper>
   );

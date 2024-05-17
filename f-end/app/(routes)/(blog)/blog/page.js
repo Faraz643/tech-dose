@@ -22,7 +22,7 @@ export default function BlogPage() {
             </p>
           </div>
         </div>
-        <MonthlyFilter>
+        <MonthlyFilter fiterFor={null}>
           <ArticleCard />
         </MonthlyFilter>
       </div>

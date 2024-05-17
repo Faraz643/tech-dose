@@ -43,7 +43,8 @@ const ArticleCard = ({ filteredMonth }) => {
     borderRight: '5px solid #363535'
   }
   const blurStyle = {
-    background: 'rgba(255, 255, 255, 0.25)',
+    background: 'rgba(0,0,0,0.2)',
+    // background: 'rgba(255, 255, 255, 0.25)',
     boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
     backdropFilter: 'blur(20px)',
     // -webkit - backdrop - filter: 'blur(16px)',
@@ -65,9 +66,9 @@ const ArticleCard = ({ filteredMonth }) => {
               <div className="relative article-card w-[100%] h-[100%]  border-[#29292800] rounded-[20px] duration-300 hover:!bg-[length:260%]"
                 style={{ ...thumbnailStyling, backgroundImage: `url(http://localhost:3001/api/article/img/${article.thumbnail})` }}>
                 <div className='flex flex-col justify-between h-full p-3'>
-                  <span className="text-center bg-[#E1FF4A] py-1 px-3 rounded-[10px] w-[80px]">Meta</span>
+                  <span className="text-center bg-[#E1FF4A] rounded-[10px] w-[90px]">{article.month}</span>
                   <div className='bg-[#ffffff5f] rounded-[10px] p-2' style={blurStyle}>
-                    <p className='text-[#f4f4f6]'>{article.title}</p>
+                    <p className='text-[#f4f4f6] text-lg'>{article.title}</p>
                   </div>
                 </div>
               </div>
