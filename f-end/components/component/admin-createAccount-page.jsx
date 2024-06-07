@@ -14,6 +14,7 @@ export function AdminSignUpPage() {
     e.preventDefault()
     const formData = e['target']
     const userID = formData['enrollmentId'].value
+    const userMail = formData['email'].value
     const userPass = formData['password'].value
     console.log(userID)
     console.log(userPass)
@@ -26,6 +27,7 @@ export function AdminSignUpPage() {
         },
         body: JSON.stringify({
           enrollmentId: userID,
+          email: userMail,
           password: userPass,
         }),
       });
@@ -44,7 +46,7 @@ export function AdminSignUpPage() {
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tight">Create A New Account</h1>
-          <p className="text-gray-500 dark:text-gray-400">Enter your enrollment ID and password to sign up.</p>
+          <p className="text-gray-500 dark:text-gray-400">Enter your credentials to sign up.</p>
         </div>
         <div className="rounded-lg bg-white/50 backdrop-blur-lg shadow-lg dark:bg-gray-900/50">
           <form className="space-y-4 p-6" method="POST" onSubmit={handleCreateAccount}>
@@ -60,6 +62,35 @@ export function AdminSignUpPage() {
                 id="enrollmentId"
                 placeholder="Enter your enrollment ID"
                 type="text"
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="absolute right-3 top-1/2 h-5 w-5 text-gray-400"
+              >
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div className="relative">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
+                htmlFor="enrollmentId"
+              >
+                E-mail
+              </label>
+              <input
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 pr-10"
+                id="email"
+                placeholder="Enter your university email"
+                type="email"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -7,6 +7,7 @@ const SECRET_KEY = new TextEncoder().encode("538c3d37acf0995cfbd51276c0f1053d");
 export async function middleware(req) {
   const nextUrl = req.nextUrl;
   const path = req.nextUrl.pathname;
+  // const isPublicPath = path === "/admin/signin"; // true or false
   const isPublicPath = path === "/admin/signin"; // true or false
   const token = req.cookies.get("token")?.value;
 
@@ -44,9 +45,12 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: [
+    "/admin/:path((?!forgot-password$|signup$|reset-password$|reset-password/[^/]+$).*)",
+  ],
 };
-
+// '/((?!\/admin\/(forgot-password|signup|reset-password\/[:token]))).*'
+  
 /*
 --  IF TOKEN_IS, AND REQUESTED PAGE IS SIGNIN, REDIRECT TO DASHBOARD HOME
 -- IF !TOKEN_IS, AND REQUESTED PAGE IS SIGNIN, STAY THERE

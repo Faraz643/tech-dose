@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Router } from "next/router"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
+import Link from "next/link"
 
 export function AdminLoginPage() {
   const [inputWarning, setInputWarning] = useState('')
@@ -129,6 +130,15 @@ export function AdminLoginPage() {
               >
                 Login
               </button>
+              <div className="flex justify-end">
+              <Link
+                href="/admin/forgot-password"
+                className="text-sm font-medium text-gray-900 hover:underline dark:text-gray-50"
+                prefetch={false}
+              >
+                Forgot password?
+              </Link>
+            </div>
             </form>
           </div>
         </div>

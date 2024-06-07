@@ -70,6 +70,10 @@ import transparentTechThumbnail from "./images/sample-post-thumbnails/transparen
 
 import imagePlaceholder from "./images/sample-post-thumbnails/image-loading-placeholder.png";
 
+// Events page images
+
+import eventBanner from "./images/events-images/event-banner.jpg";
+
 // Admin Icons
 
 import greeting from "./images/admin-icons/greeting.png";
@@ -136,4 +140,5 @@ export {
   redirect,
   calendar,
   imagePlaceholder,
+  eventBanner,
 };

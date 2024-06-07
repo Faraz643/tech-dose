@@ -2,7 +2,7 @@ import express from "express";
 import adminRouter from "./routes/admin.js";
 import authRouter from "./routes/auth.js";
 import articleActions from "./routes/commonApi.js";
-import { createUsersTable } from "./models/users.js";
+import { createUsersTable, addNewColumnUsersTable } from "./models/users.js";
 import { createRolesTable } from "./models/roles.js";
 import { createArticlesTables } from "./models/articles.js";
 import cors from "cors";
@@ -30,6 +30,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
 app.use(cookieParser());
+
+
+
 // function createAllTables() {
 //   createRolesTable()
 //     .then(() => console.log("Roles table created !"))
@@ -54,6 +57,12 @@ app.use(cookieParser());
 //   target: "http://localhost:3001", // Change to your actual backend URL
 //   changeOrigin: true, // Important for cookie sharing
 // });
+
+// function addUserColumn() {
+//   addNewColumnUsersTable();
+// }
+
+// addUserColumn();
 
 // app.use("/", proxy); // Apply proxy to all routes
 

@@ -23,14 +23,13 @@ export async function createUsersTable() {
     // Handle specific errors if needed
   }
 }
-
-async function addNewColumnUsersTable() {
+// ADD COLUMN year INT NOT NULL,
+//     ADD COLUMN branch VARCHAR(100),
+//     ADD COLUMN role VARCHAR(100) NOT NULL
+export async function addNewColumnUsersTable() {
   const addNewColumnsQuery = `
     ALTER TABLE users
-    ADD COLUMN year INT NOT NULL,
-    ADD COLUMN branch VARCHAR(100),
-    ADD COLUMN role VARCHAR(100) NOT NULL
-    
+    ADD COLUMN mail VARCHAR(100) NOT NULL
 `;
   try {
     await connection.query(addNewColumnsQuery);

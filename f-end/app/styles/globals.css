@@ -455,3 +455,18 @@ textarea {
     left: 20% !important;
   }
 }
+
+
+
+/* Events' Page styling */
+
+.event-banner-image{
+  background-image: url('../../public/assets/images/events-images/event-banner.jpg');
+  /* height: 400px; */
+  /* max-width: 1200px; */
+  /* background-position: center; */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+  /* border-radius: 30px; */
+
+}

@@ -19,7 +19,7 @@ const SideMenuResponsive = () => {
             <Link
               key={menu.id}
               href={menu.menulink}
-              className={`px-2 ${activeDash === menu.id ? '!bg-white' : 'bg-blur !border-none'} text-center rounded-[5px] flex items-center`}
+              className={`px-2 ${activeDash === menu.id ? '!bg-white' : 'bg-blur !border-none'} text-center rounded-[5px] flex items-center min-w-[120px]`}
               onClick={() => {
                 setActiveDash(menu.id)
               }}
