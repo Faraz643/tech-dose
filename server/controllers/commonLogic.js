@@ -1,7 +1,9 @@
 import { connection } from "../db.config.js";
 import path from "path";
+
 // const fs = require("fs").promises;
 import fs from "fs/promises";
+import { storeExcelInDb } from "../uploadExcel.js";
 export const showAllArticles = (req, res) => {
   // send user role to req while fetching from client, if role is admin ? showAll: fetch article from db using loggedin author name
   const showAllArticlesQuery = `SELECT * FROM articles`;
@@ -129,4 +131,27 @@ export const deleteArticle = (req, res) => {
     });
   deleteFile(thumbnailPath);
   res.json({ status: "Article deleted" });
+};
+
+export const uploadArticleByFile = async (req, res) => {
+  // console.log(file.buffer);
+  const file = req.file;
+  // console.log(excelFile);
+  if (!file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+  try {
+    storeExcelInDb(file, "articles")
+      .then(() => {
+        console.log("Done");
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
+    return res.send({ message: "articles uploaded succesfully" });
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ Message: "An Error Occured while processing the file" });
+  }
 };

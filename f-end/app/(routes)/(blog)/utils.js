@@ -82,13 +82,13 @@ const adminMenuLink = [
     menuIcon: home,
   },
   
-  {
-    for: "editor",
-    id: "editorDashboard",
-    menuName: "Dashboard",
-    menulink: "/editor/dashboard",
-    menuIcon: home,
-  },
+  // {
+  //   for: "editor",
+  //   id: "editorDashboard",
+  //   menuName: "Dashboard",
+  //   menulink: "/editor/dashboard",
+  //   menuIcon: home,
+  // },
   {
     for: "admin",
     id: "add-article",
@@ -96,18 +96,18 @@ const adminMenuLink = [
     menulink: "/admin/add-article",
     menuIcon: article,
   },
-  {
-    for: "editor",
-    id: "editor-add-article",
-    menuName: "Add an Article",
-    menulink: "/editor/add-article",
-    menuIcon: article,
-  },
+  // {
+  //   for: "editor",
+  //   id: "editor-add-article",
+  //   menuName: "Add an Article",
+  //   menulink: "/editor/add-article",
+  //   menuIcon: article,
+  // },
   {
     for: "admin",
     id: "manageTags",
-    menuName: "Manage Tags",
-    menulink: "/admin/manage-tags",
+    menuName: "Upload an Excel",
+    menulink: "/admin/upload-excel",
     menuIcon: tag,
   },
   {
@@ -117,13 +117,13 @@ const adminMenuLink = [
     menulink: "/admin/manage-editors",
     menuIcon: editors,
   },
-  {
-    for: 'admin',
-    id: "edit-article",
-    menuName: "Edit an Article",
-    menulink: "/admin/edit-article",
-    menuIcon: article,
-  },
+  // {
+  //   for: 'admin',
+  //   id: "edit-article",
+  //   menuName: "Edit an Article",
+  //   menulink: "/admin/edit-article",
+  //   menuIcon: article,
+  // },
 ];
 
 const topImagesCard = [

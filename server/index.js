@@ -12,6 +12,9 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import cookieParser from "cookie-parser";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import { storeExcelInDb } from "./uploadExcel.js";
+import multer from "multer";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
@@ -30,8 +33,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
 app.use(cookieParser());
-
-
 
 // function createAllTables() {
 //   createRolesTable()
@@ -66,10 +67,35 @@ app.use(cookieParser());
 
 // app.use("/", proxy); // Apply proxy to all routes
 
+// storeExcelInDb("random_data.xlsx", "articles")
+//   .then(() => {
+//     console.log("Done");
+//   })
+//   .catch((err) => {
+//     console.error("Error:", err);
+//   });
+
 app.use(express.json());
 app.use("/api/article", articleActions);
 app.use("/api/admin", adminRouter);
 app.use("/api/auth", authRouter);
+
+//Error handling middleware
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    // Handle Multer-specific errors
+    res.status(400).json({ error: err.message });
+  } else if (
+    err.message === "Invalid file type. Only .xlsx files are allowed."
+  ) {
+    // Handle custom file type validation error
+    res.status(400).json({ error: err.message });
+  } else {
+    // Handle all other errors
+    console.error(err); // Log the error for debugging
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 app.listen(port, () => {
   console.log("200! OK");

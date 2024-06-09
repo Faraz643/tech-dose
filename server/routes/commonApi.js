@@ -6,15 +6,17 @@ import {
   deleteArticle,
   updateArticle,
   showImage,
+  uploadArticleByFile,
 } from "../controllers/commonLogic.js";
-import { uploadThumbnail } from "../fileUpload.config.js";
+import { uploadThumbnail, uploadExcel } from "../fileUpload.config.js";
 import { authMiddleware } from "../authMiddleware.config.js";
 
 const router = express.Router();
 
 router
   .get("/", showAllArticles)
-  .post("/", authMiddleware, uploadThumbnail.single("thumbnail"), addArticle);
+  .post("/", authMiddleware, uploadThumbnail.single("thumbnail"), addArticle)
+  .post("/upload-excel", uploadExcel.single("excelFile"), uploadArticleByFile);
 router.get("/img/:fileName", showImage);
 router
   .get("/:slug", showSingleArticle) // show single article on blog page

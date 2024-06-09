@@ -2,7 +2,6 @@ import { eventBanner } from "@/public/assets/_index";
 import Image from "next/image";
 // import React from "../../../../public/assets/images/events-images/event-banner.jpg";
 import React from "react";
-
 function Events() {
   return (
     <section class="w-full my-[30px]">
