@@ -1,31 +1,95 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import MainContentWrapper from "@/app/_Components/_AdminDashboard/MainContentWrapper";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const page = () => {
-  function handleSubmitForm(e) {}
+  const [showExcelErr, setShowExcelErr] = useState("");
+  const [showExcelSuccess, setShowExcelSuccess] = useState("");
 
-  async function handleFileChange(e) {
-    // console.log(e.target.files[0]);
-    const formData = new FormData();
+  function handleFileChange(e) {
     const file = e.target.files[0];
-    formData.append("excelFile", file);
-    console.log(formData);
-    const response = await fetch(
-      "http://localhost:3001/api/article/upload-excel",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-  }
+    setShowExcelErr();
+    if (file) {
+      if (
+        file.type !=
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        setShowExcelErr("Only files with '.xlsx' extension is acceptable !");
+        e.target.value = "";
 
+        setTimeout(() => {
+          setShowExcelErr();
+        }, 4000);
+      }
+    }
+  }
+  async function uploadExcelToDB(e) {
+    e.preventDefault();
+    const fileInput = e.target[0];
+    const file = fileInput.files[0];
+
+    if (file) {
+      if (
+        file.type !==
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        setShowExcelErr("Please upload a valid Excel file.");
+        setTimeout(() => {
+          setShowExcelErr();
+        }, 4000);
+        fileInput.value = ""; // Reset the file input field
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("excelFile", file);
+
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/article/upload-excel",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          e.target[0].value = "";
+          setShowExcelSuccess("Articles uploaded successfully");
+          setTimeout(() => {
+            setShowExcelSuccess();
+          }, 4000);
+        } else {
+          setShowExcelErr("An error occurred while processing the file!");
+          setTimeout(() => {
+            setShowExcelErr();
+          }, 4000);
+        }
+      } catch (error) {
+        setShowExcelErr("An error occurred while processing the file!");
+        setTimeout(() => {
+          setShowExcelErr();
+        }, 4000);
+      }
+    } else {
+      setShowExcelErr("Please upload an Excel file first");
+      setTimeout(() => {
+        setShowExcelErr();
+      }, 4000);
+    }
+  }
+  const messageInfo =
+    showExcelErr || showExcelSuccess ? (
+      <span
+        className={`text-xl   p-2 ${showExcelSuccess ? "bg-[#a2f1a2e8]" : "bg-[#f0fb8bfa]"} rounded-[20px] border-[#2e2e2eaf] border-[1px]`}
+      >
+        {showExcelErr || showExcelSuccess}
+      </span>
+    ) : null;
   return (
     <MainContentWrapper>
       <h1 className="text-center text-2xl italic">
@@ -48,7 +112,7 @@ const page = () => {
         </a>
       </div>
       <div className="flex flex-col items-start gap-2">
-        <form onSubmit={handleSubmitForm} encType="multipart/form-data">
+        <form onSubmit={uploadExcelToDB} encType="multipart/form-data">
           <Label htmlFor="file" className="text-sm font-medium">
             Upload File
           </Label>
@@ -61,7 +125,7 @@ const page = () => {
               onChange={handleFileChange}
             />
             <Button
-              type="button"
+              type="submit"
               className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
             >
               <UploadIcon className="w-4 h-4 mr-2" />
@@ -69,6 +133,7 @@ const page = () => {
             </Button>
           </div>
         </form>
+        {messageInfo}
       </div>
     </MainContentWrapper>
   );
