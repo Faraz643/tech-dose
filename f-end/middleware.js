@@ -46,11 +46,14 @@ export async function middleware(req) {
 
 export const config = {
   matcher: [
-    "/admin/:path((?!forgot-password$|signup$|reset-password$|reset-password/[^/]+$).*)",
+    "/admin/:path((?!forgot-password$|signup$|reset-password$|verify-account$|reset-password/[^/]+$|verify-account/[^/]+$).*)",
   ],
 };
+// recent:
+// "/admin/:path((?!forgot-password$|signup$|reset-password$|reset-password/[^/]+$|verify-account/[^/]+$).*)"
+
 // '/((?!\/admin\/(forgot-password|signup|reset-password\/[:token]))).*'
-  
+
 /*
 --  IF TOKEN_IS, AND REQUESTED PAGE IS SIGNIN, REDIRECT TO DASHBOARD HOME
 -- IF !TOKEN_IS, AND REQUESTED PAGE IS SIGNIN, STAY THERE

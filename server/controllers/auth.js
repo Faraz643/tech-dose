@@ -13,21 +13,65 @@ const transporter = nodemailer.createTransport({
 
 const SECRET_KEY = "538c3d37acf0995cfbd51276c0f1053d";
 const SECRET_KEY_R = "538c3d37ac3g995@fbd5127#c0f-1053d";
+const SECRET_KEY_VERIFY_ACCOUNT =
+  "mmKHHD%&44&&%%$d37ac3g995@fbd51}}{)/27#c0f-1053d";
 
 export const adminSignup = async (req, res) => {
   if (!req.body) {
     return res.status(400).json({ message: "No form data received" });
   }
+  const userRole = "admin";
   const { enrollmentId, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
-  const addNewUserQuery = `INSERT INTO users (enroll_id,mail, password) VALUES (?, ?,?)`;
-  connection
-    .query(addNewUserQuery, [enrollmentId, email, hashedPassword])
-    .then(() => res.status(201).json({ message: "New User Added" }))
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ message: "Internal Error Occured" });
+  const verify_account_token = jwt.sign(
+    { enrollmentId, email, hashedPassword },
+    SECRET_KEY_VERIFY_ACCOUNT,
+    {
+      expiresIn: "30min",
+    }
+  );
+  const verifyAccountLink = `http://localhost:3000/admin/verify-account/${verify_account_token}`;
+  try {
+    await transporter.sendMail({
+      from: "techybadshah@gmail.com",
+      to: email,
+      subject: `Verify Tech Dose ${userRole} Account`,
+      html: `Click on this link to verify your ${userRole} account:\n <a href="${verifyAccountLink}">Verify Account</a> `,
     });
+    return res.send({
+      message:
+        "Account verification link has been sent to your email and will expire in 30mins",
+    });
+  } catch (e) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const verifyAccount = async (req, res) => {
+  const { token } = req.params;
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY_VERIFY_ACCOUNT);
+    const enroll_id = decoded.enrollmentId;
+    const password = decoded.hashedPassword;
+    const email = decoded.email;
+    const addNewUserQuery = `INSERT INTO users (enroll_id, password, mail) VALUES (?, ?,?)`;
+    // await connection.query(addNewUserQuery, [enroll_id, password, email]);
+    // return res.status(200).json({message:});
+    connection
+      .query(addNewUserQuery, [enroll_id, password, email])
+      .then(() => res.status(201).json({ message: "New User Added" }))
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ message: "Internal Error Occured" });
+      });
+  } catch (e) {
+    console.log("dont know what is the error");
+    res.status(401).json({
+      message:
+        "Either token can not be verified or an there is an internal error",
+    });
+  }
 };
 
 // compare password logic
