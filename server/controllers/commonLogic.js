@@ -143,7 +143,7 @@ export const uploadArticleByFile = async (req, res) => {
   try {
     storeExcelInDb(file, "articles")
       .then(() => {
-        console.log("Done");
+        console.log("Articles Uploaded through an excel file");
       })
       .catch((err) => {
         console.error("Error:", err);
