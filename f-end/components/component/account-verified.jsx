@@ -7,11 +7,11 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export default function VerifyAccount() {
 
-
+    const [tokenVerifyResponse, setTokenVerifyResponse] = useState('loading')
     const { token } = useParams()
     const router = useRouter()
 
@@ -20,10 +20,18 @@ export default function VerifyAccount() {
             const response = await fetch(`http://localhost:3001/api/auth/verify-account/${token}`, { method: 'GET' })
             if (!response.ok) {
                 router.replace('/admin/signin')
+            } else {
+                setTokenVerifyResponse('OK')
             }
         }
         validateToken()
     }, [token])
+
+    if (tokenVerifyResponse === 'loading') {
+        return (
+            <h1>Loading...</h1>
+        )
+    }
 
     return (
         <div className="flex min-h-[100dvh] items-center justify-center bg-gradient-to-br from-[#e0e7ff] via-[#fcd1ab] to-[#bfdbfe] px-4 dark:bg-gradient-to-br dark:from-[#18181b] dark:via-[#27272a] dark:to-[#4b5563]">

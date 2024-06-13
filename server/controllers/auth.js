@@ -2,7 +2,7 @@ import { connection } from "../db.config.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
-
+import invalidateToken from "../redisClient.js";
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -12,20 +12,18 @@ const transporter = nodemailer.createTransport({
 });
 
 const SECRET_KEY = "538c3d37acf0995cfbd51276c0f1053d";
-const SECRET_KEY_R = "538c3d37ac3g995@fbd5127#c0f-1053d";
-const SECRET_KEY_VERIFY_ACCOUNT =
-  "mmKHHD%&44&&%%$d37ac3g995@fbd51}}{)/27#c0f-1053d";
+const SECRET_KEY_VERIFICATION_USE = "538c3d37ac3g995@fbd5127#c0f-1053d";
 
 export const adminSignup = async (req, res) => {
   if (!req.body) {
-    return res.status(400).json({ message: "No form data received" });
+    return res.status(404).json({ message: "No form data received" });
   }
   const userRole = "admin";
   const { enrollmentId, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const verify_account_token = jwt.sign(
     { enrollmentId, email, hashedPassword },
-    SECRET_KEY_VERIFY_ACCOUNT,
+    SECRET_KEY_VERIFICATION_USE,
     {
       expiresIn: "30min",
     }
@@ -51,7 +49,7 @@ export const verifyAccount = async (req, res) => {
   const { token } = req.params;
 
   try {
-    const decoded = jwt.verify(token, SECRET_KEY_VERIFY_ACCOUNT);
+    const decoded = jwt.verify(token, SECRET_KEY_VERIFICATION_USE);
     const enroll_id = decoded.enrollmentId;
     const password = decoded.hashedPassword;
     const email = decoded.email;
@@ -60,16 +58,18 @@ export const verifyAccount = async (req, res) => {
     // return res.status(200).json({message:});
     connection
       .query(addNewUserQuery, [enroll_id, password, email])
-      .then(() => res.status(201).json({ message: "New User Added" }))
+      .then(() => {
+        invalidateToken(token);
+        res.status(201).json({ message: "New User Added" });
+      })
       .catch((err) => {
         console.log(err);
-        res.status(500).json({ message: "Internal Error Occured" });
+        res.status(500).json({ message: "Error Adding User" });
       });
   } catch (e) {
     console.log("dont know what is the error");
-    res.status(401).json({
-      message:
-        "Either token can not be verified or an there is an internal error",
+    return res.status(500).json({
+      message: "Internal Server Error",
     });
   }
 };
@@ -112,7 +112,7 @@ export const adminSignIn = async (req, res) => {
       return res.json({ message: "User Session Created" });
     } else {
       return res
-        .status(401)
+        .status(400)
         .json({ message: "Enrollment Id or Password is Incorrect" });
     }
   } catch (error) {
@@ -132,15 +132,11 @@ export const adminResetPass = async (req, res) => {
     const findUserQuery = `SELECT * FROM users WHERE enroll_id=?`;
     const result = await connection.query(findUserQuery, [enrollmentId]);
     if (!result[0].length) {
-      // send password reset link - LOGIC
-      // console.log("no such user found");
-      // return "no such user found";
       return res
-        .status(400)
+        .status(404)
         .json({ message: "No user found with this enrollment id" });
     }
-    // console.log("result is:", result[0][0].mail);
-    const resetToken = jwt.sign({ enrollmentId }, SECRET_KEY_R, {
+    const resetToken = jwt.sign({ enrollmentId }, SECRET_KEY_VERIFICATION_USE, {
       expiresIn: "30min",
     });
     const resetLink = `http://localhost:3000/admin/reset-password/${resetToken}`;
@@ -154,7 +150,7 @@ export const adminResetPass = async (req, res) => {
       message: "Password reset link has been sent to your email",
     });
   } catch (err) {
-    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -171,31 +167,19 @@ export const resetNewPassword = async (req, res) => {
       .json({ message: "New Password and Confirm Password must be same" });
   }
   try {
-    const decoded = jwt.verify(token, SECRET_KEY_R);
+    const decoded = jwt.verify(token, SECRET_KEY_VERIFICATION_USE);
     const enrollmentId = decoded.enrollmentId;
     const findUserQuery = `SELECT * FROM users WHERE enroll_id=?`;
     const result = await connection.query(findUserQuery, [enrollmentId]);
     if (!result[0].length) {
-      res.status(400).json({ message: "Invalid/Expired Token" });
+      res.status(401).json({ message: "Invalid/Expired Token" });
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     const updatePassQuery = `UPDATE users SET password=? WHERE enroll_id=?`;
-    const updateResult = await connection.query(updatePassQuery, [
-      hashedPassword,
-      enrollmentId,
-    ]);
+    await connection.query(updatePassQuery, [hashedPassword, enrollmentId]);
+    invalidateToken(token);
     return res.send({ message: "Password Updated Successfully" });
   } catch (err) {
-    res.status(400).json({ message: "Error In Connection or User Not Found" });
-  }
-};
-
-export const verifyToken = async (req, res) => {
-  const { token } = req.params;
-  try {
-    jwt.verify(token, SECRET_KEY_R);
-    res.status(200);
-  } catch (err) {
-    res.status(400).json({ message: "Invalid Token" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

@@ -14,6 +14,7 @@ import cookieParser from "cookie-parser";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { storeExcelInDb } from "./uploadExcel.js";
 import multer from "multer";
+import invalidateToken from "./redisClient.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

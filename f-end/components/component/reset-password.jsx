@@ -20,7 +20,7 @@ export default function ResetPassword() {
 
     useEffect(() => {
         async function verifyToken() {
-            const response = await fetch(`http://localhost:3001/api/auth/verify-token/${token}`, {
+            const response = await fetch(`http://localhost:3001/api/auth/reset-password/${token}`, {
                 method: 'GET',
             })
             if (!response.ok) {
@@ -106,7 +106,7 @@ export default function ResetPassword() {
                         </Button>
                         <div className="flex justify-end">
                             <Link
-                                href="#"
+                                href="/admin/signin"
                                 className="text-sm font-medium text-gray-900 hover:underline dark:text-gray-50"
                             // prefetch={false}
                             >
