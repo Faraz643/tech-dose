@@ -4,23 +4,27 @@ import { jwtVerify } from "jose";
 
 const SECRET_KEY = new TextEncoder().encode("538c3d37acf0995cfbd51276c0f1053d");
 
-export async function middleware(req) {
+export async function middleware(req, res) {
   const nextUrl = req.nextUrl;
   const path = req.nextUrl.pathname;
+  const notAuthPaths = ["/admin/verify/", "/admin/reset-password/"];
   // const isPublicPath = path === "/admin/signin"; // true or false
-  const isPublicPath = path === "/admin/signin"; // true or false
+  // const isPublicPath = path === "/admin/signin" || "/admin/signup"; // true or false
+  const isPublicPath = path === "/admin/signin" || path === "/admin/signup";
   const token = req.cookies.get("token")?.value;
-
+  // if (!notAuthPaths.some((str) => path.includes(str))) {
   if (isPublicPath && token) {
     try {
       const decoded = await jwtVerify(token, SECRET_KEY);
       return NextResponse.redirect(new URL(`/admin/dashboard`, nextUrl.origin));
     } catch (err) {
       if (path !== "/admin/signin") {
+        // user with invalid token will be redirected to signin page
         return NextResponse.redirect(new URL("/admin/signin", nextUrl.origin));
       }
     }
   } else if (!isPublicPath && token) {
+    // EXPLANATION?
     try {
       const decoded = await jwtVerify(token, SECRET_KEY);
     } catch (err) {
@@ -42,11 +46,17 @@ export async function middleware(req) {
       )
     );
   }
+  // } else {
+  //   if (!res.ok) {
+  //     return NextResponse.redirect(new URL("/admin/signin", nextUrl.origin));
+  //   }
+  // }
 }
 
 export const config = {
   matcher: [
-    "/admin/:path((?!forgot-password$|signup$|reset-password$|verify-account$|reset-password/[^/]+$|verify-account/[^/]+$).*)",
+    // "/admin/:path((?!forgot-password$|reset-password$|verify-account$|).*)",
+    "/admin/:path((?!forgot-password$|reset-password$|verify-account$|reset-password/[^/]+$|verify-account/[^/]+$).*)",
   ],
 };
 // recent:
