@@ -11,7 +11,6 @@ export const showAllArticles = (req, res) => {
     .query(showAllArticlesQuery)
     .then((result) => {
       res.status(200).json(result[0]);
-
     })
     .catch((error) => {
       res.status(500).json({ message: "Error Occured" });
@@ -58,26 +57,31 @@ export const showSingleArticle = (req, res) => {
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
   const { title, description, slug, month, year } = req.body;
-  const thumbnailPath = req.file.filename;
-  console.log(req.file);
-  const insertArticleQuery = `
+  try {
+    const thumbnailPath = req.file.filename;
+
+    // console.log(req.file);
+    const insertArticleQuery = `
   INSERT INTO articles (title, description, thumbnail, slug, month, year)
   VALUES (?, ?, ?, ?, ?, ?)
 `;
-  connection
-    .query(insertArticleQuery, [
-      title,
-      description,
-      thumbnailPath,
-      slug,
-      month,
-      year,
-    ])
-    .then(() => {
-      res.status(201).json({ message: "Article Published" });
-      console.log("Article Published");
-    })
-    .catch((err) => console.error("Error inserting article:", err));
+    connection
+      .query(insertArticleQuery, [
+        title,
+        description,
+        thumbnailPath,
+        slug,
+        month,
+        year,
+      ])
+      .then(() => {
+        res.status(201).json({ message: "Article Published" });
+        console.log("Article Published");
+      })
+      .catch((err) => console.error("Error adding article:", err));
+  } catch (e) {
+    return res.status(404).json({ message: "Please add a thumbnail" });
+  }
 };
 
 // @middleware -> check if user is admin || updating article author name === loggedin user name
@@ -132,13 +136,15 @@ export const deleteArticle = (req, res) => {
 
 export const uploadArticleByFile = async (req, res) => {
   // console.log(file.buffer);
-  const file = req.file;
+  console.log(req.files.excelFile[0].fieldname)
+  const file = req.files.excelFile;
+  const thumbnailsArray = req.imageUrls || null;
   // console.log(excelFile);
   if (!file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
   try {
-    storeExcelInDb(file, "articles")
+    storeExcelInDb(thumbnailsArray, file, "articles")
       .then(() => {
         console.log("Articles Uploaded through an excel file");
       })

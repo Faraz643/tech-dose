@@ -1,5 +1,14 @@
 import multer from "multer";
 import sanitize from "sanitize-filename";
+import AdmZip from "adm-zip";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
+const storage = multer.memoryStorage();
+export const upload = multer({ storage: storage });
 
 const thumbnailStorage = multer.diskStorage({
   destination: "images/article-thumbnail",
@@ -13,7 +22,6 @@ const thumbnailStorage = multer.diskStorage({
 
 export const uploadThumbnail = multer({ storage: thumbnailStorage });
 
-const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype ===
@@ -29,3 +37,41 @@ export const uploadExcel = multer({
   storage,
   fileFilter,
 });
+
+//  ZIP IMAGES SAVE SAVE
+
+// Utility function to save image and get URL
+const saveImage = (buffer, originalName) => {
+  const timestamp = Date.now();
+  const targetPath = path.join(
+    __dirname,
+    "images/article-thumbnail",
+    `${timestamp}`
+  );
+  fs.writeFileSync(targetPath, buffer);
+  return timestamp;
+};
+
+// Middleware to handle ZIP file extraction and image saving
+export const extractAndSaveImages = (req, res, next) => {
+  if (!req.files || !req.files.zipFile || !req.files.excelFile) {
+    return res
+      .status(400)
+      .json({ error: "Both ZIP and Excel files are required" });
+  }
+
+  const zipFile = req.files.zipFile[0];
+  const zip = new AdmZip(zipFile.buffer);
+  const zipEntries = zip.getEntries();
+  const imageUrls = [];
+
+  zipEntries.forEach((entry, index) => {
+    if (!entry.isDirectory) {
+      const imageUrl = saveImage(entry.getData(), `${index}`);
+      imageUrls.push(imageUrl);
+    }
+  });
+  // console.log("image path are:", imageUrls);
+  req.imageUrls = imageUrls;
+  next();
+};

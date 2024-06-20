@@ -117,13 +117,13 @@ const adminMenuLink = [
     menulink: "/admin/manage-editors",
     menuIcon: editors,
   },
-  // {
-  //   for: 'admin',
-  //   id: "edit-article",
-  //   menuName: "Edit an Article",
-  //   menulink: "/admin/edit-article",
-  //   menuIcon: article,
-  // },
+  {
+    for: 'admin',
+    id: "edit-article",
+    menuName: "Edit an Article",
+    menulink: "/admin/edit-article",
+    menuIcon: article,
+  },
 ];
 
 const topImagesCard = [
