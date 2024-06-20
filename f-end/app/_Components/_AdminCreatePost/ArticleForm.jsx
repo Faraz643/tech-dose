@@ -158,7 +158,7 @@ const ArticleForm = ({ formMode }) => {
             )
         }
         // show warning logic
-        const showWarning = (!validateThumbnail && formMode != 'edit') ? notify(warnThumbnail, 1) :
+        const showWarning = (!validateThumbnail && formMode === 'add') ? notify(warnThumbnail, 1) :
             (validateTitle.trim() === '') ? notify(warnTitle, 2) :
                 (validateDescription.trim() === '') ? notify(warnDesc, 3) :
                     publishArticle(validateThumbnail, validateTitle, validateDescription)
@@ -209,11 +209,11 @@ const ArticleForm = ({ formMode }) => {
             });
 
 
-
             if (!response.ok) {
                 // Handle non-2xx status codes:
                 const errorData = await response.json();
                 throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+
             }
             clearFormData()
         } catch (error) {

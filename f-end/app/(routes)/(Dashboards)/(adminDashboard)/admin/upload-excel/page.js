@@ -8,45 +8,72 @@ import { Button } from "@/components/ui/button";
 
 const page = () => {
   const [showExcelErr, setShowExcelErr] = useState("");
-  const [showExcelSuccess, setShowExcelSuccess] = useState("");
+  const [suscessMessage, setSuccessMessage] = useState("");
+  const [showZipErr, setShowZipErr] = useState("");
 
-  function handleFileChange(e) {
+  function timeOutExcelError() {
+    setTimeout(() => {
+      setShowExcelErr();
+    }, 4000);
+  }
+
+  const excelFileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  function handleExcelFileChange(e) {
     const file = e.target.files[0];
     setShowExcelErr();
-    if (file) {
-      if (
-        file.type !=
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      ) {
-        setShowExcelErr("Only files with '.xlsx' extension is acceptable !");
-        e.target.value = "";
-
-        setTimeout(() => {
-          setShowExcelErr();
-        }, 4000);
-      }
+    console.log(file.type === excelFileType);
+    if (file && file.type != excelFileType) {
+      setShowExcelErr("Only files with '.xlsx' extension is allowed !");
+      e.target.value = "";
+      timeOutExcelError();
     }
   }
+
+  const zipFileType = "application/x-zip-compressed";
+  function handleZipFileChange(e) {
+    const file = e.target.files[0];
+    console.log(file.type === zipFileType);
+
+    if (file && file.type != zipFileType) {
+      setShowZipErr("Only zip files are allowed !");
+      e.target.value = "";
+      setTimeout(() => {
+        setShowZipErr();
+      }, 4000);
+    }
+  }
+
   async function uploadExcelToDB(e) {
     e.preventDefault();
     const fileInput = e.target[0];
-    const file = fileInput.files[0];
+    const zipFile = e.target[0].files[0];
+    const excelFile = e.target[1].files[0];
+    // console.log(zipFile.type === zipFileType);
+    // console.log(e.target[1]);
+    // console.log(excelFile.type === excelFileType);
 
-    if (file) {
-      if (
-        file.type !==
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      ) {
-        setShowExcelErr("Please upload a valid Excel file.");
-        setTimeout(() => {
-          setShowExcelErr();
-        }, 4000);
-        fileInput.value = ""; // Reset the file input field
-        return;
-      }
+    if (
+      zipFile &&
+      zipFile.type === zipFileType &&
+      excelFile &&
+      excelFile.type === excelFileType
+    ) {
+      // if (
+      //   file.type !==
+      //   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      // ) {
+      //   setShowExcelErr("Please upload a valid Excel file.");
+      //   setTimeout(() => {
+      //     setShowExcelErr();
+      //   }, 4000);
+      //   fileInput.value = ""; // Reset the file input field
+      //   return;
+      // }
 
       const formData = new FormData();
-      formData.append("excelFile", file);
+      formData.append("zipFile", zipFile);
+      formData.append("excelFile", excelFile);
 
       try {
         const response = await fetch(
@@ -59,35 +86,30 @@ const page = () => {
         const data = await response.json();
         if (response.ok) {
           e.target[0].value = "";
-          setShowExcelSuccess("Articles uploaded successfully");
+          setSuccessMessage("Articles uploaded successfully");
           setTimeout(() => {
-            setShowExcelSuccess();
+            setSuccessMessage();
           }, 4000);
         } else {
           setShowExcelErr("An error occurred while processing the file!");
-          setTimeout(() => {
-            setShowExcelErr();
-          }, 4000);
+          timeOutExcelError();
         }
       } catch (error) {
         setShowExcelErr("An error occurred while processing the file!");
-        setTimeout(() => {
-          setShowExcelErr();
-        }, 4000);
+        timeOutExcelError();
       }
     } else {
-      setShowExcelErr("Please upload an Excel file first");
-      setTimeout(() => {
-        setShowExcelErr();
-      }, 4000);
+      setShowExcelErr("Please upload both the files");
+      timeOutExcelError();
     }
   }
+
   const messageInfo =
-    showExcelErr || showExcelSuccess ? (
+    showZipErr || showExcelErr || suscessMessage ? (
       <span
-        className={`text-xl   p-2 ${showExcelSuccess ? "bg-[#a2f1a2e8]" : "bg-[#f0fb8bfa]"} rounded-[20px] border-[#2e2e2eaf] border-[1px]`}
+        className={`text-xl   p-2 ${suscessMessage ? "bg-[#a2f1a2e8]" : "bg-[#f0fb8bfa]"} rounded-[20px] border-[#2e2e2eaf] border-[1px]`}
       >
-        {showExcelErr || showExcelSuccess}
+        {showZipErr || showExcelErr || suscessMessage}
       </span>
     ) : null;
   return (
@@ -113,17 +135,33 @@ const page = () => {
       </div>
       <div className="flex flex-col items-start gap-2">
         <form onSubmit={uploadExcelToDB} encType="multipart/form-data">
-          <Label htmlFor="file" className="text-sm font-medium">
-            Upload File
-          </Label>
-          <div className="flex items-center gap-2 w-full">
-            <Input
-              id="file"
-              type="file"
-              className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm transition-colors hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500 dark:border-gray-600 dark:hover:border-gray-500 dark:focus:ring-gray-400"
-              accept=".xlsx"
-              onChange={handleFileChange}
-            />
+          <div className="flex flex-col items-center gap-2 w-full">
+            <div>
+              {/* zip file */}
+              <Label htmlFor="zipFile" className="text-sm font-medium">
+                Zip File
+              </Label>
+              <Input
+                id="zipFile"
+                type="file"
+                className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm transition-colors hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500 dark:border-gray-600 dark:hover:border-gray-500 dark:focus:ring-gray-400"
+                accept=".zip"
+                onChange={handleZipFileChange}
+              />
+            </div>
+            {/* excel file */}
+            <div>
+              <Label htmlFor="excelFile" className="text-sm font-medium">
+                Excel File
+              </Label>
+              <Input
+                id="excelFile"
+                type="file"
+                className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm transition-colors hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500 dark:border-gray-600 dark:hover:border-gray-500 dark:focus:ring-gray-400"
+                accept=".xlsx"
+                onChange={handleExcelFileChange}
+              />
+            </div>
             <Button
               type="submit"
               className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"

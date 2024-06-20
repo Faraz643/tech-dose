@@ -8,15 +8,29 @@ import {
   showImage,
   uploadArticleByFile,
 } from "../controllers/commonLogic.js";
-import { uploadThumbnail, uploadExcel } from "../fileUpload.config.js";
+import {
+  uploadThumbnail,
+  uploadExcel,
+  extractAndSaveImages, upload
+} from "../fileUpload.config.js";
 import { authMiddleware } from "../authMiddleware.config.js";
 
 const router = express.Router();
 
+const uploadZipAndExcel = upload.fields([
+  { name: "zipFile", maxCount: 1 },
+  { name: "excelFile", maxCount: 1 },
+]);
+
 router
   .get("/", showAllArticles)
   .post("/", authMiddleware, uploadThumbnail.single("thumbnail"), addArticle)
-  .post("/upload-excel", uploadExcel.single("excelFile"), uploadArticleByFile);
+  .post(
+    "/upload-excel",
+    uploadZipAndExcel,
+    extractAndSaveImages,
+    uploadArticleByFile
+  );
 router.get("/img/:fileName", showImage);
 router
   .get("/:slug", showSingleArticle) // show single article on blog page
