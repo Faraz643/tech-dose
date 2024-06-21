@@ -183,9 +183,24 @@ const ArticleForm = ({ formMode }) => {
         document.getElementById('drop-area').style.border = 'initial'
 
     }
+
+    function formatDate() {
+        const date = new Date();
+
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'short' });
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+
+        return `${day} ${month} ${hours}:${minutes}:${seconds}`;
+    }
+
+
     async function publishArticle(thumbnail, title, desc,) {
         // const token = getCookes().token
         const formData = new FormData()
+        const dateTime = formatDate()
         // console.log('this is thumbnail from publishArticle function', thumbnail)
         // Getting full month name (e.g. "September")
         const today = new Date();
@@ -195,6 +210,7 @@ const ArticleForm = ({ formMode }) => {
         formData.append('title', title)
         formData.append('description', desc)
         formData.append('slug', articleData.slug)
+        formData.append('dateTime', dateTime)
         !querySlug && formData.append('month', month)
         !querySlug && formData.append('year', year)
         const prefixAPi = 'http://localhost:3001/api/article'
