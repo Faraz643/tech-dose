@@ -20,7 +20,7 @@ export default function ResetPassword() {
 
     useEffect(() => {
         async function verifyToken() {
-            const response = await fetch(`http://localhost:3001/api/auth/reset-password/${token}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/reset-password/${token}`, {
                 method: 'GET',
             })
             if (!response.ok) {
@@ -45,7 +45,7 @@ export default function ResetPassword() {
         //     setPassErr('New Password and Confirm Password must be same')
         // }
         try {
-            const response = await fetch(`http://localhost:3001/api/auth/reset-password/${token}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/reset-password/${token}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

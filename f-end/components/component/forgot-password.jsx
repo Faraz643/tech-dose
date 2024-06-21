@@ -16,14 +16,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function ForgotPassword() {
 
-    const [validateMsg, setValidateMsg] = useState()
     const [disableButton, setDisableButton] = useState(false)
     const [buttonText, setButtonText] = useState('Send Reset Link')
     const [time, setTime] = useState(0)
+    // const [validateMsg, setValidateMsg] = useState()
 
     function notify(message, id, status) {
         const toastInfo = {
-            toastId: id, autoClose: 1800, closeOnClick: true, pauseOnHover: false
+            toastId: id, autoClose: 3000, closeOnClick: true, pauseOnHover: false
         }
         if (status === 'warn') {
             toast.warn(message, toastInfo)
@@ -49,7 +49,7 @@ export default function ForgotPassword() {
         const userId = formData['enrollmentId'].value
 
         try {
-            const response = await fetch('http://localhost:3001/api/auth/forgot-password', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/forgot-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

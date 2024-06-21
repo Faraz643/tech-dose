@@ -20,7 +20,7 @@
 //     const fetchArticle = async () => {
 //       try {
 //         const response = await fetch(
-//           `http://localhost:3001/api/article/${slug}`,
+//           `${process.env.NEXT_PUBLIC_BACKEND_API}/article/${slug}`,
 //           {
 //             method: "GET",
 //           }

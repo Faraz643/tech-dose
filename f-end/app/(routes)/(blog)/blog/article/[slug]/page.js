@@ -21,14 +21,14 @@ export default function SingleArticlePage() {
     const fetchArticle = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/article/${slug}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_API}/article/${slug}`,
           {
             method: "GET",
           }
         );
         if (response.ok) {
           const result = await response.json();
-          console.log(result.articleData[0])
+          // console.log(result.articleData[0])
           setArticleDetails(result.articleData[0]);
           setPlaceholder('')
         } else {

@@ -77,7 +77,7 @@ const page = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:3001/api/article/upload-excel",
+          `${process.env.NEXT_PUBLIC_BACKEND_API}/article/upload-excel`,
           {
             method: "POST",
             body: formData,

@@ -17,7 +17,7 @@ export default function VerifyAccount() {
 
     useEffect(() => {
         async function validateToken() {
-            const response = await fetch(`http://localhost:3001/api/auth/verify-account/${token}`, { method: 'GET' })
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/verify-account/${token}`, { method: 'GET' })
             if (!response.ok) {
                 router.replace('/admin/signin')
             } else {

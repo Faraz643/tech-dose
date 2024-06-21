@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import redis from "redis";
-const SECRET_KEY_VERIFICATION_USE = "538c3d37ac3g995@fbd5127#c0f-1053d";
+import dotenv from "dotenv";
+dotenv.config();
+
+const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
 const client = redis.createClient({
   host: "127.0.0.1",

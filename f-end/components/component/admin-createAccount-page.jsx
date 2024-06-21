@@ -44,7 +44,7 @@ export function AdminSignUpPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/sign-up', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/sign-up`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
