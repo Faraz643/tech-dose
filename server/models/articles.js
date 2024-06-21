@@ -8,6 +8,7 @@ export async function createArticlesTables() {
       description TEXT NOT NULL,
       thumbnail VARCHAR(255) NOT NULL,
       slug VARCHAR(300) NOT NULL
+      time DATETIME NOT NULL
       );
       `;
   // CONSTRAINT fk_written_by FOREIGN KEY (written_by) REFERENCES users(id)

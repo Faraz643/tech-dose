@@ -56,14 +56,14 @@ export const showSingleArticle = (req, res) => {
 
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
-  const { title, description, slug, month, year } = req.body;
+  const { title, description, slug, month, year, dateTime } = req.body;
   try {
     const thumbnailPath = req.file.filename;
 
     // console.log(req.file);
     const insertArticleQuery = `
-  INSERT INTO articles (title, description, thumbnail, slug, month, year)
-  VALUES (?, ?, ?, ?, ?, ?)
+  INSERT INTO articles (title, description, thumbnail, slug, month, year, time)
+  VALUES (?, ?, ?, ?, ?, ?,?)
 `;
     connection
       .query(insertArticleQuery, [
@@ -73,6 +73,7 @@ export const addArticle = async (req, res) => {
         slug,
         month,
         year,
+        dateTime
       ])
       .then(() => {
         res.status(201).json({ message: "Article Published" });
