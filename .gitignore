@@ -27,7 +27,7 @@ f-end/yarn-error.log*
 
 # local env files
 f-end/.env*.local
-b-end/.env*
+server/.env*
 
 # vercel
 f-end/.vercel
