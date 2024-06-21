@@ -76,10 +76,11 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
-
 
 * {
   margin: 0;
@@ -456,17 +457,20 @@ textarea {
   }
 }
 
-
-
 /* Events' Page styling */
 
-.event-banner-image{
-  background-image: url('../../public/assets/images/events-images/event-banner.jpg');
+.event-banner-image {
+  background-image: url("../../public/assets/images/events-images/event-banner.jpg");
   /* height: 400px; */
   /* max-width: 1200px; */
   /* background-position: center; */
   /* background-repeat: no-repeat; */
   /* background-size: cover; */
   /* border-radius: 30px; */
+}
 
+.buttonDisabled {
+  cursor: not-allowed;
+  background-color: #cccccc;
+  pointer-events: none;
 }
