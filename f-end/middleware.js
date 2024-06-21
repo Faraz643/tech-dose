@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { useState, useEffect } from "react";
 import { jwtVerify } from "jose";
 
-const SECRET_KEY = new TextEncoder().encode("538c3d37acf0995cfbd51276c0f1053d");
+const SECRET_KEY = new TextEncoder().encode(process.env.SECRET_KEY);
 
 export async function middleware(req, res) {
   const nextUrl = req.nextUrl;

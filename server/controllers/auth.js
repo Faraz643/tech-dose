@@ -3,6 +3,9 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import invalidateToken from "../redisClient.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -11,8 +14,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const SECRET_KEY = "538c3d37acf0995cfbd51276c0f1053d";
-const SECRET_KEY_VERIFICATION_USE = "538c3d37ac3g995@fbd5127#c0f-1053d";
+const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
 export const adminSignup = async (req, res) => {
   if (!req.body) {
@@ -28,7 +31,7 @@ export const adminSignup = async (req, res) => {
       expiresIn: "30min",
     }
   );
-  const verifyAccountLink = `http://localhost:3000/admin/verify-account/${verify_account_token}`;
+  const verifyAccountLink = `${process.env.FRONT_END_ORIGIN}/admin/verify-account/${verify_account_token}`;
   try {
     await transporter.sendMail({
       from: "techybadshah@gmail.com",
@@ -139,7 +142,7 @@ export const adminResetPass = async (req, res) => {
     const resetToken = jwt.sign({ enrollmentId }, SECRET_KEY_VERIFICATION_USE, {
       expiresIn: "30min",
     });
-    const resetLink = `http://localhost:3000/admin/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONT_END_ORIGIN}/admin/reset-password/${resetToken}`;
     await transporter.sendMail({
       from: "techybadshah@gmail.com",
       to: result[0][0].mail,

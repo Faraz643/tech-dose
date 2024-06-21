@@ -37,7 +37,7 @@ const ArticleForm = ({ formMode }) => {
     useEffect(() => {
         const fetchArticle = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/api/article/${querySlug}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/article/${querySlug}`, {
                     method: 'GET',
                 })
                 if (response.ok) {
@@ -213,7 +213,7 @@ const ArticleForm = ({ formMode }) => {
         formData.append('dateTime', dateTime)
         !querySlug && formData.append('month', month)
         !querySlug && formData.append('year', year)
-        const prefixAPi = 'http://localhost:3001/api/article'
+        const prefixAPi = `${process.env.NEXT_PUBLIC_BACKEND_API}/article`
         const api = querySlug ? prefixAPi + `/${querySlug}` : prefixAPi
         const methodIs = querySlug ? 'PUT' : 'POST'
         try {
@@ -250,9 +250,9 @@ const ArticleForm = ({ formMode }) => {
                             <input type="file" id='article-thumbnail' accept='image/*' multiple={false} hidden
                                 onChange={uploadImage} />
                             {/* show selected file area*/}
-                            {/* <div id='thumbail-view' className='w-[100%] h-[90%] text-center flex flex-col gap-6' style={{ backgroundImage: `url(${formMode === 'add' ? thumbnailFile : `http://localhost:3001/api/article/img/${articleData.thumbnail}`})` }}> */}
+                            {/* <div id='thumbail-view' className='w-[100%] h-[90%] text-center flex flex-col gap-6' style={{ backgroundImage: `url(${formMode === 'add' ? thumbnailFile : `${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${articleData.thumbnail}`})` }}> */}
                             <div id='thumbail-view' className='w-[100%] h-[90%] text-center flex flex-col gap-6' style={{
-                                backgroundImage: `url(${thumbnailFile ? thumbnailFile : `http://localhost:3001/api/article/img/${articleData.thumbnail}`})`
+                                backgroundImage: `url(${thumbnailFile ? thumbnailFile : `${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${articleData.thumbnail}`})`
                             }}>
                                 {
                                     formMode === 'add' &&

@@ -29,7 +29,7 @@ export function AdminLoginPage() {
 
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/sign-in', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/sign-in`, {
         method: 'POST',
         headers:
         {

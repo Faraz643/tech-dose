@@ -15,16 +15,17 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import { storeExcelInDb } from "./uploadExcel.js";
 import multer from "multer";
 import invalidateToken from "./redisClient.js";
-
+import dotenv from "dotenv";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
+dotenv.config();
 const port = 3001;
 // middleWares
 
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your frontend origin
+  origin: process.env.FRONT_END_ORIGIN, // Replace with your frontend origin
   credentials: true, // Allow cookies (optional)
   exposedHeaders: ["Set-Cookie", "X-My-Custom-Header", "Content-Range"], // List of headers to expose
 };

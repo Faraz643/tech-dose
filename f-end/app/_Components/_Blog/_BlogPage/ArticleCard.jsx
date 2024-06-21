@@ -12,7 +12,7 @@ const ArticleCard = ({ filteredMonth }) => {
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const response = await fetch('http://localhost:3001/api/article',
+  //       const response = await fetch('${process.env.NEXT_PUBLIC_BACKEND_API}/article',
   //         {
   //           method: 'GET'
   //         });
@@ -29,7 +29,7 @@ const ArticleCard = ({ filteredMonth }) => {
 
   // console.log(articles)
   // articles.map((elem) => console.log(elem))
-  // articles.map((elem) => console.log(`http://localhost:3001/api/article/img/${elem.thumbnail}`))
+  // articles.map((elem) => console.log(`${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${elem.thumbnail}`))
 
   // console.log(articleDetails[0])
 
@@ -64,7 +64,7 @@ const ArticleCard = ({ filteredMonth }) => {
           filteredArticles.map((article) => (
             <Link key={article.id} href={`/blog/article/${article.slug}`} target='_blank' rel='noopener noreferrer' className='w-[300px] h-[370px]'>
               <div className="relative article-card w-[100%] h-[100%]  border-[#29292800] rounded-[20px] duration-300 hover:!bg-[length:260%]"
-                style={{ ...thumbnailStyling, backgroundImage: `url(http://localhost:3001/api/article/img/${article.thumbnail})` }}>
+                style={{ ...thumbnailStyling, backgroundImage: `url(${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${article.thumbnail})` }}>
                 <div className='flex flex-col justify-between h-full p-3'>
                   <span className="text-center bg-[#E1FF4A] rounded-[10px] w-[90px]">{article.month}</span>
                   <div className='bg-[#ffffff5f] rounded-[10px] p-2' style={blurStyle}>

@@ -9,7 +9,7 @@ const UserProfileOptions = () => {
 
     async function handleLogout() {
         try {
-            const response = await fetch('http://localhost:3001/api/auth/sign-out', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/sign-out`, {
                 method: 'POST',
                 credentials: 'include'
             },

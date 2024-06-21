@@ -1,5 +1,7 @@
 import  jwt  from "jsonwebtoken";
-const SECRET_KEY = "538c3d37acf0995cfbd51276c0f1053d";
+import dotenv from 'dotenv'
+dotenv.config()
+const SECRET_KEY = process.env.SECRET_KEY;
 
 export const authMiddleware = (req, res, next) => {
   if (req.cookies && req.cookies.token) {

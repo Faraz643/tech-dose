@@ -16,7 +16,7 @@ const ArticleThumbnail = ({ thumbnailFor }) => {
       {thumbnailFor === 'skeleton' ? (
         // <Image src={imagePlaceholder} objectFit='cover' layout='fill' alt='Article Thumbnail Image' />
         <div className=''></div>
-      ) : <Image src={`http://localhost:3001/api/article/img/${articleDetails.thumbnail}`} objectFit='cover' layout='fill' alt='Article Thumbnail Image' />}
+      ) : <Image src={`${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${articleDetails.thumbnail}`} objectFit='cover' layout='fill' alt='Article Thumbnail Image' />}
 
     </div>
   )

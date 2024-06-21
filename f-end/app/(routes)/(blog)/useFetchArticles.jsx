@@ -11,9 +11,9 @@ const useFetchArticles = (slug = null) => {
   const fetchData = async () => {
 
     try {
-      let endpoint = 'http://localhost:3001/api/article'
+      let endpoint = `${process.env.NEXT_PUBLIC_BACKEND_API}/article`
       if (slug) {
-        endpoint = `http://localhost:3001/api/article/${slug}`
+        endpoint = `${process.env.NEXT_PUBLIC_BACKEND_API}/article/${slug}`
       }
       const response = await fetch(endpoint, { method: 'GET', })
       if (response.ok) {

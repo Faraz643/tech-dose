@@ -8,7 +8,7 @@ const Tags = ({ backgC, textC, actionText, slug, renderOnDelete, thumbnail }) =>
     const action = actionText
     async function handleDelete() {
         // console.log('article deleted', slug)
-        const response = await fetch(`http://localhost:3001/api/article/${slug}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/article/${slug}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
