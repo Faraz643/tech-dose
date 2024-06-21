@@ -7,18 +7,42 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import LiveTimer from "@/app/_Components/_Auth/LiveTimer"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function AdminSignUpPage() {
+  const [time, setTime] = useState(0)
+  const [disableButton, setDisableButton] = useState(false)
+  const [buttonText, setButtonText] = useState('Send Reset Link')
 
+
+  function notify(message, id, status) {
+    const toastInfo = {
+      toastId: id, autoClose: 3000, closeOnClick: true, pauseOnHover: false
+    }
+    if (status === 'warn') {
+      toast.warn(message, toastInfo)
+    }
+    else if (status === 'success') {
+      toast.success(message, toastInfo)
+    }
+  }
   async function handleCreateAccount(e) {
     e.preventDefault()
+    if (disableButton) return;
+    setDisableButton(true)
     const formData = e['target']
     const userID = formData['enrollmentId'].value
     const userMail = formData['email'].value
     const userPass = formData['password'].value
-    console.log(userID)
-    console.log(userPass)
-    // 
+
+    if (!userID.length > 0 && !userMail.length > 0 && !userPass.length > 0) {
+      notify('Please fill all the given fields', 1, 'warn')
+      return
+    }
+
     try {
       const response = await fetch('http://localhost:3001/api/auth/sign-up', {
         method: 'POST',
@@ -33,6 +57,13 @@ export function AdminSignUpPage() {
       });
 
       const data = await response.json()
+      if (response.ok) {
+        notify(data.message, 1, 'success')
+        setTime(60)
+      } else {
+        setDisableButton(false)
+        notify(data.message, 1, 'warn')
+      }
 
     } catch (err) {
       console.log(err)
@@ -138,13 +169,16 @@ export function AdminSignUpPage() {
               </svg>
             </div>
             <input
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+              className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full ${disableButton ? 'pointer-events-none' : ''}`}
               type="submit" value="Create An Account"
             />
 
           </form>
+          <LiveTimer isDisabled={disableButton} setIsDisabled={setDisableButton} setButtonText={setButtonText} time={time} setTime={setTime} />
+
         </div>
       </div>
+      <ToastContainer />
     </div>)
 
 }

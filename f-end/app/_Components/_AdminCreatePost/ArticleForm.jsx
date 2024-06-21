@@ -153,7 +153,7 @@ const ArticleForm = ({ formMode }) => {
         // function to show warning
         function notify(message, id) {
             toast.warn(message, {
-                toastId: id, autoClose: 1800, closeOnClick: true, pauseOnHover: false
+                toastId: id, autoClose: 3000, closeOnClick: true, pauseOnHover: false
             },
             )
         }
