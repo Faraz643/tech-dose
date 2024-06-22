@@ -18,8 +18,6 @@ const ArticleForm = ({ formMode }) => {
         slug: "",
         description: ""
     })
-<<<<<<< HEAD
-=======
     const [dataURL, setDataURL] = useState('')
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -80,7 +78,6 @@ const ArticleForm = ({ formMode }) => {
         }
     }, [querySlug])
 
->>>>>>> server
     function handleInput(e) {
         // console.log(e.target.value)
         const inputName = e.target.name
@@ -157,14 +154,7 @@ const ArticleForm = ({ formMode }) => {
         const showWarning = (!validateThumbnail && formMode === 'add') ? notify(warnThumbnail, 1) :
             (validateTitle.trim() === '') ? notify(warnTitle, 2) :
                 (validateDescription.trim() === '') ? notify(warnDesc, 3) :
-<<<<<<< HEAD
-                    submitForm()
-        showWarning
-        // function for submitting form if no validation error
-        function submitForm() {
-            toast.success('Published', { autoClose: 1800, closeOnClick: true }) // instead use promises when working on backend, if God wills
-            console.log(articleData)
-=======
+
                     publishArticle(validateThumbnail, validateTitle, validateDescription)
         showWarning  // function for submitting form if no validation error
 
@@ -238,7 +228,7 @@ const ArticleForm = ({ formMode }) => {
             clearFormData()
         } catch (error) {
             console.error('Error submitting form:', error.message);
->>>>>>> server
+
         }
     }
 
