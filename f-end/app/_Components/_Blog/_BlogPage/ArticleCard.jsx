@@ -1,9 +1,40 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { twitterFeedThumbnail } from '@/public/assets/_index'
 import { articleDetails } from '@/app/(routes)/(blog)/utils'
-const ArticleCard = () => {
+import useFetchArticles from '@/app/(routes)/(blog)/useFetchArticles'
+
+const ArticleCard = ({ filteredMonth }) => {
+
+  // const [articles, setArticles] = useState([])
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('${process.env.NEXT_PUBLIC_BACKEND_API}/article',
+  //         {
+  //           method: 'GET'
+  //         });
+  //       const data = await response.json()
+  //       console.log(data)
+  //       setArticles(data)
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   fetchData()
+  // }, []);
+
+
+  // console.log(articles)
+  // articles.map((elem) => console.log(elem))
+  // articles.map((elem) => console.log(`${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${elem.thumbnail}`))
+
+  // console.log(articleDetails[0])
+
+  const { allArticles } = useFetchArticles()
+
   const thumbnailStyling = {
     backgroundImage: `url('${twitterFeedThumbnail.src}')`,
     backgroundPosition: 'center',
@@ -12,25 +43,32 @@ const ArticleCard = () => {
     borderRight: '5px solid #363535'
   }
   const blurStyle = {
-    background: 'rgba(255, 255, 255, 0.25)',
+    background: 'rgba(0,0,0,0.2)',
+    // background: 'rgba(255, 255, 255, 0.25)',
     boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
     backdropFilter: 'blur(20px)',
     // -webkit - backdrop - filter: 'blur(16px)',
     borderEadius: '10px',
     border: '1px solid rgba(255, 255, 255, 0.18)',
   }
+
+  // if (!allArticles || allArticles.length === 0) {
+  //   return <div>Loading...</div>;
+  // }
+
+  const filteredArticles = filteredMonth === 'Show All' ? allArticles : allArticles.filter((article) => article.month === filteredMonth)
   return (
     <div className='p-10 bg-[#00000000] flex justify-center'>
       <div className='flex justify-center items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>
         {
-          articleDetails.map((article) => (
-            <Link key={article.id} href='/blog/article/3' className='w-[300px] h-[370px]'>
+          filteredArticles.map((article) => (
+            <Link key={article.id} href={`/blog/article/${article.slug}`} target='_blank' rel='noopener noreferrer' className='w-[300px] h-[370px]'>
               <div className="relative article-card w-[100%] h-[100%]  border-[#29292800] rounded-[20px] duration-300 hover:!bg-[length:260%]"
-                style={{ ...thumbnailStyling, backgroundImage: `url('${article.thumbnail.src}')` }}>
+                style={{ ...thumbnailStyling, backgroundImage: `url(${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${article.thumbnail})` }}>
                 <div className='flex flex-col justify-between h-full p-3'>
-                  <span className="text-center bg-[#E1FF4A] py-1 px-3 rounded-[10px] w-[80px]">{article.tag}</span>
+                  <span className="text-center bg-[#E1FF4A] rounded-[10px] w-[90px]">{article.month}</span>
                   <div className='bg-[#ffffff5f] rounded-[10px] p-2' style={blurStyle}>
-                    <p className='text-[#f4f4f6]'>Metas Threads: From Boom to Search for New Users</p>
+                    <p className='text-[#f4f4f6] text-lg'>{article.title}</p>
                   </div>
                 </div>
               </div>

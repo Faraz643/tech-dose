@@ -2,11 +2,9 @@
 import { adminMenuLink } from '@/app/(routes)/(blog)/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
 import React, { useState } from 'react'
 
 const SideMenuResponsive = () => {
-
   const pathName = usePathname()
   const foundObject = adminMenuLink.find((e) =>
     (e.menulink === pathName)
@@ -17,10 +15,11 @@ const SideMenuResponsive = () => {
       <div className='bg-blur flex gap-2  p-2 overflow-hidden rounded-[15px] menu-carousel'>
         {
           adminMenuLink.map((menu) => (
+            (menu.for === pathName.split('/')[1]) &&
             <Link
               key={menu.id}
               href={menu.menulink}
-              className={`px-2 ${activeDash === menu.id ? '!bg-white' : 'bg-blur !border-none'} text-center rounded-[5px] flex items-center`}
+              className={`px-2 ${activeDash === menu.id ? '!bg-white' : 'bg-blur !border-none'} text-center rounded-[5px] flex items-center min-w-[120px]`}
               onClick={() => {
                 setActiveDash(menu.id)
               }}
@@ -28,6 +27,7 @@ const SideMenuResponsive = () => {
           ))
         }
       </div>
+
     </section>
   )
 }
