@@ -18,7 +18,7 @@ import gadgets from "./images/feature-section/gadgets.jpg";
 
 import gamingConsole from "./images/feature-section/gaming-console.jpg";
 import vrMan from "./images/feature-section/vr-man.jpg";
-import magazineMockUp from "./images/feature-section/magazine-mockUp-pc.png";
+import magazineMockUp from "./images/feature-section/magazine-mockup-pc.png";
 import secondFtMainImg from "./images/feature-section/second-ft-main.jpg";
 
 import vrAudience from "./images/feature-section/vr-audience.jpg";
