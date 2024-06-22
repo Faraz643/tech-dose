@@ -7,7 +7,7 @@ import { SearchBar } from "@/app/_Components/_AdminDashboard/SearchBar";
 import MonthlyFilter from "@/app/_Components/_Blog/_BlogPage/MonthlyFilter";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const path = usePathname();
   // console.log(path.split('/'))
@@ -48,4 +48,4 @@ const page = () => {
 {
 }
 
-export default page;
+export default Page;

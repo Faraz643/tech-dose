@@ -14,7 +14,7 @@ const Section6 = () => {
                     </div>
                 </div>
                 <div className='flex justify-center p-10 px-[10%] max-[570px]:px-0'>
-                    <p className='text-xl text-center'>We're not revealing all the cards just yet, but picture this: an immersive tech experience tailor-made for students like you. Think interactive tools, innovative learning resources, and opportunities that will fuel your passion for technology like never before. Get ready to embark on a new adventure with us!</p>
+                    <p className='text-xl text-center'>We&apos;re not revealing all the cards just yet, but picture this: an immersive tech experience tailor-made for students like you. Think interactive tools, innovative learning resources, and opportunities that will fuel your passion for technology like never before. Get ready to embark on a new adventure with us!</p>
                 </div>
             </div>
         </ParentSection>
