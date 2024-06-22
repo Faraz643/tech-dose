@@ -18,7 +18,7 @@ import gadgets from "./images/feature-section/gadgets.jpg";
 
 import gamingConsole from "./images/feature-section/gaming-console.jpg";
 import vrMan from "./images/feature-section/vr-man.jpg";
-import magazineMockUp from "./images/feature-section/magazine-mockUp-pc.png";
+import magazineMockUp from "./images/feature-section/magazine-mockup-pc.png";
 import secondFtMainImg from "./images/feature-section/second-ft-main.jpg";
 
 import vrAudience from "./images/feature-section/vr-audience.jpg";
@@ -68,6 +68,12 @@ import smartRingThumbnail from "./images/sample-post-thumbnails/smart-ring.webp"
 
 import transparentTechThumbnail from "./images/sample-post-thumbnails/transparent-tech.webp";
 
+import imagePlaceholder from "./images/sample-post-thumbnails/image-loading-placeholder.png";
+
+// Events page images
+
+import eventBanner from "./images/events-images/event-banner.jpg";
+
 // Admin Icons
 
 import greeting from "./images/admin-icons/greeting.png";
@@ -84,6 +90,9 @@ import text from "./images/admin-icons/text.png";
 import userProfile from "./images/admin-icons/user-profile.jpg";
 import redirect from "./images/admin-icons/redirect.png";
 import calendar from "./images/admin-icons/calendar.png";
+
+// Excel file template
+
 // export
 
 export {
@@ -132,5 +141,7 @@ export {
   text,
   userProfile,
   redirect,
-  calendar
+  calendar,
+  imagePlaceholder,
+  eventBanner,
 };

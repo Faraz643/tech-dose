@@ -28,6 +28,7 @@ import {
   tag,
   text,
   userProfile,
+  imagePlaceholder
 } from "@/public/assets/_index";
 
 const navLinks = [
@@ -74,28 +75,54 @@ const socialLinks = [
 
 const adminMenuLink = [
   {
-    id: "dashboard",
+    for: 'admin',
+    id: "AdminDashboard",
     menuName: "Dashboard",
     menulink: "/admin/dashboard",
     menuIcon: home,
   },
+  
+  // {
+  //   for: "editor",
+  //   id: "editorDashboard",
+  //   menuName: "Dashboard",
+  //   menulink: "/editor/dashboard",
+  //   menuIcon: home,
+  // },
   {
+    for: "admin",
     id: "add-article",
     menuName: "Add an Article",
     menulink: "/admin/add-article",
     menuIcon: article,
   },
+  // {
+  //   for: "editor",
+  //   id: "editor-add-article",
+  //   menuName: "Add an Article",
+  //   menulink: "/editor/add-article",
+  //   menuIcon: article,
+  // },
   {
+    for: "admin",
     id: "manageTags",
-    menuName: "Manage Tags",
-    menulink: "/admin/manage-tags",
+    menuName: "Upload an Excel",
+    menulink: "/admin/upload-excel",
     menuIcon: tag,
   },
   {
+    for: "admin",
     id: "manageEditors",
     menuName: "Manage Editors",
     menulink: "/admin/manage-editors",
     menuIcon: editors,
+  },
+  {
+    for: 'admin',
+    id: "edit-article",
+    menuName: "Edit an Article",
+    menulink: "/admin/edit-article",
+    menuIcon: article,
   },
 ];
 
@@ -118,6 +145,7 @@ const topImagesCard = [
 ];
 
 const months = [
+  { month: "Show All", id: 0},
   { month: "January", id: 1 },
   { month: "February", id: 2 },
   { month: "March", id: 3 },

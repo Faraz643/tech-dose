@@ -27,10 +27,8 @@ f-end/yarn-error.log*
 
 # local env files
 f-end/.env*.local
-b-end/.env*
+server/.env*
 
-#Python Virtual Environment
-b-end/venv
 # vercel
 f-end/.vercel
 
