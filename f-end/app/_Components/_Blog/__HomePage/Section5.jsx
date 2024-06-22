@@ -10,7 +10,7 @@ const Section5 = () => {
             <div className='w-[1200px]'>
                 <div className='flex justify-end'>
                     <h2 className='font-futureEarth text-right text-3xl text-[#000000] tracking-wide min-[800px]:text-6xl  min-[570px]:text-4xl'>
-                        <span className='block'>LEADING </span><span className='block'>TOMORROW'S  </span><SideLogo />TECH, TODAY</h2>
+                        <span className='block'>LEADING </span><span className='block'>TOMORROW&apos;S  </span><SideLogo />TECH, TODAY</h2>
                 </div>
                 <div className='flex flex-col bg-[#060F16] rounded-[40px] min-h-[300px] w-auto pb-12 pt-[3rem] mt-10  px-4 py-8 min-[970px]:flex-row min-[970px]:justify-around min-[970px]:items-center min-[970px]:pt-[6rem]'>
                     <div className='flex flex-col min-[970px]:w-[600px]'>

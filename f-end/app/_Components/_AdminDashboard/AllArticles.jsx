@@ -16,8 +16,8 @@ const AllArticles = ({ filteredMonth }) => {
         <div className="bg-blur min-h-[300px] mt-3 rounded-[25px] !border-white flex gap-5 p-3 flex-wrap justify-center ">
             {
 
-                filteredArticles.map((article) => (
-                    <ArticleCard articleDetails={article} onDelete={setArticleDeleted} />
+                filteredArticles.map((article, index) => (
+                    <ArticleCard articleDetails={article} onDelete={setArticleDeleted} key={index}/>
                 ))
             }
 
