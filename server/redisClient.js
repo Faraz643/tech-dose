@@ -5,10 +5,17 @@ dotenv.config();
 
 const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
-const client = redis.createClient({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-});
+// Redis client configuration
+const redisOptions = {
+  host: process.env.REDISHOST,
+  port: process.env.REDISPORT,
+};
+
+if (process.env.REDISPASSWORD) {
+  redisOptions.password = process.env.REDISPASSWORD;
+}
+
+const client = redis.createClient(redisOptions);
 client.on("error", (err) => {
   console.log("In-Memory storage", err);
 });
