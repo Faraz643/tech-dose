@@ -6,8 +6,8 @@ dotenv.config();
 const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
 const client = redis.createClient({
-  host: "127.0.0.1",
-  port: 6379,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
 });
 client.on("error", (err) => {
   console.log("In-Memory storage", err);
