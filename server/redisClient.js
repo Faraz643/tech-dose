@@ -7,8 +7,8 @@ const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
 // Redis client configuration
 const redisOptions = {
-  host: process.env.REDISHOST,
-  port: process.env.REDISPORT,
+  host: process.env.RAILWAY_TCP_PROXY_DOMAIN,
+  port: process.env.RAILWAY_TCP_PROXY_PORT,
 };
 
 if (process.env.REDISPASSWORD) {
