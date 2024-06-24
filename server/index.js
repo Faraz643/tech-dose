@@ -43,6 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
 app.use(cookieParser());
+// allow origin
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
