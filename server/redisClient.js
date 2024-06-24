@@ -8,14 +8,14 @@ const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 // Redis client configuration
 const redisOptions = {
   host: process.env.RAILWAY_TCP_PROXY_DOMAIN,
-  port: process.env.RAILWAY_TCP_PROXY_PORT, 
-  password: process.env.REDISPASSWORD, 
+  port: process.env.RAILWAY_TCP_PROXY_PORT,
+  password: process.env.REDISPASSWORD,
 };
 
 // if (process.env.REDISPASSWORD) {
 //   redisOptions.password = process.env.REDISPASSWORD;
 // }
-
+console.log(redisOptions.port);
 const client = redis.createClient(redisOptions);
 client.on("error", (err) => {
   console.log("In-Memory storage", err);
