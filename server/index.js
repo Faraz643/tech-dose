@@ -21,7 +21,8 @@ const __dirname = dirname(__filename);
 const app = express();
 
 dotenv.config();
-const port = 3001;
+// const port = 3001;
+const port = process.env.PORT || 3000;
 // middleWares
 
 const corsOptions = {
@@ -122,8 +123,8 @@ app.use((err, req, res, next) => {
   }
 });
 app.use((req, res, next) => {
-  res.send('hello');
+  res.send("hello");
 });
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log("200! OK");
 });
