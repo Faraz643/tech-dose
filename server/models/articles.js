@@ -8,13 +8,14 @@ export async function createArticlesTables() {
       description TEXT NOT NULL,
       thumbnail VARCHAR(255) NOT NULL,
       slug VARCHAR(300) NOT NULL
-      time DATETIME NOT NULL
+      month VARCHAR(20) NOT NULL
+      year VARCHAR(20) NOT NULL
+      author VARCHAR(100) NOT NULL
+      author_id INT NOT NULL
+      time VARCHAR(20) NOT NULL
       );
       `;
-  // CONSTRAINT fk_written_by FOREIGN KEY (written_by) REFERENCES users(id)
-  // month DATETIME DEFAULT(getdate()) NOT NULL,
-  // tag VARCHAR(50),
-  // written_by INT NOT NULL,
+  // CONSTRAINT fk_written_by FOREIGN KEY (author_id) REFERENCES users(id)
 
   // try {
   //   await connection.query(createArticleTablesQuery);

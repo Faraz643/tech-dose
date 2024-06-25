@@ -17,6 +17,7 @@ import multer from "multer";
 import invalidateToken from "./redisClient.js";
 import dotenv from "dotenv";
 import { connection } from "./db.config.js";
+import { client } from "./redisClient.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
@@ -24,7 +25,7 @@ const app = express();
 dotenv.config();
 // const port = 3001;
 const port = process.env.PORT || 3000;
-// middleWares
+// cors middleWares
 
 // ============
 // const corsOptions = {
@@ -84,30 +85,43 @@ checkConnection();
 //   next();
 // });
 // =============
-// function createAllTables() {
-//   createRolesTable()
-//     .then(() => console.log("Roles table created !"))
-//     .catch((err) => console.log("Error while creating roles table !", err));
-//   createUsersTable()
-//     .then(() =>
-//       console.log(
-//         "Table creation triggered (actual execution might be asynchronous)"
-//       )
-//     )
-//     .catch((err) => console.error("Error triggering table creation:", err));
-// }
+function createAllTables() {
+  createRolesTable()
+    .then(() => console.log("Roles table created !"))
+    .catch((err) => console.log("Error while creating roles table !", err));
+  createUsersTable()
+    .then(() =>
+      console.log(
+        "Table creation triggered (actual execution might be asynchronous)"
+      )
+    )
+    .catch((err) => console.error("Error triggering table creation:", err));
+}
 
 // comment out below line to create all tables
-// createAllTables();
-// createArticlesTables()
-//   .then(() => console.log("Article table created !"))
-//   .catch((err) => console.log("Error while creating articles table !", err));
+createAllTables();
+createArticlesTables()
+  .then(() => console.log("Article table created !"))
+  .catch((err) => console.log("Error while creating articles table !", err));
 
+client.on("error", (err) => {
+  console.log("In-Memory storage", err);
+});
+client.on("connect", () => {
+  console.log("Attempting to connect to Redis...");
+});
+client.on("ready", () => {
+  console.log("Successfully connected to Redis!");
+});
+client.connect();
+
+// =======================>
 // Proxy all requests to backend
 // const proxy = createProxyMiddleware({
 //   target: "http://localhost:3001", // Change to your actual backend URL
 //   changeOrigin: true, // Important for cookie sharing
 // });
+// <=======================
 
 // function addUserColumn() {
 //   addNewColumnUsersTable();
@@ -116,14 +130,6 @@ checkConnection();
 // addUserColumn();
 
 // app.use("/", proxy); // Apply proxy to all routes
-
-// storeExcelInDb("random_data.xlsx", "articles")
-//   .then(() => {
-//     console.log("Done");
-//   })
-//   .catch((err) => {
-//     console.error("Error:", err);
-//   });
 
 app.use(express.json());
 app.use("/api/article", articleActions);

@@ -12,13 +12,12 @@ const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 //   password: process.env.REDISPASSWORD,
 // };
 
-const client = redis.createClient({
-  url: process.env.REDISURL,
+export const client = redis.createClient({
+  url: "redis://default:OPaZbGUtgScSecJNDOINQGrAaKnsXnkw@viaduct.proxy.rlwy.net:28686",
 });
-client.on("error", (err) => {
-  console.log("In-Memory storage", err);
-});
-client.connect();
+
+
+
 async function invalidateToken(token) {
   await client.set(token, "invalid");
 }
