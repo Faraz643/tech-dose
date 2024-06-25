@@ -2,9 +2,12 @@ import express from "express";
 import adminRouter from "./routes/admin.js";
 import authRouter from "./routes/auth.js";
 import articleActions from "./routes/commonApi.js";
-import { createUsersTable, addNewColumnUsersTable } from "./models/users.js";
-import { createRolesTable } from "./models/roles.js";
-import { createArticlesTables } from "./models/articles.js";
+// import { createUsersTable, addNewColumnUsersTable } from "./models/users.js";
+import createUsersTable, { deletedUsersTable } from "./models/users.js";
+import createArticlesTables, {
+  deletedArticlesTable,
+} from "./models/articles.js";
+import createRolesTable, { deletedRolesTable } from "./models/roles.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
@@ -57,7 +60,7 @@ async function checkConnection() {
     const conn = await connection.getConnection();
     console.log("Successfully connected to the database.");
     // Release the connection back to the pool
-    conn.release();
+    // conn.release();
   } catch (err) {
     console.error("Error connecting to the database:", err.message);
   }
@@ -85,24 +88,42 @@ checkConnection();
 //   next();
 // });
 // =============
-function createAllTables() {
-  createRolesTable()
-    .then(() => console.log("Roles table created !"))
-    .catch((err) => console.log("Error while creating roles table !", err));
-  createUsersTable()
-    .then(() =>
-      console.log(
-        "Table creation triggered (actual execution might be asynchronous)"
-      )
-    )
-    .catch((err) => console.error("Error triggering table creation:", err));
-}
+
+await deletedUsersTable();
+await deletedArticlesTable();
+await deletedRolesTable();
+
+// function createAllTables() {
+// 1.
+//   createRolesTable()
+//     .then(() => console.log("Roles table created !"))
+//     .catch((err) => console.log("Error while creating roles table !", err));
+// 2.
+//   createUsersTable()
+//     .then(() =>
+//       console.log(
+//         "Table creation triggered (actual execution might be asynchronous)"
+//       )
+//     )
+//     .catch((err) => console.error("Error triggering table creation:", err));
+// }
 
 // comment out below line to create all tables
+
+async function createAllTables() {
+  try {
+    await createRolesTable();
+    await createUsersTable();
+    await createArticlesTables();
+  } catch (e) {
+    console.error("Error during database creating tables:", err);
+  }
+}
+
 createAllTables();
-createArticlesTables()
-  .then(() => console.log("Article table created !"))
-  .catch((err) => console.log("Error while creating articles table !", err));
+// createArticlesTables()
+//   .then(() => console.log("Article table created !"))
+//   .catch((err) => console.log("Error while creating articles table !", err));
 
 client.on("error", (err) => {
   console.log("In-Memory storage", err);

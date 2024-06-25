@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: process.env.MAIL,
-    pass:process.env.MAIL_PASSWORD,
+    pass: process.env.MAIL_PASSWORD,
   },
 });
 
@@ -56,11 +56,18 @@ export const verifyAccount = async (req, res) => {
     const enroll_id = decoded.enrollmentId;
     const password = decoded.hashedPassword;
     const email = decoded.email;
-    const addNewUserQuery = `INSERT INTO users (enroll_id, password, mail) VALUES (?, ?,?)`;
+    const addNewUserQuery = `INSERT INTO users (name, enroll_id, password, email, year, role) VALUES (?, ?,?)`;
     // await connection.query(addNewUserQuery, [enroll_id, password, email]);
     // return res.status(200).json({message:});
     connection
-      .query(addNewUserQuery, [enroll_id, password, email])
+      .query(addNewUserQuery, [
+        "Sample User",
+        enroll_id,
+        password,
+        email,
+        2024,
+        "admin",
+      ])
       .then(() => {
         invalidateToken(token);
         res.status(201).json({ message: "New User Added" });

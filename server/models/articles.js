@@ -1,6 +1,6 @@
 import { connection } from "../db.config.js";
 
-export async function createArticlesTables() {
+export default async function createArticlesTables() {
   const createArticleTablesQuery = `
     CREATE TABLE IF NOT EXISTS articles (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -13,9 +13,9 @@ export async function createArticlesTables() {
       author VARCHAR(100) NOT NULL
       author_id INT NOT NULL
       time VARCHAR(20) NOT NULL
+      CONSTRAINT fk_author_id FOREIGN KEY (author_id) REFERENCES users(id)
       );
       `;
-  // CONSTRAINT fk_written_by FOREIGN KEY (author_id) REFERENCES users(id)
 
   // try {
   //   await connection.query(createArticleTablesQuery);
@@ -24,8 +24,26 @@ export async function createArticlesTables() {
   //   console.error("Error setting up articles table:", err);
   //   // Handle specific errors if needed
   // }
-  return connection
-    .query(createArticleTablesQuery)
-    .then(() => console.log("articles Table setup successfully!"))
-    .catch((err) => console.error("Error setting article table:", err));
+  // return connection
+  //   .query(createArticleTablesQuery)
+  //   .then(() => console.log("articles Table setup successfully!"))
+  //   .catch((err) => console.error("Error setting article table:", err));
+
+  try {
+    await connection.query(createArticleTablesQuery);
+    console.log("Articles Table setup successfully!");
+  } catch (err) {
+    console.error("Error setting articles table:", err);
+    throw err; // Re-throw the error to propagate it upwards if needed
+  }
+}
+
+export async function deletedArticlesTable() {
+  const deleteTable = `DROP TABLE articles`;
+  try {
+    await connection.query(deleteTable);
+    console.log("deleted articles table!");
+  } catch (err) {
+    console.error("Error deleting articles table:", err);
+  }
 }
