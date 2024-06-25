@@ -20,7 +20,7 @@ import mysql from "mysql2/promise";
 // });
 // Define your MySQL connection URL
 const dbUrl =
-  "mysql://root:eraRqvXXrQUAfYCunpbZMFPqQapUJYON@viaduct.proxy.rlwy.net:50720/railway";
+  "mysql://root:cmOYlTIHMsNjInWPpngCioCUYHhEaFtN@monorail.proxy.rlwy.net:22822/railway";
 
 // Create a MySQL connection using the URL
 export const connection = mysql.createPool(dbUrl);
