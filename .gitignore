@@ -35,3 +35,5 @@ f-end/.vercel
 # typescript
 f-end/*.tsbuildinfo
 f-end/next-env.d.ts
+.vercel
+.env*.local

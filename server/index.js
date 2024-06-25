@@ -16,6 +16,7 @@ import { storeExcelInDb } from "./uploadExcel.js";
 import multer from "multer";
 import invalidateToken from "./redisClient.js";
 import dotenv from "dotenv";
+import { connection } from "./db.config.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
@@ -42,11 +43,28 @@ const port = process.env.PORT || 3000;
 // app.use(cors(corsOptions));
 // ============
 
-app.use(cors())
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
 app.use(cookieParser());
+
+// Function to check and log the connection status
+async function checkConnection() {
+  try {
+    // Get a connection from the pool
+    const conn = await connection.getConnection();
+    console.log("Successfully connected to the database.");
+    // Release the connection back to the pool
+    conn.release();
+  } catch (err) {
+    console.error("Error connecting to the database:", err.message);
+  }
+}
+
+// Check and log the connection status
+checkConnection();
+
 // =============
 
 // app.use((req, res, next) => {
