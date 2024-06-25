@@ -25,41 +25,47 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 // middleWares
 
-const corsOptions = {
-  origin: process.env.FRONT_END_ORIGIN, // Replace with your frontend origin
-  credentials: true, // Allow cookies (optional)
-  exposedHeaders: ["Set-Cookie", "X-My-Custom-Header", "Content-Range"],
-  allowedHeaders: [
-    "Origin",
-    "X-Requested-With",
-    "Content-Type",
-    "Accept",
-    "Authorization",
-  ],
-  // List of headers to expose
-};
+// ============
+// const corsOptions = {
+//   origin: process.env.FRONT_END_ORIGIN, // Replace with your frontend origin
+//   credentials: true, // Allow cookies (optional)
+//   exposedHeaders: ["Set-Cookie", "X-My-Custom-Header", "Content-Range"],
+//   allowedHeaders: [
+//     "Origin",
+//     "X-Requested-With",
+//     "Content-Type",
+//     "Accept",
+//     "Authorization",
+//   ],
+//   // List of headers to expose
+// };
+// app.use(cors(corsOptions));
+// ============
 
-app.use(cors(corsOptions));
+app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
 app.use(cookieParser());
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    process.env.FRONT_END_ORIGIN || "http://localhost:3000"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header(
-    "Access-Control-Expose-Headers",
-    "Set-Cookie, X-My-Custom-Header, Content-Range"
-  );
-  next();
-});
+// =============
+
+// app.use((req, res, next) => {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     process.env.FRONT_END_ORIGIN || "http://localhost:3000"
+//   );
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   res.header(
+//     "Access-Control-Expose-Headers",
+//     "Set-Cookie, X-My-Custom-Header, Content-Range"
+//   );
+//   next();
+// });
+// =============
 // function createAllTables() {
 //   createRolesTable()
 //     .then(() => console.log("Roles table created !"))
