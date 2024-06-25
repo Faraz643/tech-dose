@@ -15,7 +15,7 @@ const useFetchArticles = (slug = null) => {
       if (slug) {
         endpoint = `${process.env.NEXT_PUBLIC_BACKEND_API}/article/${slug}`
       }
-      const response = await fetch(endpoint, { method: 'GET', })
+      const response = await fetch(new URL(endpoint), { method: 'GET', })
       if (response.ok) {
         const data = await response.json()
         if (slug) {
