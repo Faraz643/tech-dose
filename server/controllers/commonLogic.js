@@ -73,6 +73,8 @@ export const addArticle = async (req, res) => {
         slug,
         month,
         year,
+        author,
+        author_id,
         dateTime
       ])
       .then(() => {
