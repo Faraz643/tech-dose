@@ -7,12 +7,12 @@ export default async function createArticlesTables() {
       title VARCHAR(255) NOT NULL,
       description TEXT NOT NULL,
       thumbnail VARCHAR(255) NOT NULL,
-      slug VARCHAR(300) NOT NULL
-      month VARCHAR(20) NOT NULL
-      year VARCHAR(20) NOT NULL
-      author VARCHAR(100) NOT NULL
-      author_id INT NOT NULL
-      time VARCHAR(20) NOT NULL
+      slug VARCHAR(300) NOT NULL,
+      month VARCHAR(20) NOT NULL,
+      year VARCHAR(20) NOT NULL,
+      author VARCHAR(100) NOT NULL,
+      author_id INT NOT NULL,
+      time VARCHAR(20) NOT NULL,
       CONSTRAINT fk_author_id FOREIGN KEY (author_id) REFERENCES users(id)
       );
       `;
