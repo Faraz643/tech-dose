@@ -173,9 +173,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-app.use((req, res, next) => {
-  res.send("hello");
-});
+
 app.listen(port, "0.0.0.0", () => {
   console.log("200! OK");
 });
