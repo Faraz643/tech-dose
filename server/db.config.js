@@ -11,13 +11,18 @@ import mysql from "mysql2/promise";
 //   },
 // };
 
-export const connection = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  port: process.env.MYSQL_PORT,
-});
+// export const connection = mysql.createPool({
+//   host: process.env.MYSQL_HOST,
+//   user: process.env.MYSQL_USER,
+//   password: process.env.MYSQL_PASSWORD,
+//   database: process.env.MYSQL_DATABASE,
+//   port: process.env.MYSQL_PORT,
+// });
+// Define your MySQL connection URL
+const dbUrl =
+  "mysql://root:cmOYlTIHMsNjInWPpngCioCUYHhEaFtN@monorail.proxy.rlwy.net:22822/railway";
 
+// Create a MySQL connection using the URL
+export const connection = mysql.createPool(dbUrl);
 // export default T_D_DB;
 // module.exports = connection

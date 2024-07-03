@@ -1,26 +1,28 @@
 // const connection = require("../db.config.js");
 import { connection } from "../db.config.js";
 
-export async function createUsersTable() {
+export default async function createUsersTable() {
   const createUsersTableQuery = `
   CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     enroll_id INT NOT NULL,
+    password INT NOT NULL,
+    email VARCHAR(200) NOT NULL,
     year INT NOT NULL,
     branch VARCHAR(100),
-    role INT NOT NULL,
-    CONSTRAINT fk_user_role FOREIGN KEY (role) REFERENCES roles(id)
+    user_role INT NOT NULL,
+    CONSTRAINT fk_user_role FOREIGN KEY (user_role) REFERENCES roles(id)
   );
         
     `;
 
   try {
     await connection.query(createUsersTableQuery);
-    console.log("user table setup!");
+    console.log("Users Table setup successfully!");
   } catch (err) {
-    console.error("Error setting up user table:", err);
-    // Handle specific errors if needed
+    console.error("Error setting up Users table:", err);
+    throw err; // Re-throw the error to propagate it upwards if needed
   }
 }
 // ADD COLUMN year INT NOT NULL,
@@ -40,11 +42,11 @@ export async function addNewColumnUsersTable() {
   }
 }
 
-async function deleteUsersTable() {
+export async function deletedUsersTable() {
   const deleteTable = `DROP TABLE users`;
   try {
     await connection.query(deleteTable);
-    console.log("deleting article table!");
+    console.log("deleted users table!");
   } catch (err) {
     console.error("Error deleting articles table:", err);
     // Handle specific errors if needed

@@ -9,8 +9,8 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "techybadshah@gmail.com",
-    pass: "mibr zubi iifo itzu",
+    user: process.env.MAIL,
+    pass: process.env.MAIL_PASSWORD,
   },
 });
 
@@ -21,11 +21,10 @@ export const adminSignup = async (req, res) => {
   if (!req.body) {
     return res.status(404).json({ message: "No form data received" });
   }
-  const userRole = "admin";
-  const { enrollmentId, email, password } = req.body;
+  const { userName, enrollmentId, email, password, userRole } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const verify_account_token = jwt.sign(
-    { enrollmentId, email, hashedPassword },
+    { userName, enrollmentId, email, hashedPassword, userRole },
     SECRET_KEY_VERIFICATION_USE,
     {
       expiresIn: "30min",
@@ -53,14 +52,23 @@ export const verifyAccount = async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY_VERIFICATION_USE);
+    const userName = decoded.userName;
+    const userRole = decoded.userRole;
     const enroll_id = decoded.enrollmentId;
     const password = decoded.hashedPassword;
     const email = decoded.email;
-    const addNewUserQuery = `INSERT INTO users (enroll_id, password, mail) VALUES (?, ?,?)`;
+    const addNewUserQuery = `INSERT INTO users (name, enroll_id, password, email, year, role) VALUES (?,?,?,?,?,?)`;
     // await connection.query(addNewUserQuery, [enroll_id, password, email]);
     // return res.status(200).json({message:});
     connection
-      .query(addNewUserQuery, [enroll_id, password, email])
+      .query(addNewUserQuery, [
+        userName,
+        enroll_id,
+        password,
+        email,
+        2024,
+        userRole,
+      ])
       .then(() => {
         invalidateToken(token);
         res.status(201).json({ message: "New User Added" });

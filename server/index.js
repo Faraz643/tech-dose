@@ -2,9 +2,12 @@ import express from "express";
 import adminRouter from "./routes/admin.js";
 import authRouter from "./routes/auth.js";
 import articleActions from "./routes/commonApi.js";
-import { createUsersTable, addNewColumnUsersTable } from "./models/users.js";
-import { createRolesTable } from "./models/roles.js";
-import { createArticlesTables } from "./models/articles.js";
+// import { createUsersTable, addNewColumnUsersTable } from "./models/users.js";
+import createUsersTable, { deletedUsersTable } from "./models/users.js";
+import createArticlesTables, {
+  deletedArticlesTable,
+} from "./models/articles.js";
+import createRolesTable, { deletedRolesTable } from "./models/roles.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
@@ -16,30 +19,86 @@ import { storeExcelInDb } from "./uploadExcel.js";
 import multer from "multer";
 import invalidateToken from "./redisClient.js";
 import dotenv from "dotenv";
+import { connection } from "./db.config.js";
+import { client } from "./redisClient.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
 dotenv.config();
-const port = 3001;
-// middleWares
+// const port = 3001;
+const port = process.env.PORT || 3000;
+// cors middleWares
 
-const corsOptions = {
-  origin: process.env.FRONT_END_ORIGIN, // Replace with your frontend origin
-  credentials: true, // Allow cookies (optional)
-  exposedHeaders: ["Set-Cookie", "X-My-Custom-Header", "Content-Range"], // List of headers to expose
-};
+// ============
+// const corsOptions = {
+//   origin: process.env.FRONT_END_ORIGIN, // Replace with your frontend origin
+//   credentials: true, // Allow cookies (optional)
+//   exposedHeaders: ["Set-Cookie", "X-My-Custom-Header", "Content-Range"],
+//   allowedHeaders: [
+//     "Origin",
+//     "X-Requested-With",
+//     "Content-Type",
+//     "Accept",
+//     "Authorization",
+//   ],
+//   // List of headers to expose
+// };
+// app.use(cors(corsOptions));
+// ============
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
 app.use(cookieParser());
 
+// Function to check and log the connection status
+async function checkConnection() {
+  try {
+    // Get a connection from the pool
+    const conn = await connection.getConnection();
+    console.log("Successfully connected to the database.");
+    // Release the connection back to the pool
+    // conn.release();
+  } catch (err) {
+    console.error("Error connecting to the database:", err.message);
+  }
+}
+
+// Check and log the connection status
+checkConnection();
+
+// =============
+
+// app.use((req, res, next) => {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     process.env.FRONT_END_ORIGIN || "http://localhost:3000"
+//   );
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   res.header(
+//     "Access-Control-Expose-Headers",
+//     "Set-Cookie, X-My-Custom-Header, Content-Range"
+//   );
+//   next();
+// });
+// =============
+
+await deletedUsersTable();
+await deletedArticlesTable();
+await deletedRolesTable();
+
 // function createAllTables() {
+// 1.
 //   createRolesTable()
 //     .then(() => console.log("Roles table created !"))
 //     .catch((err) => console.log("Error while creating roles table !", err));
+// 2.
 //   createUsersTable()
 //     .then(() =>
 //       console.log(
@@ -50,16 +109,40 @@ app.use(cookieParser());
 // }
 
 // comment out below line to create all tables
-// createAllTables();
+
+async function createAllTables() {
+  try {
+    await createRolesTable();
+    await createUsersTable();
+    await createArticlesTables();
+  } catch (e) {
+    console.error("Error during database creating tables:", err);
+  }
+}
+
+createAllTables();
 // createArticlesTables()
 //   .then(() => console.log("Article table created !"))
 //   .catch((err) => console.log("Error while creating articles table !", err));
 
+client.on("error", (err) => {
+  console.log("In-Memory storage", err);
+});
+client.on("connect", () => {
+  console.log("Attempting to connect to Redis...");
+});
+client.on("ready", () => {
+  console.log("Successfully connected to Redis!");
+});
+client.connect();
+
+// =======================>
 // Proxy all requests to backend
 // const proxy = createProxyMiddleware({
 //   target: "http://localhost:3001", // Change to your actual backend URL
 //   changeOrigin: true, // Important for cookie sharing
 // });
+// <=======================
 
 // function addUserColumn() {
 //   addNewColumnUsersTable();
@@ -68,14 +151,6 @@ app.use(cookieParser());
 // addUserColumn();
 
 // app.use("/", proxy); // Apply proxy to all routes
-
-// storeExcelInDb("random_data.xlsx", "articles")
-//   .then(() => {
-//     console.log("Done");
-//   })
-//   .catch((err) => {
-//     console.error("Error:", err);
-//   });
 
 app.use(express.json());
 app.use("/api/article", articleActions);
@@ -99,6 +174,6 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log("200! OK");
 });
