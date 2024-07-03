@@ -62,7 +62,7 @@ export const addArticle = async (req, res) => {
 
     // console.log(req.file);
     const insertArticleQuery = `
-  INSERT INTO articles (title, description, thumbnail, slug, month, year, time)
+  INSERT INTO articles (title, description, thumbnail, slug, month, year, time, author, author_id)
   VALUES (?, ?, ?, ?, ?, ?,?)
 `;
     connection
@@ -73,6 +73,8 @@ export const addArticle = async (req, res) => {
         slug,
         month,
         year,
+        author,
+        author_id,
         dateTime
       ])
       .then(() => {

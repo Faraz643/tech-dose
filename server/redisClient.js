@@ -5,14 +5,19 @@ dotenv.config();
 
 const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
-const client = redis.createClient({
-  host: "127.0.0.1",
-  port: 6379,
+// Redis client configuration
+// const redisOptions = {
+//   host: process.env.RAILWAY_TCP_PROXY_DOMAIN,
+//   port: process.env.RAILWAY_TCP_PROXY_PORT,
+//   password: process.env.REDISPASSWORD,
+// };
+
+export const client = redis.createClient({
+  url: "redis://default:OPaZbGUtgScSecJNDOINQGrAaKnsXnkw@viaduct.proxy.rlwy.net:28686",
 });
-client.on("error", (err) => {
-  console.log("In-Memory storage", err);
-});
-client.connect();
+
+
+
 async function invalidateToken(token) {
   await client.set(token, "invalid");
 }
