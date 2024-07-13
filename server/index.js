@@ -2,7 +2,7 @@ import express from "express";
 import adminRouter from "./routes/admin.js";
 import authRouter from "./routes/auth.js";
 import articleActions from "./routes/commonApi.js";
-// import { createUsersTable, addNewColumnUsersTable } from "./models/users.js";
+
 import createUsersTable, { deletedUsersTable } from "./models/users.js";
 import createArticlesTables, {
   deletedArticlesTable,
@@ -30,22 +30,7 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 // cors middleWares
 
-// ============
-// const corsOptions = {
-//   origin: process.env.FRONT_END_ORIGIN, // Replace with your frontend origin
-//   credentials: true, // Allow cookies (optional)
-//   exposedHeaders: ["Set-Cookie", "X-My-Custom-Header", "Content-Range"],
-//   allowedHeaders: [
-//     "Origin",
-//     "X-Requested-With",
-//     "Content-Type",
-//     "Accept",
-//     "Authorization",
-//   ],
-//   // List of headers to expose
-// };
-// app.use(cors(corsOptions));
-// ============
+console.log(process.env.MYSQL_URL)
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -69,61 +54,21 @@ async function checkConnection() {
 // Check and log the connection status
 checkConnection();
 
-// =============
-
-// app.use((req, res, next) => {
-//   res.header(
-//     "Access-Control-Allow-Origin",
-//     process.env.FRONT_END_ORIGIN || "http://localhost:3000"
-//   );
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//   );
-//   res.header("Access-Control-Allow-Credentials", "true");
-//   res.header(
-//     "Access-Control-Expose-Headers",
-//     "Set-Cookie, X-My-Custom-Header, Content-Range"
-//   );
-//   next();
-// });
-// =============
-
 await deletedUsersTable();
 await deletedArticlesTable();
 await deletedRolesTable();
-
-// function createAllTables() {
-// 1.
-//   createRolesTable()
-//     .then(() => console.log("Roles table created !"))
-//     .catch((err) => console.log("Error while creating roles table !", err));
-// 2.
-//   createUsersTable()
-//     .then(() =>
-//       console.log(
-//         "Table creation triggered (actual execution might be asynchronous)"
-//       )
-//     )
-//     .catch((err) => console.error("Error triggering table creation:", err));
-// }
-
-// comment out below line to create all tables
 
 async function createAllTables() {
   try {
     await createRolesTable();
     await createUsersTable();
     await createArticlesTables();
-  } catch (e) {
+  } catch (err) {
     console.error("Error during database creating tables:", err);
   }
 }
 
 createAllTables();
-// createArticlesTables()
-//   .then(() => console.log("Article table created !"))
-//   .catch((err) => console.log("Error while creating articles table !", err));
 
 client.on("error", (err) => {
   console.log("In-Memory storage", err);
@@ -135,22 +80,6 @@ client.on("ready", () => {
   console.log("Successfully connected to Redis!");
 });
 client.connect();
-
-// =======================>
-// Proxy all requests to backend
-// const proxy = createProxyMiddleware({
-//   target: "http://localhost:3001", // Change to your actual backend URL
-//   changeOrigin: true, // Important for cookie sharing
-// });
-// <=======================
-
-// function addUserColumn() {
-//   addNewColumnUsersTable();
-// }
-
-// addUserColumn();
-
-// app.use("/", proxy); // Apply proxy to all routes
 
 app.use(express.json());
 app.use("/api/article", articleActions);
