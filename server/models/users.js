@@ -48,7 +48,7 @@ export async function deletedUsersTable() {
     await connection.query(deleteTable);
     console.log("deleted users table!");
   } catch (err) {
-    console.error("Error deleting articles table:", err);
+    console.error("Error deleting users table:", err);
     // Handle specific errors if needed
   }
 }

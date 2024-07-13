@@ -30,7 +30,9 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 // cors middleWares
 
-console.log(process.env.MYSQL_URL)
+console.log(process.env.MYSQL_URL);
+console.log(process.env.REDIS_HOST);
+console.log(process.env.REDIS_PORT);
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
