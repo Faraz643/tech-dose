@@ -17,7 +17,7 @@ const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 //   port: process.env.REDIS_PORT,
 // });
 export const client = redis.createClient({
-  url: process.env.REDIS_URL,
+  url: "redis://clustercfg.td-redis-i.ahzhad.aps1.cache.amazonaws.com:6379",
 });
 
 async function invalidateToken(token) {
