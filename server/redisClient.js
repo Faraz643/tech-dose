@@ -12,13 +12,13 @@ const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 //   password: process.env.REDISPASSWORD,
 // };
 
-export const client = redis.createClient({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-});
 // export const client = redis.createClient({
-//   url: "redis://default:OPaZbGUtgScSecJNDOINQGrAaKnsXnkw@viaduct.proxy.rlwy.net:28686",
+//   host: process.env.REDIS_HOST,
+//   port: process.env.REDIS_PORT,
 // });
+export const client = redis.createClient({
+  url: process.env.REDIS_URL,
+});
 
 async function invalidateToken(token) {
   await client.set(token, "invalid");

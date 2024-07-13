@@ -33,6 +33,7 @@ const port = process.env.PORT || 3000;
 console.log(process.env.MYSQL_URL);
 console.log(process.env.REDIS_HOST);
 console.log(process.env.REDIS_PORT);
+console.log(process.env.REDIS_URL);
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
