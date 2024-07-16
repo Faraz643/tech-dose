@@ -29,7 +29,7 @@ dotenv.config();
 // const port = 3001;
 const port = process.env.PORT || 3000;
 // cors middleWares
-
+console.log("port is:", port);
 console.log(process.env.MYSQL_URL);
 console.log(process.env.REDIS_HOST);
 console.log(process.env.REDIS_PORT);
