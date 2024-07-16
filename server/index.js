@@ -1,4 +1,5 @@
 import express from "express";
+import serverless from "serverless-http";
 import adminRouter from "./routes/admin.js";
 import authRouter from "./routes/auth.js";
 import articleActions from "./routes/commonApi.js";
@@ -29,11 +30,11 @@ dotenv.config();
 // const port = 3001;
 const port = process.env.PORT || 3000;
 // cors middleWares
-console.log("port is:", port);
-console.log(process.env.MYSQL_URL);
-console.log(process.env.REDIS_HOST);
-console.log(process.env.REDIS_PORT);
-console.log(process.env.REDIS_URL);
+// console.log("port is:", port);
+// console.log(process.env.MYSQL_URL);
+// console.log(process.env.REDIS_HOST);
+// console.log(process.env.REDIS_PORT);
+// console.log(process.env.REDIS_URL);
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -106,6 +107,8 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(port, "0.0.0.0", () => {
-  console.log("200! OK");
-});
+// app.listen(port, "0.0.0.0", () => {
+//   console.log("200! OK");
+// });
+
+module.exports.handler = serverless(app)
