@@ -19,10 +19,14 @@ const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
 export const adminSignup = async (req, res) => {
   if (!req.body) {
-    return res.status(404).json({ message: "No form data received" });
+    console.log("request body:", req.body);
+    return res
+      .status(404)
+      .json({ message: "No form data received", body: req.body });
   }
   const { userName, enrollmentId, email, password, userRole } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  console.log("username is:", req.body);
+  const hashedPassword = bcrypt.hash(password, 10);
   const verify_account_token = jwt.sign(
     { userName, enrollmentId, email, hashedPassword, userRole },
     SECRET_KEY_VERIFICATION_USE,
@@ -57,7 +61,7 @@ export const verifyAccount = async (req, res) => {
     const enroll_id = decoded.enrollmentId;
     const password = decoded.hashedPassword;
     const email = decoded.email;
-    const addNewUserQuery = `INSERT INTO users (name, enroll_id, password, email, year, role) VALUES (?,?,?,?,?,?)`;
+    const addNewUserQuery = `INSERT INTO users (name, enroll_id, password, email, year, user_role) VALUES (?,?,?,?,?,?)`;
     // await connection.query(addNewUserQuery, [enroll_id, password, email]);
     // return res.status(200).json({message:});
     connection
@@ -98,6 +102,7 @@ async function comparePasswords(password, hashedPassword) {
 // @middleware -> validate user data and user role, access token
 export const adminSignIn = async (req, res) => {
   const { enrollmentId, password } = req.body;
+  return res.json(req.body);
   if (!enrollmentId || !password) {
     return res
       .status(400)
