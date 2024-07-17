@@ -30,8 +30,8 @@ export const adminSignup = async (req, res) => {
       expiresIn: "30min",
     }
   );
-  const verifyAccountLink = `${process.env.FRONT_END_ORIGIN}/admin/verify-account/${verify_account_token}`;
   try {
+    const verifyAccountLink = `${process.env.FRONT_END_ORIGIN}/admin/verify-account/${verify_account_token}`;
     await transporter.sendMail({
       from: "techybadshah@gmail.com",
       to: email,
