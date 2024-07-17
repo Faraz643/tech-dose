@@ -1,7 +1,7 @@
 'use client'
 import { slug, text } from '@/public/assets/_index'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Tags from '../_AdminDashboard/Tags'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +10,7 @@ import { redirect, useParams, useRouter, useSearchParams } from 'next/navigation
 
 const ArticleForm = ({ formMode }) => {
     // states
-    const [slugGenerated, setSlugGenerated] = useState('')
+    const [slugStatus, setSlugStatus] = useState('') // 'generated || 'generating'
     const [thumbnailFile, setThumbnailFile] = useState('')
     const [articleData, setArticleData] = useState({
         thumbnail: "",
@@ -79,10 +79,17 @@ const ArticleForm = ({ formMode }) => {
     }, [querySlug])
 
     function handleInput(e) {
-        // console.log(e.target.value)
-        const inputName = e.target.name
-        const inputValue = e.target.value
-        setArticleData({ ...articleData, [inputName]: inputValue })
+        const { name, value } = e.target
+        setArticleData(prevData => ({ ...prevData, [name]: value }));
+        if (name === 'title' && value.trim() != '') {
+            setSlugStatus('generating')
+        }
+    }
+
+    function changeSlug() {
+        articleData.title.trim() != "" ? setSlugStatus('generated') : setSlugStatus('')
+        const slugValue = articleData.title.split(' ').join('-');
+        setArticleData({ ...articleData, slug: slugValue })
     }
 
     // handle file drag and drop
@@ -154,7 +161,6 @@ const ArticleForm = ({ formMode }) => {
         const showWarning = (!validateThumbnail && formMode === 'add') ? notify(warnThumbnail, 1) :
             (validateTitle.trim() === '') ? notify(warnTitle, 2) :
                 (validateDescription.trim() === '') ? notify(warnDesc, 3) :
-
                     publishArticle(validateThumbnail, validateTitle, validateDescription)
         showWarning  // function for submitting form if no validation error
 
@@ -228,7 +234,6 @@ const ArticleForm = ({ formMode }) => {
             clearFormData()
         } catch (error) {
             console.error('Error submitting form:', error.message);
-
         }
     }
 
@@ -266,7 +271,7 @@ const ArticleForm = ({ formMode }) => {
                             <label htmlFor="article-title">Title</label>
                             <div className='ac-t flex input-text' onClick={borderActive} onBlur={borderInActive}>
                                 <Image src={text} width={30} alt='title' />
-                                <input onChange={handleInput} type="text" name='title' id='article-title' placeholder='Meta to reveal its plan' value={articleData.title} />
+                                <input type="text" name='title' id='article-title' placeholder='Meta to reveal its plan' value={articleData.title} onChange={handleInput} />
                             </div>
                         </div>
                         {/* slug */}
@@ -277,8 +282,8 @@ const ArticleForm = ({ formMode }) => {
                                 {/* slug generated tag */}
                                 <div className='auto-gen-tag'>
                                     {
-                                        slugGenerated === 'generated' ?
-                                            <Tags backgC='#B1FAB0' textC='#03D100' actionText='Auto-Generated' /> : slugGenerated === 'generating' ?
+                                        slugStatus === 'generated' ?
+                                            <Tags backgC='#B1FAB0' textC='#03D100' actionText='Auto-Generated' /> : slugStatus === 'generating' ?
                                                 <Tags backgC='#FFD99F' textC='#D47800' actionText='Generating Slug...' /> : ''
                                     }
                                 </div>

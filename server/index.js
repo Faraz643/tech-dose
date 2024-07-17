@@ -35,8 +35,12 @@ const port = process.env.PORT || 3000;
 // console.log(process.env.REDIS_HOST);
 // console.log(process.env.REDIS_PORT);
 // console.log(process.env.REDIS_URL);
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
