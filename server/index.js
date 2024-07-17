@@ -106,9 +106,9 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+app.get("/", (req, res) => res.send("Express on Vercel"));
+app.listen(port, () => {
+  console.log("200! OK");
+});
 
-// app.listen(port, "0.0.0.0", () => {
-//   console.log("200! OK");
-// });
-
-module.exports.handler = serverless(app)
+// module.exports.handler = serverless(app)
