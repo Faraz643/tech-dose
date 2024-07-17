@@ -56,11 +56,11 @@ async function checkConnection() {
 }
 
 // Check and log the connection status
-checkConnection();
+// checkConnection();
 
-await deletedUsersTable();
-await deletedArticlesTable();
-await deletedRolesTable();
+// await deletedUsersTable();
+// await deletedArticlesTable();
+// await deletedRolesTable();
 
 async function createAllTables() {
   try {
@@ -72,17 +72,17 @@ async function createAllTables() {
   }
 }
 
-createAllTables();
+// createAllTables();
 
-client.on("error", (err) => {
-  console.log("In-Memory storage", err);
-});
-client.on("connect", () => {
-  console.log("Attempting to connect to Redis...");
-});
-client.on("ready", () => {
-  console.log("Successfully connected to Redis!");
-});
+// client.on("error", (err) => {
+//   console.log("In-Memory storage", err);
+// });
+// client.on("connect", () => {
+//   console.log("Attempting to connect to Redis...");
+// });
+// client.on("ready", () => {
+//   console.log("Successfully connected to Redis!");
+// });
 client.connect();
 
 app.use(express.json());
