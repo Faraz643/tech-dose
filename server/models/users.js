@@ -7,7 +7,7 @@ export default async function createUsersTable() {
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     enroll_id INT NOT NULL,
-    password INT NOT NULL,
+    password VARCHAR(255) NOT NULL,
     email VARCHAR(200) NOT NULL,
     year INT NOT NULL,
     branch VARCHAR(100),

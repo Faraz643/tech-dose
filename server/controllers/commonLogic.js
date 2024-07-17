@@ -57,13 +57,13 @@ export const showSingleArticle = (req, res) => {
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
   const { title, description, slug, month, year, dateTime } = req.body;
+  const thumbnailPath = req.file.filename;
+  console.log(thumbnailPath);
   try {
-    const thumbnailPath = req.file.filename;
-
     // console.log(req.file);
     const insertArticleQuery = `
   INSERT INTO articles (title, description, thumbnail, slug, month, year, time, author, author_id)
-  VALUES (?, ?, ?, ?, ?, ?,?)
+  VALUES (?, ?, ?, ?, ?, ?,?,?,?)
 `;
     connection
       .query(insertArticleQuery, [
@@ -73,9 +73,9 @@ export const addArticle = async (req, res) => {
         slug,
         month,
         year,
-        author,
-        author_id,
-        dateTime
+        dateTime,
+        "Faraz",
+        1,
       ])
       .then(() => {
         res.status(201).json({ message: "Article Published" });
@@ -83,7 +83,9 @@ export const addArticle = async (req, res) => {
       })
       .catch((err) => console.error("Error adding article:", err));
   } catch (e) {
-    return res.status(404).json({ message: "Please add a thumbnail" });
+    return res
+      .status(422)
+      .json({ message: "Please add a thumbnail", filename: thumbnailPath });
   }
 };
 
@@ -139,7 +141,7 @@ export const deleteArticle = (req, res) => {
 
 export const uploadArticleByFile = async (req, res) => {
   // console.log(file.buffer);
-  console.log(req.files.excelFile[0].fieldname)
+  console.log(req.files.excelFile[0].fieldname);
   const file = req.files.excelFile;
   const thumbnailsArray = req.imageUrls || null;
   // console.log(excelFile);
