@@ -36,7 +36,7 @@ const port = process.env.PORT || 3000;
 // console.log(process.env.REDIS_PORT);
 // console.log(process.env.REDIS_URL);
 const corsOptions = {
-  // origin: 'process.env.FRONT_END_ORIGIN',
+  origin: process.env.FRONT_END_ORIGIN,
   credentials: true
 };
 
