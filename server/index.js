@@ -46,7 +46,7 @@ const port = process.env.PORT || 3000;
 const allowedOrigin = 'https://tech-dose.vercel.app';
 
 app.use(cors({
-    origin: allowedOrigin,
+    origin: process.env.FRONT_END_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true // If you need to include cookies in the requests
