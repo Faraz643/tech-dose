@@ -35,12 +35,28 @@ const port = process.env.PORT || 3000;
 // console.log(process.env.REDIS_HOST);
 // console.log(process.env.REDIS_PORT);
 // console.log(process.env.REDIS_URL);
-const corsOptions = {
-  origin: process.env.FRONT_END_ORIGIN,
-  credentials: true
-};
 
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: process.env.FRONT_END_ORIGIN,
+//   credentials: true
+// };
+
+
+// Allow requests from your frontend origin
+const allowedOrigin = 'https://tech-dose.vercel.app';
+
+app.use(cors({
+    origin: allowedOrigin,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true // If you need to include cookies in the requests
+}));
+
+// Enable pre-flight handling
+app.options('*', cors());
+
+
+// app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ limit: "1mb" }));
 app.use(express.static("images"));
