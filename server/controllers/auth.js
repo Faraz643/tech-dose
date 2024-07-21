@@ -123,7 +123,7 @@ export const adminSignIn = async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "lax",
+        sameSite: "none",
       });
       return res.json({ message: "User Session Created" });
     } else {
