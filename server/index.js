@@ -48,7 +48,7 @@ const allowedOrigins = [
 ];
 app.use(
   cors({
-    origin:allowedOrigins,
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // If you need to include cookies in the requests
@@ -96,9 +96,9 @@ async function createAllTables() {
 
 // createAllTables();
 
-// client.on("error", (err) => {
-//   console.log("In-Memory storage", err);
-// });
+client.on("error", (err) => {
+  console.log({ "Redis Error": "In-Memory storage", "Error Name": err });
+});
 // client.on("connect", () => {
 //   console.log("Attempting to connect to Redis...");
 // });
