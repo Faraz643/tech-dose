@@ -36,4 +36,4 @@ f-end/.vercel
 f-end/*.tsbuildinfo
 f-end/next-env.d.ts
 .vercel
-.env*.local
+.env*
