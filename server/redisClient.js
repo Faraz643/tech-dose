@@ -18,7 +18,7 @@ const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 // });
 export const client = redis.createClient({
   url: process.env.REDIS_URL,
-  pingInterval: 3000
+  pingInterval: 3000,
 });
 
 async function invalidateToken(token) {
