@@ -1,3 +1,4 @@
+import './envConfig.js'
 import express from "express";
 import serverless from "serverless-http";
 import adminRouter from "./routes/admin.js";
@@ -26,20 +27,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
-dotenv.config();
-// const port = 3001;
-const port = process.env.PORT || 3000;
-// cors middleWares
-// console.log("port is:", port);
-// console.log(process.env.MYSQL_URL);
-// console.log(process.env.REDIS_HOST);
-// console.log(process.env.REDIS_PORT);
-// console.log(process.env.REDIS_URL);
+// dotenv.config();
+const port = process.env.PORT || 3001;
+// const env = process.env.NODE_ENV || "development";
+// const envFile = `.env.${env}`;
+// console.log(envFile);
+// dotenv.config({ path: path.resolve(__dirname, envFile) });
 
-// const corsOptions = {
-//   origin: process.env.FRONT_END_ORIGIN,
-//   credentials: true
-// };
+// console.log(`Environment: ${process.env.NODE_ENV}`);
+// console.log(process.env.CHECK_ENV);
 
 // Allow requests from your frontend origin
 const allowedOrigins = [
@@ -94,18 +90,18 @@ async function createAllTables() {
   }
 }
 
-// createAllTables();
+createAllTables();
 
-client.on("error", (err) => {
-  console.log({ "Redis Error": "In-Memory storage", "Error Name": err });
-});
+// client.on("error", (err) => {
+//   console.log({ "Redis Error": "In-Memory storage", "Error Name": err });
+// });
 // client.on("connect", () => {
 //   console.log("Attempting to connect to Redis...");
 // });
 // client.on("ready", () => {
 //   console.log("Successfully connected to Redis!");
 // });
-client.connect();
+// client.connect();
 
 app.use(express.json());
 app.use("/api/article", articleActions);
@@ -133,4 +129,3 @@ app.listen(port, () => {
   console.log("200! OK");
 });
 
-// module.exports.handler = serverless(app)
