@@ -25,9 +25,6 @@ export default async function createUsersTable() {
     throw err; // Re-throw the error to propagate it upwards if needed
   }
 }
-// ADD COLUMN year INT NOT NULL,
-//     ADD COLUMN branch VARCHAR(100),
-//     ADD COLUMN role VARCHAR(100) NOT NULL
 export async function addNewColumnUsersTable() {
   const addNewColumnsQuery = `
     ALTER TABLE users
