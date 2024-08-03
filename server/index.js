@@ -35,7 +35,7 @@ const port = process.env.PORT || 3001;
 // dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 // console.log(`Environment: ${process.env.NODE_ENV}`);
-// console.log(process.env.CHECK_ENV);
+console.log(process.env.REDIS_URL);
 
 // Allow requests from your frontend origin
 const allowedOrigins = [
@@ -90,7 +90,7 @@ async function createAllTables() {
   }
 }
 
-createAllTables();
+// createAllTables();
 
 // client.on("error", (err) => {
 //   console.log({ "Redis Error": "In-Memory storage", "Error Name": err });
@@ -101,7 +101,7 @@ createAllTables();
 // client.on("ready", () => {
 //   console.log("Successfully connected to Redis!");
 // });
-// client.connect();
+client.connect();
 
 app.use(express.json());
 app.use("/api/article", articleActions);

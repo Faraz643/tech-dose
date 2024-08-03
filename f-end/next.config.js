@@ -1,6 +1,3 @@
-// import { withImages } from 'next-images';
-const dotenv = require('dotenv');
-dotenv.config()
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,

@@ -1,10 +1,11 @@
+import '../envConfig.js'
 import { connection } from "../db.config.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import invalidateToken from "../redisClient.js";
 import dotenv from "dotenv";
-dotenv.config();
+// dotenv.config();
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
