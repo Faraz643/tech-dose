@@ -1,7 +1,8 @@
+import './envConfig.js'
 import jwt from "jsonwebtoken";
 import redis from "redis";
 import dotenv from "dotenv";
-dotenv.config();
+// dotenv.config();
 
 const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
