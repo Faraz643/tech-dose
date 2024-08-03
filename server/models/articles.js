@@ -17,17 +17,6 @@ export default async function createArticlesTables() {
       );
       `;
 
-  // try {
-  //   await connection.query(createArticleTablesQuery);
-  //   console.log("Article table setup");
-  // } catch (err) {
-  //   console.error("Error setting up articles table:", err);
-  //   // Handle specific errors if needed
-  // }
-  // return connection
-  //   .query(createArticleTablesQuery)
-  //   .then(() => console.log("articles Table setup successfully!"))
-  //   .catch((err) => console.error("Error setting article table:", err));
 
   try {
     await connection.query(createArticleTablesQuery);

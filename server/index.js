@@ -27,15 +27,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
-// dotenv.config();
 const port = process.env.PORT || 3001;
-// const env = process.env.NODE_ENV || "development";
-// const envFile = `.env.${env}`;
-// console.log(envFile);
-// dotenv.config({ path: path.resolve(__dirname, envFile) });
-
-// console.log(`Environment: ${process.env.NODE_ENV}`);
-console.log(process.env.REDIS_URL);
 
 // Allow requests from your frontend origin
 const allowedOrigins = [
@@ -74,7 +66,7 @@ async function checkConnection() {
 }
 
 // Check and log the connection status
-// checkConnection();
+checkConnection();
 
 // await deletedUsersTable();
 // await deletedArticlesTable();
@@ -90,17 +82,17 @@ async function createAllTables() {
   }
 }
 
-// createAllTables();
+createAllTables();
 
-// client.on("error", (err) => {
-//   console.log({ "Redis Error": "In-Memory storage", "Error Name": err });
-// });
-// client.on("connect", () => {
-//   console.log("Attempting to connect to Redis...");
-// });
-// client.on("ready", () => {
-//   console.log("Successfully connected to Redis!");
-// });
+client.on("error", (err) => {
+  console.log({ "Redis Error": "In-Memory storage", "Error Name": err });
+});
+client.on("connect", () => {
+  console.log("Attempting to connect to Redis...");
+});
+client.on("ready", () => {
+  console.log("Successfully connected to Redis!");
+});
 client.connect();
 
 app.use(express.json());

@@ -9,10 +9,7 @@ export default async function createRolesTable() {
   );
   
     `;
-  // return connection
-  //   .query(createRolesTableQuery)
-  //   .then(() => console.log("Roles Table setup successfully!"))
-  //   .catch((err) => console.error("Error setting roles table:", err));
+  
 
   try {
     await connection.query(createRolesTableQuery);
