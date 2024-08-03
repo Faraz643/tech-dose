@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npx cross-env NODE_ENV=production node index.js",
-    "dev": "npx cross-env NODE_ENV=development nodemon index.js"
+    "prestart": "chmod +x node_modules/.bin/cross-env",
+    "start": "npm cross-env NODE_ENV=production node index.js",
+    "dev": "npm cross-env NODE_ENV=development nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
+    "debug": "^4.3.6",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "http-proxy-middleware": "^3.0.0",
