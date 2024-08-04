@@ -125,7 +125,7 @@ export const adminSignIn = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        domain:'onrender.com',
+        domain:'.onrender.com',
         path:'/',
         maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
       });
