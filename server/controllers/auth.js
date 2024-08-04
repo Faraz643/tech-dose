@@ -124,6 +124,7 @@ export const adminSignIn = async (req, res) => {
       res.cookie("token", token, {
         maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
         sameSite: "None",
+        secure,
       });
       return res.json({ message: "User Session Created" });
     } else {
