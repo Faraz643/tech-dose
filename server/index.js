@@ -1,4 +1,4 @@
-import './envConfig.js'
+import "./envConfig.js";
 import express from "express";
 import serverless from "serverless-http";
 import adminRouter from "./routes/admin.js";
@@ -33,6 +33,7 @@ const port = process.env.PORT || 3001;
 const allowedOrigins = [
   "http://localhost:3000",
   "https://tech-dose.vercel.app",
+  "https://tech-dose-view.onrender.com",
 ];
 app.use(
   cors({
@@ -120,4 +121,3 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 app.listen(port, () => {
   console.log("200! OK");
 });
-
