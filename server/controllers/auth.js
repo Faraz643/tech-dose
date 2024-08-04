@@ -125,6 +125,8 @@ export const adminSignIn = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "none",
+        domain:'.tech-dose.vercel.app',
+        path:'/',
         maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
       });
       return res.json({ message: "User Session Created" });
