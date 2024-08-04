@@ -1,4 +1,4 @@
-import '../envConfig.js'
+import "../envConfig.js";
 import { connection } from "../db.config.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -123,6 +123,7 @@ export const adminSignIn = async (req, res) => {
       });
       res.cookie("token", token, {
         maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
+        sameSite: "None",
       });
       return res.json({ message: "User Session Created" });
     } else {
