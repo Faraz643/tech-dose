@@ -122,7 +122,6 @@ export const adminSignIn = async (req, res) => {
         expiresIn: "30m",
       });
       res.cookie("token", token, {
-        httpOnly: true,
         maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
       });
       return res.json({ message: "User Session Created" });
