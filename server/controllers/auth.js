@@ -125,7 +125,7 @@ export const adminSignIn = async (req, res) => {
         maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
         sameSite: "none",
         secure: true,
-        domain: "https://tech-dose-view.onrender.com",
+        domain: "tech-dose-view.onrender.com",
         path: "/",
       });
       return res.json({ message: "User Session Created" });
