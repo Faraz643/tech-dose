@@ -121,12 +121,13 @@ export const adminSignIn = async (req, res) => {
       const token = jwt.sign({ enrollmentId }, SECRET_KEY, {
         expiresIn: "30m",
       });
-      res.cookie("token", token, {
-        maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
-        sameSite: "none",
-        secure: true,
-      });
-      return res.json({ message: "User Session Created" });
+      // res.cookie("token", token, {
+      //   maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
+      //   sameSite: "none",
+      //   secure: true,
+      // });
+      // return res.json({ message: "User Session Created" });
+      return res.json({ authToken: token });
     } else {
       return res
         .status(400)
