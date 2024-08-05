@@ -46,8 +46,6 @@ export function AdminLoginPage() {
       if (!response.ok) {
         setInputWarning(data.message);
       } else if (response.ok) {
-        console.log(data.authToken);
-        // localStorage.setItem("token", data.authToken);
         document.cookie = "token" + "=" + (data.authToken || "");
         router.replace(`/admin/${nextUrl}`);
       }
