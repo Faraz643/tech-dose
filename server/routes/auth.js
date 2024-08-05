@@ -2,7 +2,7 @@ import express from "express";
 import {
   adminSignIn,
   adminSignup,
-  adminSignOut,
+  // adminSignOut,
   adminResetPass,
   resetNewPassword,
   verifyAccount,
