@@ -4,9 +4,10 @@ dotenv.config()
 const SECRET_KEY = process.env.SECRET_KEY;
 
 export const authMiddleware = (req, res, next) => {
-  if (req.cookies && req.cookies.token) {
+  if (req.headers['authorization']) {
     try {
-      const decoded = jwt.verify(req.cookies.token, SECRET_KEY);
+      const token = req.headers['authorization'].split(' ')[1]
+      const decoded = jwt.verify(token, SECRET_KEY);
       next();
     } catch (err) {
       res.status(401).json({ error: "Unauthorised User" });
@@ -14,4 +15,5 @@ export const authMiddleware = (req, res, next) => {
   } else {
     res.status(401).json({ error: "Unauthorised User" });
   }
+  // console.log(req.headers['authorization'].split(' ')[1])
 };
