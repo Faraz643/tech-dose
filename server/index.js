@@ -83,7 +83,7 @@ async function createAllTables() {
   }
 }
 
-createAllTables();
+// createAllTables();
 
 client.on("error", (err) => {
   console.log({ "Redis Error": "In-Memory storage", "Error Name": err });

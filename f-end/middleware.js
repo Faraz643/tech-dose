@@ -12,6 +12,7 @@ export async function middleware(req, res) {
   // const isPublicPath = path === "/admin/signin" || "/admin/signup"; // true or false
   const isPublicPath = path === "/admin/signin" || path === "/admin/signup";
   const token = req.cookies.get("token")?.value;
+  // const token = req.
   // if (!notAuthPaths.some((str) => path.includes(str))) {
   if (isPublicPath && token) {
     try {
