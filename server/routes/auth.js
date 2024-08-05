@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post("/sign-up", adminSignup); // input regex validation middleware
 router.post("/sign-in", adminSignIn); // validation middleware
-router.post("/sign-out", adminSignOut); // validation middleware
+// router.post("/sign-out", adminSignOut); // Deactiavted for now
 
 router.post("/forgot-password", adminResetPass); // validation middleware
 router.post("/reset-password/:token", verifyUsedToken, resetNewPassword); // validation middleware
