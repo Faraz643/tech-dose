@@ -139,10 +139,12 @@ export const adminSignIn = async (req, res) => {
   }
 };
 
-export const adminSignOut = async (req, res) => {
-  res.clearCookie("token");
-  res.json({ message: "User log out successfully" });
-};
+// --- signout api is deactivated for now ---
+
+// export const adminSignOut = async (req, res) => {
+//   res.clearCookie("token");
+//   res.json({ message: "User log out successfully" });
+// };
 
 export const adminResetPass = async (req, res) => {
   const { enrollmentId } = req.body;
