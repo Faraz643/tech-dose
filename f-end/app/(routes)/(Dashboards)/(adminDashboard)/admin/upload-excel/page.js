@@ -5,6 +5,7 @@ import MainContentWrapper from "@/app/_Components/_AdminDashboard/MainContentWra
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Cookies from "js-cookie";
 
 const Page = () => {
   const [showExcelErr, setShowExcelErr] = useState("");
@@ -74,12 +75,16 @@ const Page = () => {
       const formData = new FormData();
       formData.append("zipFile", zipFile);
       formData.append("excelFile", excelFile);
-
+      const token = Cookies.get("token");
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_API}/article/upload-excel`,
           {
             method: "POST",
+            credentials: "include",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
             body: formData,
           }
         );
