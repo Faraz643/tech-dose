@@ -4,23 +4,24 @@ import AdmZip from "adm-zip";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
+import { getStorage } from "firebase/storage";
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
-
 const storage = multer.memoryStorage();
 export const upload = multer({ storage: storage });
 
-const thumbnailStorage = multer.diskStorage({
-  destination: "images/article-thumbnail",
-  filename: function (req, file, cb) {
-    let originalFilename = file.originalname;
-    originalFilename = originalFilename.split(" ").join("-");
+// const thumbnailStorage = multer.diskStorage({
+//   destination: "images/article-thumbnail",
+//   filename: function (req, file, cb) {
+//     let originalFilename = file.originalname;
+//     originalFilename = originalFilename.split(" ").join("-");
 
-    cb(null, Date.now().toString());
-  },
-});
+//     cb(null, Date.now().toString());
+//   },
+// });
 
-export const uploadThumbnail = multer({ storage: thumbnailStorage });
+export const uploadThumbnail = multer({ storage: multer.memoryStorage() });
+// -------------------------------------------------------------------------------- Excel File images Logic ------------------------------------------------------------------
 
 const fileFilter = (req, file, cb) => {
   if (

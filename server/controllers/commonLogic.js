@@ -1,9 +1,10 @@
 import { connection } from "../db.config.js";
 import path from "path";
-
 // const fs = require("fs").promises;
 import fs from "fs/promises";
 import { storeExcelInDb } from "../uploadExcel.js";
+import { ref, uploadBytes } from "firebase/storage";
+import { fireBaseStorage } from "../firebase.js";
 export const showAllArticles = (req, res) => {
   // send user role to req while fetching from client, if role is admin ? showAll: fetch article from db using loggedin author name
   const showAllArticlesQuery = `SELECT * FROM articles`;
@@ -57,35 +58,65 @@ export const showSingleArticle = (req, res) => {
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
   const { title, description, slug, month, year, dateTime } = req.body;
-  const thumbnailPath = req.file.filename;
-  console.log(thumbnailPath);
+  const thumbnailPath = req.file;
+  console.log(thumbnailPath.buffer);
+  if (!thumbnailPath)
+    return res.status(422).json({ message: "Please add a thumbnail from if" });
   try {
+    const storageRef = ref(
+      fireBaseStorage,
+      `images/${thumbnailPath.originalname}`
+    );
+    await uploadBytes(storageRef, thumbnailPath.buffer);
+    return res.status(200).send("File Uploaded Successfully");
     // console.log(req.file);
-    const insertArticleQuery = `
-  INSERT INTO articles (title, description, thumbnail, slug, month, year, time, author, author_id)
-  VALUES (?, ?, ?, ?, ?, ?,?,?,?)
-`;
-    connection
-      .query(insertArticleQuery, [
-        title,
-        description,
-        thumbnailPath,
-        slug,
-        month,
-        year,
-        dateTime,
-        "Faraz",
-        1,
-      ])
-      .then(() => {
-        res.status(201).json({ message: "Article Published" });
-        console.log("Article Published");
-      })
-      .catch((err) => console.error("Error adding article:", err));
+    //     const insertArticleQuery = `
+    //   INSERT INTO articles (title, description, thumbnail, slug, month, year, time, author, author_id)
+    //   VALUES (?, ?, ?, ?, ?, ?,?,?,?)
+    // `;
+    //     connection
+    //       .query(insertArticleQuery, [
+    //         title,
+    //         description,
+    //         thumbnailPath,
+    //         slug,
+    //         month,
+    //         year,
+    //         dateTime,
+    //         "Faraz",
+    //         1,
+    //       ])
+    //       .then(() => {
+    //         res.status(201).json({ message: "Article Published" });
+    //         console.log("Article Published");
+    //       })
+    // .catch((err) => console.error("Error adding article:", err))
   } catch (e) {
-    return res
-      .status(422)
-      .json({ message: "Please add a thumbnail", filename: thumbnailPath });
+    console.error("Error uploading file:", e); // Log the specific error
+
+    if (e.code === "storage/unauthorized") {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized access to Firebase Storage" });
+    } else if (e.code === "storage/quota-exceeded") {
+      return res
+        .status(403)
+        .json({ message: "Firebase Storage quota exceeded" });
+    } else if (e.code === "storage/invalid-argument") {
+      return res
+        .status(400)
+        .json({ message: "Invalid argument provided to Firebase Storage" });
+    } else if (e.code === "storage/retry-limit-exceeded") {
+      return res
+        .status(503)
+        .json({
+          message: "Retry limit exceeded while accessing Firebase Storage",
+        });
+    } else {
+      return res
+        .status(500)
+        .json({ message: "Internal Server Error", error: e.message });
+    }
   }
 };
 
