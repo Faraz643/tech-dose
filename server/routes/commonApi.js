@@ -11,7 +11,8 @@ import {
 import {
   uploadThumbnail,
   uploadExcel,
-  extractAndSaveImages, upload
+  extractAndSaveImages,
+  upload,
 } from "../fileUpload.config.js";
 import { authMiddleware } from "../authMiddleware.config.js";
 
@@ -24,7 +25,7 @@ const uploadZipAndExcel = upload.fields([
 
 router
   .get("/", showAllArticles)
-  .post("/", authMiddleware, uploadThumbnail.single("thumbnail"), addArticle)
+  .post("/", uploadThumbnail.single("thumbnail"), addArticle)
   .post(
     "/upload-excel",
     uploadZipAndExcel,
