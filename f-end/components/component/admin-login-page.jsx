@@ -12,7 +12,8 @@ import { Router } from "next/router";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-
+import { signInWithCustomToken } from "firebase/auth";
+import { fireBaseAuth } from "@/app/firebase";
 export function AdminLoginPage() {
   const [inputWarning, setInputWarning] = useState("");
   const router = useRouter();
@@ -42,19 +43,34 @@ export function AdminLoginPage() {
         }
       );
       const data = await response.json();
-
+      // await loginWithCustomToken(data.fireBaseAuthToken);
       if (!response.ok) {
         setInputWarning(data.message);
       } else if (response.ok) {
-        // document.cookie = "token" + "=" + (data.authToken || "");
-        document.cookie = `token=${data.authToken}`;
+        setCookie("token", data.authToken, 1);
         router.replace(`/admin/${nextUrl}`);
       }
     } catch (err) {
       console.error(err);
     }
   }
+  function setCookie(name, value, hours) {
+    const d = new Date();
+    d.setTime(d.getTime() + hours * 60 * 60 * 1000); // Set expiration time
+    const expires = `expires=${d.toUTCString()}`;
+    document.cookie = `${name}=${value}; ${expires}; path=/`; // Set cookie
+  }
 
+  // ---Firebase custom token is disabled for now---
+
+  // const loginWithCustomToken = async (customToken) => {
+  //   try {
+  //     await signInWithCustomToken(fireBaseAuth, customToken);
+  //     console.log("Success");
+  //   } catch (error) {
+  //     console.log("Error signing in with FBAuthToken");
+  //   }
+  // };
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-gradient-to-br from-[#e0e7ff] via-[#f0abfc] to-[#bfdbfe] px-4 dark:bg-gradient-to-br dark:from-[#18181b] dark:via-[#27272a] dark:to-[#4b5563]">
       <div className="w-full max-w-md space-y-6">

@@ -19,6 +19,7 @@
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
+    "firebase": "^10.12.5",
     "flowbite-react": "^0.7.2",
     "jose": "^5.2.4",
     "js-cookie": "^3.0.5",

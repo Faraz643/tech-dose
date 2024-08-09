@@ -5,8 +5,12 @@ import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import invalidateToken from "../redisClient.js";
 import dotenv from "dotenv";
+import { fireBaseAuth } from "../firebase.js";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import admin from "firebase-admin";
 // dotenv.config();
-
+const serviceAccount = JSON.parse(process.env.FIREBASE_PRIVATE_KEY);
+admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -121,13 +125,22 @@ export const adminSignIn = async (req, res) => {
       const token = jwt.sign({ enrollmentId }, SECRET_KEY, {
         expiresIn: "30m",
       });
+      // ---Firebase custom token is disabled for now---
+      // const customFireBaseToken = await admin
+      //   .auth()
+      //   .createCustomToken(enrollmentId);
+      // --- ---
       // res.cookie("token", token, {
       //   maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
       //   sameSite: "none",
       //   secure: true,
       // });
       // return res.json({ message: "User Session Created" });
-      return res.json({ authToken: token });
+      // console.log(customFireBaseToken);
+      return res.json({
+        authToken: token,
+        // fireBaseAuthToken: customFireBaseToken,
+      });
     } else {
       return res
         .status(400)

@@ -28,7 +28,7 @@ const __dirname = dirname(__filename);
 const app = express();
 
 const port = process.env.PORT || 3001;
-
+// console.log(typeof JSON.parse(process.env.FIREBASE_PRIVATE_KEY))
 // Allow requests from your frontend origin
 const allowedOrigins = [
   "http://localhost:3000",
@@ -43,7 +43,6 @@ app.use(
     credentials: true, // If you need to include cookies in the requests
   })
 );
-
 // Enable pre-flight handling
 app.options("*", cors());
 
