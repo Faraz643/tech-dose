@@ -16,7 +16,7 @@ console.log(articleDetails.thumbnail)
       {thumbnailFor === 'skeleton' ? (
         // <Image src={imagePlaceholder} objectFit='cover' layout='fill' alt='Article Thumbnail Image' />
         <div className=''></div>
-      ) : <Image src={articleDetails.thumbnail} objectFit='cover' layout='fill' alt='Article Thumbnail Image' />}
+      ) : <Image src={articleDetails.thumbnail} objectFit='cover' layout='fill' alt='Article Thumbnail Image' priority/>}
 
     </div>
   )

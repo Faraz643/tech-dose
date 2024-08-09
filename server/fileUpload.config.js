@@ -65,14 +65,16 @@ export const extractAndSaveImages = (req, res, next) => {
   const zip = new AdmZip(zipFile.buffer);
   const zipEntries = zip.getEntries();
   let imageUrls = [];
-
+  let imageBuffer = [];
   zipEntries.forEach((entry, index) => {
     if (!entry.isDirectory) {
       const imageUrl = saveImage(entry.getData(), `${index}`);
       imageUrls.push(imageUrl);
+      imageBuffer.push(entry.getData());
     }
   });
-  // console.log("image path are:", imageUrls);
+
+  req.imageBuffer = imageBuffer;
   req.imageUrls = imageUrls;
   next();
 };

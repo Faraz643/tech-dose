@@ -1,6 +1,10 @@
 import xlsx from "xlsx";
 import { connection } from "./db.config.js";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { fireBaseStorage } from "./firebase.js";
+
 export const storeExcelInDb = async (
+  imageBuffer,
   thumbnailsArray,
   excelFilePath,
   tableName
@@ -30,25 +34,55 @@ export const storeExcelInDb = async (
     // // Execute the query
     // await connection.query(insertQuery, [values]);
 
-    data.forEach((row, index) => {
+    // data.forEach(async (row, index) => {
+    for (const [index, row] of data.entries()) {
       const { title, description, slug, author, month, year } = row;
-      const thumbnail = thumbnailsArray[index] || null;
+
+      const dateTime = formatDate();
+      // console.log('this is thumbnail from publishArticle function', thumbnail)
+      // Getting full month name (e.g. "September")
+      const today = new Date();
+      const ArticleMonth = today.toLocaleString("default", { month: "long" });
+      const ArticleYear = today.getFullYear();
+
+      // const thumbnail = thumbnailsArray[index] || null;
+      const metaData = {
+        contentType: "image/png",
+      };
+      const thumbnailBuffer = imageBuffer[index] || null;
+      const thumbnailPath = Date.now();
+      const author_id = 1;
+      const storageRef = ref(fireBaseStorage, `images/${thumbnailPath}`);
+      await uploadBytes(storageRef, thumbnailBuffer, metaData);
+      const thumbnailDownloadURL = await getDownloadURL(storageRef);
+
       const insertQuery =
-        "INSERT INTO articles (title, description, slug, author, thumbnail,month,year) VALUES (?, ?, ?, ?, ?,?,?)";
+        "INSERT INTO articles (title, description, slug, author, thumbnail,month,year,author_id, time) VALUES (?, ?, ?, ?, ?,?,?,?, ?)";
       connection.query(insertQuery, [
         title,
         description,
         slug,
         author,
-        thumbnail,
-        month,
-        year,
+        thumbnailDownloadURL,
+        ArticleMonth,
+        ArticleYear,
+        author_id,
+        dateTime,
       ]);
-      // console.log(title, ":", thumbnail);
-    });
+    }
   } catch (error) {
     console.error("Error:", error);
   }
 };
 
-// Call the function with the file path and table name
+function formatDate() {
+  const date = new Date();
+
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "short" });
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const seconds = date.getSeconds().toString().padStart(2, "0");
+
+  return `${day} ${month} ${hours}:${minutes}:${seconds}`;
+}

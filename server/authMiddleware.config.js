@@ -10,7 +10,7 @@ export const authMiddleware = (req, res, next) => {
       const decoded = jwt.verify(token, SECRET_KEY);
       next();
     } catch (err) {
-      res.status(401).json({ error: "Unauthorised User" });
+      res.status(401).json({ error: err });
     }
   } else {
     res.status(401).json({ error: "Unauthorised User" });

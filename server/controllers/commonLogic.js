@@ -60,8 +60,8 @@ export const addArticle = async (req, res) => {
   const { title, description, slug, month, year, dateTime } = req.body;
   const thumbnailPath = req.file;
   const metaData = {
-    contentType: 'image/png'
-  }
+    contentType: "image/png",
+  };
   if (!thumbnailPath) {
     return res.status(422).json({ message: "Please add a thumbnail" });
   }
@@ -74,8 +74,7 @@ export const addArticle = async (req, res) => {
 
     // Upload file to Firebase Storage
     await uploadBytes(storageRef, thumbnailPath.buffer, metaData);
-    const thumbnailDownloadURL = await getDownloadURL(storageRef)
-    console.log(thumbnailDownloadURL)
+    const thumbnailDownloadURL = await getDownloadURL(storageRef);
     // Insert article into database after file upload
     const insertArticleQuery = `
       INSERT INTO articles (title, description, thumbnail, slug, month, year, time, author, author_id)
@@ -94,7 +93,6 @@ export const addArticle = async (req, res) => {
     ]);
 
     res.status(201).json({ message: "Article Published" });
-    console.log("Article Published");
   } catch (e) {
     console.error("Error processing request:", e);
 
@@ -178,20 +176,23 @@ export const uploadArticleByFile = async (req, res) => {
   // console.log(file.buffer);
   // console.log(req.files.excelFile[0].fieldname);
   const file = req.files.excelFile;
+  const imageBuffer = req.imageBuffer;
   const thumbnailsArray = req.imageUrls || null;
-  // console.log(excelFile);
   if (!file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
   try {
-    storeExcelInDb(thumbnailsArray, file, "articles")
+    storeExcelInDb(imageBuffer, thumbnailsArray, file, "articles")
       .then(() => {
         console.log("Articles Uploaded through an excel file");
+        return res.send({ message: "Articles Uploaded Succesfully" });
       })
       .catch((err) => {
-        console.error("Error:", err);
+        return res.status(422).json({
+          message:
+            "Error uploading Articles, verify that the files are arranged in the correct sequence.",
+        });
       });
-    return res.send({ message: "articles uploaded succesfully" });
   } catch (e) {
     return res
       .status(500)

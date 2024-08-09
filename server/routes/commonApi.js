@@ -25,9 +25,10 @@ const uploadZipAndExcel = upload.fields([
 
 router
   .get("/", showAllArticles)
-  .post("/", uploadThumbnail.single("thumbnail"), addArticle)
+  .post("/", authMiddleware, uploadThumbnail.single("thumbnail"), addArticle)
   .post(
     "/upload-excel",
+    authMiddleware,
     uploadZipAndExcel,
     extractAndSaveImages,
     uploadArticleByFile
