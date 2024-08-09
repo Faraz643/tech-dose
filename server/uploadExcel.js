@@ -5,9 +5,7 @@ import { fireBaseStorage } from "./firebase.js";
 
 export const storeExcelInDb = async (
   imageBuffer,
-  thumbnailsArray,
   excelFilePath,
-  tableName
 ) => {
   try {
     // Read the Excel file into a workbook

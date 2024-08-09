@@ -42,16 +42,16 @@ export const uploadExcel = multer({
 //  ZIP IMAGES SAVE SAVE
 
 // Utility function to save image and get URL
-const saveImage = (buffer, originalName) => {
-  const timestamp = Date.now();
-  const targetPath = path.join(
-    __dirname,
-    "images/article-thumbnail",
-    `${timestamp}`
-  );
-  fs.writeFileSync(targetPath, buffer);
-  return timestamp;
-};
+// const saveImage = (buffer, originalName) => {
+//   const timestamp = Date.now();
+//   const targetPath = path.join(
+//     __dirname,
+//     "images/article-thumbnail",
+//     `${timestamp}`
+//   );
+//   fs.writeFileSync(targetPath, buffer);
+//   return timestamp;
+// };
 
 // Middleware to handle ZIP file extraction and image saving
 export const extractAndSaveImages = (req, res, next) => {
@@ -68,7 +68,7 @@ export const extractAndSaveImages = (req, res, next) => {
   let imageBuffer = [];
   zipEntries.forEach((entry, index) => {
     if (!entry.isDirectory) {
-      const imageUrl = saveImage(entry.getData(), `${index}`);
+      // const imageUrl = saveImage(entry.getData(), `${index}`);
       imageUrls.push(imageUrl);
       imageBuffer.push(entry.getData());
     }

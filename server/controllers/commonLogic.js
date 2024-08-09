@@ -177,12 +177,11 @@ export const uploadArticleByFile = async (req, res) => {
   // console.log(req.files.excelFile[0].fieldname);
   const file = req.files.excelFile;
   const imageBuffer = req.imageBuffer;
-  const thumbnailsArray = req.imageUrls || null;
   if (!file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
   try {
-    storeExcelInDb(imageBuffer, thumbnailsArray, file, "articles")
+    storeExcelInDb(imageBuffer, file)
       .then(() => {
         console.log("Articles Uploaded through an excel file");
         return res.send({ message: "Articles Uploaded Succesfully" });
