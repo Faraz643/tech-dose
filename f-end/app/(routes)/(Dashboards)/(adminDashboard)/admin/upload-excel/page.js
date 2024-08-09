@@ -23,7 +23,6 @@ const Page = () => {
   function handleExcelFileChange(e) {
     const file = e.target.files[0];
     setShowExcelErr();
-    console.log(file.type === excelFileType);
     if (file && file.type != excelFileType) {
       setShowExcelErr("Only files with '.xlsx' extension is allowed !");
       e.target.value = "";
@@ -34,7 +33,6 @@ const Page = () => {
   const zipFileType = "application/x-zip-compressed";
   function handleZipFileChange(e) {
     const file = e.target.files[0];
-    console.log(file.type === zipFileType);
 
     if (file && file.type != zipFileType) {
       setShowZipErr("Only zip files are allowed !");
@@ -50,9 +48,6 @@ const Page = () => {
     const fileInput = e.target[0];
     const zipFile = e.target[0].files[0];
     const excelFile = e.target[1].files[0];
-    // console.log(zipFile.type === zipFileType);
-    // console.log(e.target[1]);
-    // console.log(excelFile.type === excelFileType);
 
     if (
       zipFile &&
