@@ -16,7 +16,7 @@ const ArticleThumbnail = ({ thumbnailFor }) => {
       {thumbnailFor === 'skeleton' ? (
         // <Image src={imagePlaceholder} objectFit='cover' layout='fill' alt='Article Thumbnail Image' />
         <div className=''></div>
-      ) : <Image src={`${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${articleDetails.thumbnail}`} objectFit='cover' layout='fill' alt='Article Thumbnail Image' />}
+      ) : <Image src='https://firebasestorage.googleapis.com/v0/b/tech-dose-images.appspot.com/o/images%2FScreenshot%202024-08-06%20215021.png?alt=media&token=e9e4ccf8-af0c-49d1-98d8-b21b6fbe173d' objectFit='cover' layout='fill' alt='Article Thumbnail Image' />}
 
     </div>
   )
