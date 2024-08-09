@@ -84,7 +84,7 @@ export const addArticle = async (req, res) => {
     await connection.query(insertArticleQuery, [
       title,
       description,
-      thumbnailPath.originalname, // Assuming you store the file name
+      thumbnailDownloadURL, // Assuming you store the file name
       slug,
       month,
       year,
@@ -176,7 +176,7 @@ export const deleteArticle = (req, res) => {
 
 export const uploadArticleByFile = async (req, res) => {
   // console.log(file.buffer);
-  console.log(req.files.excelFile[0].fieldname);
+  // console.log(req.files.excelFile[0].fieldname);
   const file = req.files.excelFile;
   const thumbnailsArray = req.imageUrls || null;
   // console.log(excelFile);

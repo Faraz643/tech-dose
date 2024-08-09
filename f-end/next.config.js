@@ -5,8 +5,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: process.env.NEXT_PUBLIC_PROTOCOL,
-        hostname: process.env.NEXT_PUBLIC_HOST_NAME,
+        hostname: process.env.NEXT_PUBLIC_FIREBASE_HOST_NAME,
       },
+      {
+        hostname: process.env.NEXT_PUBLIC_LOCAL_HOST_NAME
+      }
     ],
   },
 };

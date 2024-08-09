@@ -64,7 +64,7 @@ const ArticleCard = ({ filteredMonth }) => {
           filteredArticles.map((article) => (
             <Link key={article.id} href={`/blog/article/${article.slug}`} target='_blank' rel='noopener noreferrer' className='w-[300px] h-[370px]'>
               <div className="relative article-card w-[100%] h-[100%]  border-[#29292800] rounded-[20px] duration-300 hover:!bg-[length:260%]"
-                style={{ ...thumbnailStyling, backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/tech-dose-images.appspot.com/o/images%2FScreenshot%202024-08-06%20215021.png?alt=media&token=e9e4ccf8-af0c-49d1-98d8-b21b6fbe173d)` }}>
+                style={{ ...thumbnailStyling, backgroundImage: `url(${article.thumbnail})` }}>
                 <div className='flex flex-col justify-between h-full p-3'>
                   <span className="text-center bg-[#E1FF4A] rounded-[10px] w-[90px]">{article.month}</span>
                   <div className='bg-[#ffffff5f] rounded-[10px] p-2' style={blurStyle}>
