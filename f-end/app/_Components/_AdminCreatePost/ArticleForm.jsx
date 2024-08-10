@@ -91,7 +91,7 @@ const ArticleForm = ({ formMode }) => {
     articleData.title.trim() != ""
       ? setSlugStatus("generated")
       : setSlugStatus("");
-    const slugValue = articleData.title.split(" ").join("-");
+    const slugValue = articleData.title.split(" ").join("-") + "-" + Date.now();
     setArticleData({ ...articleData, slug: slugValue });
   }
 
