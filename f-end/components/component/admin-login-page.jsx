@@ -10,10 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Router } from "next/router";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { signInWithCustomToken } from "firebase/auth";
 import { fireBaseAuth } from "@/app/firebase";
+
 export function AdminLoginPage() {
   const [inputWarning, setInputWarning] = useState("");
   const router = useRouter();
@@ -47,7 +48,7 @@ export function AdminLoginPage() {
       if (!response.ok) {
         setInputWarning(data.message);
       } else if (response.ok) {
-        setCookie("token", data.authToken, 1);
+        setCookie("token", data.authToken, 1); // 1-hour expiry
         router.replace(`/admin/${nextUrl}`);
       }
     } catch (err) {

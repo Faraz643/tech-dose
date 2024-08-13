@@ -1,7 +1,7 @@
 "use client";
 import { slug, text } from "@/public/assets/_index";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Tags from "../_AdminDashboard/Tags";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,9 @@ import {
   useSearchParams,
 } from "next/navigation";
 import Cookies from "js-cookie";
+import { JsonWebTokenError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
 const ArticleForm = ({ formMode }) => {
   // states
@@ -27,7 +30,6 @@ const ArticleForm = ({ formMode }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const querySlug = searchParams.get("slug");
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       changeSlug();
@@ -199,7 +201,6 @@ const ArticleForm = ({ formMode }) => {
 
   function formatDate() {
     const date = new Date();
-
     const day = date.getDate();
     const month = date.toLocaleString("default", { month: "short" });
     const hours = date.getHours().toString().padStart(2, "0");
@@ -210,7 +211,12 @@ const ArticleForm = ({ formMode }) => {
   }
 
   async function publishArticle(thumbnail, title, desc) {
+    const SECRET_KEY = new TextEncoder().encode(
+      process.env.NEXT_PUBLIC_SECRET_KEY
+    );
+
     const token = Cookies.get("token");
+    const userDetails = (await jwtVerify(token, SECRET_KEY)).payload;
     const formData = new FormData();
     const dateTime = formatDate();
     // console.log('this is thumbnail from publishArticle function', thumbnail)
@@ -223,6 +229,7 @@ const ArticleForm = ({ formMode }) => {
     formData.append("description", desc);
     formData.append("slug", articleData.slug);
     formData.append("dateTime", dateTime);
+    formData.append("authorName", userDetails.userName);
     !querySlug && formData.append("month", month);
     !querySlug && formData.append("year", year);
     const prefixAPi = `${process.env.NEXT_PUBLIC_BACKEND_API}/article`;
@@ -283,7 +290,7 @@ const ArticleForm = ({ formMode }) => {
                 id="thumbail-view"
                 className="w-[100%] h-[90%] text-center flex flex-col gap-6"
                 style={{
-                  backgroundImage: `url(${thumbnailFile ? thumbnailFile : `${process.env.NEXT_PUBLIC_BACKEND_API}/article/img/${articleData.thumbnail}`})`,
+                  backgroundImage: `url(${thumbnailFile ? thumbnailFile : articleData.thumbnail})`,
                 }}
               >
                 {formMode === "add" && (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import MainContentWrapper from "@/app/_Components/_AdminDashboard/MainContentWrapper";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -68,9 +68,15 @@ const Page = () => {
       // }
 
       const formData = new FormData();
+      const token = Cookies.get("token");
+      const SECRET_KEY = new TextEncoder().encode(
+        process.env.NEXT_PUBLIC_SECRET_KEY
+      );
+
+      const userDetails = (await jwtVerify(token, SECRET_KEY)).payload;
       formData.append("zipFile", zipFile);
       formData.append("excelFile", excelFile);
-      const token = Cookies.get("token");
+      formData.append("authorName", userDetails.userName);
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_API}/article/upload-excel`,

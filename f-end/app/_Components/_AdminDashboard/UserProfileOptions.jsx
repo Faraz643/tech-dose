@@ -15,10 +15,10 @@ const UserProfileOptions = () => {
       // },
       // )
       document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-      
-    //   if (!response.ok) {
-    //     console.log("Error logging out");
-    //   }
+
+      //   if (!response.ok) {
+      //     console.log("Error logging out");
+      //   }
       router.replace("/admin/signin");
     } catch (err) {
       console.error("Inter server error", err);

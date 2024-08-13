@@ -57,7 +57,8 @@ export const showSingleArticle = (req, res) => {
 
 // @middleware -> check if user is admin || or editor
 export const addArticle = async (req, res) => {
-  const { title, description, slug, month, year, dateTime } = req.body;
+  const { title, description, slug, month, year, dateTime, authorName } =
+    req.body;
   const thumbnailPath = req.file;
   const metaData = {
     contentType: "image/png",
@@ -88,7 +89,7 @@ export const addArticle = async (req, res) => {
       month,
       year,
       dateTime,
-      "Faraz",
+      authorName,
       1,
     ]);
 
@@ -174,6 +175,7 @@ export const deleteArticle = (req, res) => {
 
 export const uploadArticleByFile = async (req, res) => {
   // console.log(file.buffer);
+  const { authorName } = req.body;
   // console.log(req.files.excelFile[0].fieldname);
   const file = req.files.excelFile;
   const imageBuffer = req.imageBuffer;
@@ -181,7 +183,7 @@ export const uploadArticleByFile = async (req, res) => {
     return res.status(400).json({ error: "No file uploaded" });
   }
   try {
-    storeExcelInDb(imageBuffer, file)
+    storeExcelInDb(imageBuffer, file, authorName)
       .then(() => {
         console.log("Articles Uploaded through an excel file");
         return res.send({ message: "Articles Uploaded Succesfully" });

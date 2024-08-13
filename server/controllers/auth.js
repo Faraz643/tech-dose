@@ -120,11 +120,17 @@ export const adminSignIn = async (req, res) => {
       return res.status(401).json({ message: "User Not Found" });
     }
     const userPass = result[0][0].password;
+    const userName = result[0][0].name;
+    const userEmail = result[0][0].email;
     const isPassMatch = await comparePasswords(password, userPass);
     if (isPassMatch) {
-      const token = jwt.sign({ enrollmentId }, SECRET_KEY, {
-        expiresIn: "30m",
-      });
+      const token = jwt.sign(
+        { enrollmentId, userName, userEmail },
+        SECRET_KEY,
+        {
+          expiresIn: "30m",
+        }
+      );
       // ---Firebase custom token is disabled for now---
       // const customFireBaseToken = await admin
       //   .auth()
@@ -139,6 +145,8 @@ export const adminSignIn = async (req, res) => {
       // console.log(customFireBaseToken);
       return res.json({
         authToken: token,
+        // username: userName,
+        // useremail: userEmail,
         // fireBaseAuthToken: customFireBaseToken,
       });
     } else {

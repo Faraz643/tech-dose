@@ -3,7 +3,11 @@ import { connection } from "./db.config.js";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { fireBaseStorage } from "./firebase.js";
 
-export const storeExcelInDb = async (imageBuffer, excelFilePath) => {
+export const storeExcelInDb = async (
+  imageBuffer,
+  excelFilePath,
+  activeUserName
+) => {
   try {
     // Read the Excel file into a workbook
     const workbook = xlsx.read(excelFilePath[0].buffer, { type: "buffer" });
@@ -32,6 +36,7 @@ export const storeExcelInDb = async (imageBuffer, excelFilePath) => {
     // data.forEach(async (row, index) => {
     for (const [index, row] of data.entries()) {
       const { title, description } = row;
+      const authorName = activeUserName;
       const slug = generateSlug(title);
       // GET AUTHOR NAME FROM CLIENT
       const dateTime = formatDate();
@@ -58,7 +63,7 @@ export const storeExcelInDb = async (imageBuffer, excelFilePath) => {
         title,
         description,
         slug,
-        author,
+        authorName,
         thumbnailDownloadURL,
         ArticleMonth,
         ArticleYear,
