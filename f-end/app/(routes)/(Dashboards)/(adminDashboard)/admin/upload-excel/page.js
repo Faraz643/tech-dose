@@ -6,11 +6,16 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
+import UploadingAnimation from "@/app/_Components/_AdminDashboard/UploadingAnimation";
+import UploadedAnimation from "@/app/_Components/_AdminDashboard/UploadedAnimation";
+import { jwtVerify } from "jose";
 
 const Page = () => {
   const [showExcelErr, setShowExcelErr] = useState("");
   const [suscessMessage, setSuccessMessage] = useState("");
   const [showZipErr, setShowZipErr] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
 
   function timeOutExcelError() {
     setTimeout(() => {
@@ -55,6 +60,8 @@ const Page = () => {
       excelFile &&
       excelFile.type === excelFileType
     ) {
+      setIsUploading(true);
+
       // if (
       //   file.type !==
       //   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -91,17 +98,26 @@ const Page = () => {
         );
         const data = await response.json();
         if (response.ok) {
+          setIsUploading(false);
+          setIsUploaded(true);
+          setTimeout(() => {
+            setIsUploaded(false);
+          }, 3000);
           e.target[0].value = "";
-          setSuccessMessage("Articles uploaded successfully");
+          setSuccessMessage(data.message);
+          // setSuccessMessage("Articles uploaded successfully");
           setTimeout(() => {
             setSuccessMessage();
           }, 4000);
         } else {
-          setShowExcelErr("An error occurred while processing the file!");
+          setIsUploading(false);
+          setShowExcelErr(data.message);
+          // setShowExcelErr("An error occurred while processing the file!");
           timeOutExcelError();
         }
       } catch (error) {
-        setShowExcelErr("An error occurred while processing the file!");
+        setShowExcelErr(data.message);
+        // setShowExcelErr("An error occurred while processing the file!");
         timeOutExcelError();
       }
     } else {
@@ -168,19 +184,39 @@ const Page = () => {
                 onChange={handleExcelFileChange}
               />
             </div>
-            <Button
-              type="submit"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-            >
-              <UploadIcon className="w-4 h-4 mr-2" />
-              Publish
-            </Button>
+            <div className="relative">
+              <Button
+                type="submit"
+                className="inline-flex h-10 items-center justify-center rounded-md bg-[#7262EC] px-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-[#6152d3] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+              >
+                <UploadIcon className="w-4 h-4 mr-2" />
+                Publish
+                {isUploaded && (
+                  <UploadedAnimation ml={"200px"} styling={animationStyles} />
+                )}
+                {isUploading && (
+                  <UploadingAnimation
+                    ml={"200px"}
+                    styling={animationStylesUploading}
+                  />
+                )}
+              </Button>
+            </div>
           </div>
         </form>
         {messageInfo}
       </div>
     </MainContentWrapper>
   );
+};
+
+const animationStylesUploading = {
+  height: "100px",
+  width: "100px",
+};
+const animationStyles = {
+  height: "50px",
+  width: "50px",
 };
 
 function UploadIcon(props) {

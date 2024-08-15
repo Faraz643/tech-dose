@@ -98,7 +98,7 @@ const ArticleForm = ({ formMode }) => {
     articleData.title.trim() != ""
       ? setSlugStatus("generated")
       : setSlugStatus("");
-    const slugValue = articleData.title.split(" ").join("-") + "-" + Date.now();
+    const slugValue = articleData.title.split(" ").join("-");
     setArticleData({ ...articleData, slug: slugValue });
   }
 
@@ -234,7 +234,7 @@ const ArticleForm = ({ formMode }) => {
       thumbnailFile && formData.append("thumbnail", thumbnail);
       formData.append("title", title);
       formData.append("description", desc);
-      formData.append("slug", articleData.slug);
+      formData.append("slug", articleData.slug + "-" + Date.now());
       formData.append("dateTime", dateTime);
       formData.append("authorName", userDetails.userName);
       !querySlug && formData.append("month", month);
@@ -259,6 +259,9 @@ const ArticleForm = ({ formMode }) => {
       } else {
         setIsUploading(false);
         setIsUploaded(true);
+        setTimeout(() => {
+          setIsUploaded(false);
+        }, 3000);
         clearFormData();
         document.getElementById("article-thumbnail").value = "";
       }
@@ -413,12 +416,24 @@ const ArticleForm = ({ formMode }) => {
             id="publish-article"
             className="text-white px-5 py-2 bg-[#7262EC] rounded-[5px] hover:cursor-pointer hover:bg-[#6152d3]"
           />
-          {isUploading && <UploadingAnimation />}
-          {isUploaded && <UploadedAnimation />}
+          {isUploading && (
+            <UploadingAnimation ml={"200px"} styling={animationStyles} />
+          )}
+          {isUploaded && (
+            <UploadedAnimation ml={"200px"} styling={animationStylesUploaded} />
+          )}
         </div>
       </form>
     </div>
   );
 };
 
+const animationStyles = {
+  height: "100px",
+  width: "100px",
+};
+const animationStylesUploaded = {
+  height: "50px",
+  width: "50px",
+};
 export default ArticleForm;

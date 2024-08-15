@@ -59,7 +59,7 @@ export const storeExcelInDb = async (
 
       const insertQuery =
         "INSERT INTO articles (title, description, slug, author, thumbnail,month,year,author_id, time) VALUES (?, ?, ?, ?, ?,?,?,?, ?)";
-      connection.query(insertQuery, [
+      const connectionResponse = await connection.query(insertQuery, [
         title,
         description,
         slug,
@@ -72,8 +72,14 @@ export const storeExcelInDb = async (
       ]);
     }
   } catch (error) {
-    console.error("Error:", error);
+    // console.error("Error is blah:", error);
+    return {
+      success: false,
+      message:
+        "An error occurred while processing the file, ensure the data is organized sequentially",
+    };
   }
+  return { success: true, message: "Article Added Successfully" };
 };
 
 function generateSlug(title) {

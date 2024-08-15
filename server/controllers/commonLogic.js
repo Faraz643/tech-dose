@@ -162,6 +162,7 @@ export const deleteArticle = (req, res) => {
   connection
     .query(deleteQuery, [slug])
     .then((result) => {
+      // write logic to delete the thumbnail from firebase
       res.status(204).end();
       console.log({ message: "Article Deleted Successfully" });
     })
@@ -169,7 +170,7 @@ export const deleteArticle = (req, res) => {
       res.status(200).json({ message: "Resource can not be Deleted" });
       console.log({ message: "An error occured" });
     });
-  deleteFile(thumbnailPath);
+  // deleteFile(thumbnailPath);
   res.json({ status: "Article deleted" });
 };
 
@@ -183,17 +184,29 @@ export const uploadArticleByFile = async (req, res) => {
     return res.status(400).json({ error: "No file uploaded" });
   }
   try {
-    storeExcelInDb(imageBuffer, file, authorName)
-      .then(() => {
-        console.log("Articles Uploaded through an excel file");
-        return res.send({ message: "Articles Uploaded Succesfully" });
-      })
-      .catch((err) => {
-        return res.status(422).json({
-          message:
-            "Error uploading Articles, verify that the files are arranged in the correct sequence.",
-        });
-      });
+    const publishedArticleResponse = await storeExcelInDb(
+      imageBuffer,
+      file,
+      authorName
+    );
+
+    if (publishedArticleResponse.success) {
+      return res.send({ message: publishedArticleResponse.message });
+    } else {
+      return res
+        .status(422)
+        .json({ message: publishedArticleResponse.message });
+    }
+    // storeExcelInDb(imageBuffer, file, authorName)
+    //   .then(() => {
+    //     return res.send({ message: "Articles Uploaded Succesfully" });
+    //   })
+    //   .catch((err) => {
+    //     return res.status(422).json({
+    //       message:
+    //         "Error uploading Articles, verify that the files are arranged in the correct sequence.",
+    //     });
+    //   });
   } catch (e) {
     return res
       .status(500)
