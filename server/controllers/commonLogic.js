@@ -3,7 +3,13 @@ import path from "path";
 // const fs = require("fs").promises;
 import fs from "fs/promises";
 import { storeExcelInDb } from "../uploadExcel.js";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import { fireBaseStorage } from "../firebase.js";
 export const showAllArticles = (req, res) => {
   // send user role to req while fetching from client, if role is admin ? showAll: fetch article from db using loggedin author name
@@ -154,24 +160,40 @@ async function deleteFile(filePath) {
   }
 }
 
-export const deleteArticle = (req, res) => {
+export const deleteArticle = async (req, res) => {
   const slug = req.params.slug;
   const thumbnailPath = req.body.thumbnailPath;
-  const deleteQuery = `
-    DELETE FROM articles WHERE slug=?`;
-  connection
-    .query(deleteQuery, [slug])
-    .then((result) => {
-      // write logic to delete the thumbnail from firebase
-      res.status(204).end();
-      console.log({ message: "Article Deleted Successfully" });
-    })
-    .catch((error) => {
-      res.status(200).json({ message: "Resource can not be Deleted" });
-      console.log({ message: "An error occured" });
-    });
-  // deleteFile(thumbnailPath);
-  res.json({ status: "Article deleted" });
+
+  // Decode the thumbnail URL
+  const baseUrl =
+    "https://firebasestorage.googleapis.com/v0/b/tech-dose-images.appspot.com/o/";
+  const pathStartIndex = thumbnailPath.indexOf(baseUrl) + baseUrl.length;
+  const pathEndIndex = thumbnailPath.indexOf("?alt=media");
+  const encodedPath = thumbnailPath.substring(pathStartIndex, pathEndIndex);
+  const decodedPath = decodeURIComponent(encodedPath);
+
+  const fileRef = ref(fireBaseStorage, decodedPath);
+
+  // Delete the article from the database
+  const deleteQuery = `DELETE FROM articles WHERE slug=?`;
+
+  try {
+    const result = await connection.query(deleteQuery, [slug]);
+
+    // Proceed to delete the file from Firebase Storage
+    try {
+      await deleteObject(fileRef);
+      res.status(204).end(); // No content, operation was successful
+    } catch (error) {
+      console.error("Error deleting file from Firebase:", error);
+      res
+        .status(500)
+        .json({ message: "Article deleted but file deletion failed" });
+    }
+  } catch (error) {
+    console.error("Error deleting article:", error);
+    res.status(500).json({ message: "Failed to delete the article" });
+  }
 };
 
 export const uploadArticleByFile = async (req, res) => {

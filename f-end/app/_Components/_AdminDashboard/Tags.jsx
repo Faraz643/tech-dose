@@ -31,10 +31,10 @@ const Tags = ({
     );
     renderOnDelete((prev) => !prev)
 
-    if (response.status === 204) {
-      const data = await response.json();
-      console.log(data);
-    }
+    // if (response.status === 204) {
+    //   const data = await response.json();
+    //   console.log(data);
+    // }
   }
   function handleUpdate() {
     router.push(`/admin/edit-article?slug=${slug}`);
