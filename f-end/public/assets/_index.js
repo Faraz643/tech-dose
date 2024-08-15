@@ -91,6 +91,11 @@ import userProfile from "./images/admin-icons/user-profile.jpg";
 import redirect from "./images/admin-icons/redirect.png";
 import calendar from "./images/admin-icons/calendar.png";
 
+// Animations
+
+import UploadingAnimationJson from "./animations/publishing-animation.json";
+import UploadedAnimationJson from "./animations/published-animation.json";
+
 // Excel file template
 
 // export
@@ -144,4 +149,6 @@ export {
   calendar,
   imagePlaceholder,
   eventBanner,
+  UploadingAnimationJson,
+  UploadedAnimationJson,
 };

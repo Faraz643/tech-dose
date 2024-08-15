@@ -15,6 +15,8 @@ import Cookies from "js-cookie";
 import { JsonWebTokenError } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import { jwtVerify } from "jose";
+import UploadingAnimation from "../_AdminDashboard/UploadingAnimation";
+import UploadedAnimation from "../_AdminDashboard/UploadedAnimation";
 
 const ArticleForm = ({ formMode }) => {
   // states
@@ -27,6 +29,9 @@ const ArticleForm = ({ formMode }) => {
     description: "",
   });
   const [dataURL, setDataURL] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const querySlug = searchParams.get("slug");
@@ -149,7 +154,7 @@ const ArticleForm = ({ formMode }) => {
     const formData = e["target"];
     // get form values
     const validateThumbnail = formData["article-thumbnail"].files[0];
-    // console.log(formData['article-thumbnail'].files[0])
+    console.log(formData["article-thumbnail"].files[0]);
     const validateTitle = formData["article-title"].value;
     const validateDescription = formData["article-description"].value;
     // warning messages for validations
@@ -216,26 +221,27 @@ const ArticleForm = ({ formMode }) => {
     );
 
     const token = Cookies.get("token");
-    const userDetails = (await jwtVerify(token, SECRET_KEY)).payload;
-    const formData = new FormData();
-    const dateTime = formatDate();
-    // console.log('this is thumbnail from publishArticle function', thumbnail)
-    // Getting full month name (e.g. "September")
-    const today = new Date();
-    const month = today.toLocaleString("default", { month: "long" });
-    const year = today.getFullYear();
-    thumbnailFile && formData.append("thumbnail", thumbnail);
-    formData.append("title", title);
-    formData.append("description", desc);
-    formData.append("slug", articleData.slug);
-    formData.append("dateTime", dateTime);
-    formData.append("authorName", userDetails.userName);
-    !querySlug && formData.append("month", month);
-    !querySlug && formData.append("year", year);
-    const prefixAPi = `${process.env.NEXT_PUBLIC_BACKEND_API}/article`;
-    const api = querySlug ? prefixAPi + `/${querySlug}` : prefixAPi;
-    const methodIs = querySlug ? "PUT" : "POST";
     try {
+      setIsUploading(true);
+      const userDetails = (await jwtVerify(token, SECRET_KEY)).payload;
+      const formData = new FormData();
+      const dateTime = formatDate();
+      // console.log('this is thumbnail from publishArticle function', thumbnail)
+      // Getting full month name (e.g. "September")
+      const today = new Date();
+      const month = today.toLocaleString("default", { month: "long" });
+      const year = today.getFullYear();
+      thumbnailFile && formData.append("thumbnail", thumbnail);
+      formData.append("title", title);
+      formData.append("description", desc);
+      formData.append("slug", articleData.slug);
+      formData.append("dateTime", dateTime);
+      formData.append("authorName", userDetails.userName);
+      !querySlug && formData.append("month", month);
+      !querySlug && formData.append("year", year);
+      const prefixAPi = `${process.env.NEXT_PUBLIC_BACKEND_API}/article`;
+      const api = querySlug ? prefixAPi + `/${querySlug}` : prefixAPi;
+      const methodIs = querySlug ? "PUT" : "POST";
       const response = await fetch(api, {
         method: methodIs,
         headers: { Authorization: `Bearer ${token}` },
@@ -243,14 +249,19 @@ const ArticleForm = ({ formMode }) => {
         body: formData,
       });
 
+      // Handle non-2xx status codes:
       if (!response.ok) {
-        // Handle non-2xx status codes:
+        setIsUploading(false);
         const errorData = await response.json();
         throw new Error(
           `API error: ${response.status} - ${errorData.message || "Unknown error"}`
         );
+      } else {
+        setIsUploading(false);
+        setIsUploaded(true);
+        clearFormData();
+        document.getElementById("article-thumbnail").value = "";
       }
-      clearFormData();
     } catch (error) {
       console.error("Error submitting form:", error.message);
     }
@@ -259,6 +270,7 @@ const ArticleForm = ({ formMode }) => {
   return (
     <div className="my-1">
       <form
+        id="article-form"
         autoComplete="off"
         method="post"
         onSubmit={handleSubmitForm}
@@ -394,13 +406,15 @@ const ArticleForm = ({ formMode }) => {
         {/* Submit Button */}
         <ToastContainer />
 
-        <div className="flex justify-center items-center mt-2">
+        <div className="flex justify-center items-center mt-2 relative">
           <input
             type="submit"
             value={formMode === "add" ? "Publish" : "Update"}
             id="publish-article"
             className="text-white px-5 py-2 bg-[#7262EC] rounded-[5px] hover:cursor-pointer hover:bg-[#6152d3]"
           />
+          {isUploading && <UploadingAnimation />}
+          {isUploaded && <UploadedAnimation />}
         </div>
       </form>
     </div>
