@@ -31,6 +31,7 @@ const ArticleForm = ({ formMode }) => {
   const [dataURL, setDataURL] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [isDisabledButton, setIsButtonDisabled] = useState(false);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -222,6 +223,7 @@ const ArticleForm = ({ formMode }) => {
 
     const token = Cookies.get("token");
     try {
+      setIsButtonDisabled(true);
       setIsUploading(true);
       const userDetails = (await jwtVerify(token, SECRET_KEY)).payload;
       const formData = new FormData();
@@ -239,6 +241,7 @@ const ArticleForm = ({ formMode }) => {
       formData.append("authorName", userDetails.userName);
       !querySlug && formData.append("month", month);
       !querySlug && formData.append("year", year);
+      // Add article -api
       const prefixAPi = `${process.env.NEXT_PUBLIC_BACKEND_API}/article`;
       const api = querySlug ? prefixAPi + `/${querySlug}` : prefixAPi;
       const methodIs = querySlug ? "PUT" : "POST";
@@ -252,11 +255,13 @@ const ArticleForm = ({ formMode }) => {
       // Handle non-2xx status codes:
       if (!response.ok) {
         setIsUploading(false);
+        setIsButtonDisabled(false);
         const errorData = await response.json();
         throw new Error(
           `API error: ${response.status} - ${errorData.message || "Unknown error"}`
         );
       } else {
+        setIsButtonDisabled(false);
         setIsUploading(false);
         setIsUploaded(true);
         setTimeout(() => {
@@ -415,6 +420,7 @@ const ArticleForm = ({ formMode }) => {
             value={formMode === "add" ? "Publish" : "Update"}
             id="publish-article"
             className="text-white px-5 py-2 bg-[#7262EC] rounded-[5px] hover:cursor-pointer hover:bg-[#6152d3]"
+            disabled={isDisabledButton}
           />
           {isUploading && (
             <UploadingAnimation ml={"200px"} styling={animationStyles} />

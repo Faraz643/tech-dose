@@ -16,6 +16,7 @@ const Page = () => {
   const [showZipErr, setShowZipErr] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [isDisabledButton, setIsButtonDisabled] = useState(false);
 
   function timeOutExcelError() {
     setTimeout(() => {
@@ -85,6 +86,7 @@ const Page = () => {
       formData.append("excelFile", excelFile);
       formData.append("authorName", userDetails.userName);
       try {
+        setIsButtonDisabled(true);
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_API}/article/upload-excel`,
           {
@@ -100,6 +102,7 @@ const Page = () => {
         if (response.ok) {
           setIsUploading(false);
           setIsUploaded(true);
+          setIsButtonDisabled(false);
           setTimeout(() => {
             setIsUploaded(false);
           }, 3000);
@@ -111,6 +114,7 @@ const Page = () => {
           }, 4000);
         } else {
           setIsUploading(false);
+          setIsButtonDisabled(false);
           setShowExcelErr(data.message);
           // setShowExcelErr("An error occurred while processing the file!");
           timeOutExcelError();
@@ -188,6 +192,7 @@ const Page = () => {
               <Button
                 type="submit"
                 className="inline-flex h-10 items-center justify-center rounded-md bg-[#7262EC] px-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-[#6152d3] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                disabled={isDisabledButton}
               >
                 <UploadIcon className="w-4 h-4 mr-2" />
                 Publish

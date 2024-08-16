@@ -183,7 +183,7 @@ export const adminResetPass = async (req, res) => {
     const resetLink = `${process.env.FRONT_END_ORIGIN}/admin/reset-password/${resetToken}`;
     await transporter.sendMail({
       from: "techybadshah@gmail.com",
-      to: result[0][0].mail,
+      to: result[0][0].email,
       subject: "Tech Dose Password Reset",
       html: `Click on this link to reset your password:\n <a href="${resetLink}">Reset Password Link</a> `,
     });
@@ -191,6 +191,7 @@ export const adminResetPass = async (req, res) => {
       message: "Password reset link has been sent to your email",
     });
   } catch (err) {
+    console.log(err)
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

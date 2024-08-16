@@ -17,6 +17,7 @@ import { fireBaseAuth } from "@/app/firebase";
 
 export function AdminLoginPage() {
   const [inputWarning, setInputWarning] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams.get("next") || "/dashboard";
@@ -29,6 +30,7 @@ export function AdminLoginPage() {
     const userPass = formData["password"].value;
 
     try {
+      setIsButtonDisabled(true);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/sign-in`,
         {
@@ -47,9 +49,11 @@ export function AdminLoginPage() {
       // await loginWithCustomToken(data.fireBaseAuthToken);
       if (!response.ok) {
         setInputWarning(data.message);
+        setIsButtonDisabled(false);
       } else if (response.ok) {
         setCookie("token", data.authToken, 1); // 1-hour expiry
         router.replace(`/admin/${nextUrl}`);
+        setIsButtonDisabled(false);
       }
     } catch (err) {
       console.error(err);
@@ -143,8 +147,9 @@ export function AdminLoginPage() {
               </svg>
             </div>
             <button
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+              className="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
               type="submit"
+              disabled={isButtonDisabled}
             >
               Login
             </button>
