@@ -145,10 +145,11 @@ export const adminSignIn = async (req, res) => {
     const userPass = result[0][0].password;
     const userName = result[0][0].name;
     const userEmail = result[0][0].email;
+    const userId = result[0][0].id;
     const isPassMatch = await comparePasswords(password, userPass);
     if (isPassMatch) {
       const token = jwt.sign(
-        { enrollmentId, userName, userEmail },
+        { enrollmentId, userName, userEmail, userId },
         SECRET_KEY,
         {
           expiresIn: "30m",

@@ -6,7 +6,8 @@ import { fireBaseStorage } from "./firebase.js";
 export const storeExcelInDb = async (
   imageBuffer,
   excelFilePath,
-  activeUserName
+  activeUserName,
+  activeUserID
 ) => {
   try {
     // Read the Excel file into a workbook
@@ -52,7 +53,7 @@ export const storeExcelInDb = async (
       };
       const thumbnailBuffer = imageBuffer[index] || null;
       const thumbnailPath = Date.now();
-      const author_id = 1;
+      const author_id = activeUserID;
       const storageRef = ref(fireBaseStorage, `images/${thumbnailPath}`);
       await uploadBytes(storageRef, thumbnailBuffer, metaData);
       const thumbnailDownloadURL = await getDownloadURL(storageRef);
