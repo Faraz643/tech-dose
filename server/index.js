@@ -68,9 +68,9 @@ async function checkConnection() {
 // Check and log the connection status
 checkConnection();
 
-// await deletedUsersTable();
 // await deletedArticlesTable();
 // await deletedRolesTable();
+// await deletedUsersTable();
 
 async function createAllTables() {
   try {

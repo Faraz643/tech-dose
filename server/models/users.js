@@ -6,11 +6,11 @@ export default async function createUsersTable() {
   CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    enroll_id INT NOT NULL,
+    enroll_id INT NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(200) NOT NULL,
+    email VARCHAR(200) NOT NULL UNIQUE,
     year INT NOT NULL,
-    branch VARCHAR(100),
+    branch VARCHAR(100) NOT NULL,
     user_role INT NOT NULL,
     CONSTRAINT fk_user_role FOREIGN KEY (user_role) REFERENCES roles(id)
   );

@@ -34,13 +34,27 @@ export function AdminSignUpPage() {
     e.preventDefault();
     // if (disableButton) return;
     // setDisableButton(true);
+
     const formData = e["target"];
+    const userName = formData["name"].value;
     const userID = formData["enrollmentId"].value;
     const userMail = formData["email"].value;
+    const userBranch = formData["branch"].value;
+    const userYear = formData["year"].value;
     const userPass = formData["password"].value;
 
-    if (!userID.length > 0 && !userMail.length > 0 && !userPass.length > 0) {
-      notify("Please fill all the given fields", 1, "warn");
+    if (
+      userID.length === 0 ||
+      userMail.length === 0 ||
+      userPass.length === 0 ||
+      userBranch.length === 0 ||
+      userYear.length === 0 ||
+      userName.length === 0 ||
+      typeof userName !== "string" ||
+      isNaN(Number(userID)) ||
+      isNaN(Number(userYear))
+    ) {
+      notify("Please fill appropriate values in each field", 1, "warn");
       return;
     }
 
@@ -54,20 +68,22 @@ export function AdminSignUpPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            userName: userName,
             enrollmentId: userID,
             email: userMail,
             password: userPass,
+            branch: userBranch,
+            year: userYear,
           }),
         }
       );
 
       const data = await response.json();
       if (response.ok) {
-        // setIsButtonDisabled(false);
         notify(data.message, 1, "success");
         setTime(60);
       } else {
-        // setIsButtonDisabled(false);
+        setIsButtonDisabled(false);
         notify(data.message, 1, "warn");
       }
     } catch (err) {
@@ -95,15 +111,16 @@ export function AdminSignUpPage() {
             <div className="relative">
               <label
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
-                htmlFor="enrollmentId"
+                htmlFor="name"
               >
-                Enrollment ID
+                Name
               </label>
               <input
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 pr-10"
-                id="enrollmentId"
-                placeholder="Enter your enrollment ID"
+                id="name"
+                placeholder="What do people call you at Integral ?"
                 type="text"
+                autoComplete="current-name"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -126,13 +143,14 @@ export function AdminSignUpPage() {
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
                 htmlFor="enrollmentId"
               >
-                E-mail
+                Enrollment ID
               </label>
               <input
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 pr-10"
-                id="email"
-                placeholder="Enter your university email"
-                type="email"
+                id="enrollmentId"
+                placeholder="Enter your enrollment ID"
+                type="text"
+                autoComplete="current-enrollId"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -146,8 +164,99 @@ export function AdminSignUpPage() {
                 strokeLinejoin="round"
                 className="absolute right-3 top-1/2 h-5 w-5 text-gray-400"
               >
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+              </svg>
+            </div>
+            <div className="relative">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
+                htmlFor="email"
+              >
+                E-mail
+              </label>
+              <input
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 pr-10"
+                id="email"
+                placeholder="Enter your university email"
+                type="email"
+                autoComplete="current-email"
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="absolute right-3 top-1/2 h-5 w-5 text-gray-400"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </div>
+            <div className="relative">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
+                htmlFor="branch"
+              >
+                Branch
+              </label>
+              <input
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 pr-10"
+                id="branch"
+                placeholder="What do you study ?"
+                type="text"
+                autoComplete="current-branch"
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="absolute right-3 top-1/2 h-5 w-5 text-gray-400"
+              >
+                <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                <rect width="20" height="14" x="2" y="6" rx="2" />
+              </svg>
+            </div>
+            <div className="relative">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
+                htmlFor="year"
+              >
+                Year
+              </label>
+              <input
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 pr-10"
+                id="year"
+                placeholder="What year are you in ?"
+                type="text"
+                autoComplete="current-year"
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="absolute right-3 top-1/2 h-5 w-5 text-gray-400"
+              >
+                <path d="M8 2v4" />
+                <path d="M16 2v4" />
+                <rect width="18" height="18" x="3" y="4" rx="2" />
+                <path d="M3 10h18" />
               </svg>
             </div>
             <div className="relative">
@@ -160,8 +269,9 @@ export function AdminSignUpPage() {
               <input
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 pr-10"
                 id="password"
-                placeholder="Enter your password"
+                placeholder="Create a Hulk-like password"
                 type="password"
+                autoComplete="current-password"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"

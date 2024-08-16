@@ -24,34 +24,57 @@ const SECRET_KEY_VERIFICATION_USE = process.env.VERIFICATION_SECRET_KEY;
 
 export const adminSignup = async (req, res) => {
   if (!req.body) {
-    console.log("request body:", req.body);
-    return res
-      .status(404)
-      .json({ message: "No form data received", body: req.body });
+    return res.status(400).json({ message: "No form data received" });
   }
-  const { userName, enrollmentId, email, password, userRole } = req.body;
-  console.log("username is:", req.body);
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const verify_account_token = jwt.sign(
-    { userName, enrollmentId, email, hashedPassword, userRole },
-    SECRET_KEY_VERIFICATION_USE,
-    {
-      expiresIn: "30min",
-    }
-  );
+
+  const { userName, enrollmentId, email, password, year, branch } = req.body;
+  const CheckUserInDb = `SELECT * FROM users WHERE enroll_id=? OR email=?`;
+
   try {
+    // Check if the user already exists in the database
+    const [userFound] = await connection.query(CheckUserInDb, [
+      enrollmentId,
+      email,
+    ]);
+    const userDetails = userFound[0];
+
+    if (userDetails) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      message: "kindly ensure proper values are given in each field",
+    });
+  }
+
+  try {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a verification token
+    const userRole = 1;
+    const verify_account_token = jwt.sign(
+      { userName, enrollmentId, email, hashedPassword, userRole, year, branch },
+      SECRET_KEY_VERIFICATION_USE,
+      { expiresIn: "30min" }
+    );
+
+    // Generate the verification link
     const verifyAccountLink = `${process.env.FRONT_END_ORIGIN}/admin/verify-account/${verify_account_token}`;
+
+    // Send the verification email
     await transporter.sendMail({
       from: "techybadshah@gmail.com",
       to: email,
       subject: `Verify Tech Dose ${userRole} Account`,
-      html: `Click on this link to verify your ${userRole} account:\n <a href="${verifyAccountLink}">Verify Account</a> `,
+      html: `Click on this link to verify your ${userRole} account:\n <a href="${verifyAccountLink}">Verify Account</a>`,
     });
-    return res.send({
+
+    return res.status(200).json({
       message:
-        "Account verification link has been sent to your email and will expire in 30mins",
+        "Account verification link has been sent to your email and will expire in 30 minutes.",
     });
-  } catch (e) {
+  } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -66,8 +89,9 @@ export const verifyAccount = async (req, res) => {
     const enroll_id = decoded.enrollmentId;
     const password = decoded.hashedPassword;
     const email = decoded.email;
-    console.log("password is:", password);
-    const addNewUserQuery = `INSERT INTO users (name, enroll_id, password, email, year, user_role) VALUES (?,?,?,?,?,?)`;
+    const year = decoded.year;
+    const branch = decoded.branch;
+    const addNewUserQuery = `INSERT INTO users (name, enroll_id, password, email, year, user_role,branch) VALUES (?,?,?,?,?,?,?)`;
     // await connection.query(addNewUserQuery, [enroll_id, password, email]);
     // return res.status(200).json({message:});
     connection
@@ -76,19 +100,18 @@ export const verifyAccount = async (req, res) => {
         enroll_id,
         password,
         email,
-        2024,
+        year,
         userRole,
+        branch,
       ])
       .then(() => {
         invalidateToken(token);
         res.status(201).json({ message: "New User Added" });
       })
       .catch((err) => {
-        console.log(err);
         res.status(500).json({ message: "Error Adding User" });
       });
   } catch (e) {
-    console.log("dont know what is the error");
     return res.status(500).json({
       message: "Internal Server Error",
     });
@@ -155,7 +178,6 @@ export const adminSignIn = async (req, res) => {
         .json({ message: "Enrollment Id or Password is Incorrect" });
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -191,7 +213,6 @@ export const adminResetPass = async (req, res) => {
       message: "Password reset link has been sent to your email",
     });
   } catch (err) {
-    console.log(err)
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
