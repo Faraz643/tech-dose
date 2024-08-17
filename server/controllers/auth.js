@@ -67,7 +67,7 @@ export const adminSignup = async (req, res) => {
       from: "techybadshah@gmail.com",
       to: email,
       subject: `Verify Tech Dose ${userRole} Account`,
-      html: `Click on this link to verify your ${userRole} account:\n <a href="${verifyAccountLink}">Verify Account</a>`,
+      html: `Click on this link to verify your Tech Dose Admin account:\n <a href="${verifyAccountLink}">Verify Account</a>`,
     });
 
     return res.status(200).json({
