@@ -23,6 +23,8 @@ import invalidateToken from "./redisClient.js";
 import dotenv from "dotenv";
 import { connection } from "./db.config.js";
 import { client } from "./redisClient.js";
+import createEventsTable from "./models/events.js";
+import createParticipantsTable from "./models/participants.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
@@ -75,8 +77,10 @@ checkConnection();
 async function createAllTables() {
   try {
     await createRolesTable();
+    await createEventsTable();
     await createUsersTable();
     await createArticlesTables();
+    await createParticipantsTable();
   } catch (err) {
     console.error("Error during database creating tables:", err);
   }
