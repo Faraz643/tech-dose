@@ -149,7 +149,12 @@ UPDATE articles SET title=?, description=?, slug=? ${
     .then(() => {
       res.status(201).json({ message: "Article Updated" });
     })
-    .catch((err) => console.log("Error Updating article:", err));
+    .catch((err) => {
+      console.log("Error Updating article:", err);
+      res
+        .status(500)
+        .json({ message: "Internal Server Error, Please try after some time" });
+    });
 };
 
 async function deleteFile(filePath) {

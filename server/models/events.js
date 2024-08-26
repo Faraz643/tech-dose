@@ -6,10 +6,12 @@ export default async function createEventsTable() {
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(250) NOT NULL,
     description TEXT NOT NULL,
-    start_time VARCHAR(20) NOT NULL,
-    end_time VARCHAR(20) NOT NULL,
+    start_time VARCHAR(100) NOT NULL,
+    end_time VARCHAR(100) NOT NULL,
     location VARCHAR(200) NOT NULL,
-    max_participants INT);
+    max_participants INT,
+    event_id INT NOT NULL UNIQUE);
+    
     `;
 
   try {
@@ -21,15 +23,13 @@ export default async function createEventsTable() {
   }
 }
 
-
 export async function deletedEventsTable() {
-    const deleteTable = `DROP TABLE events`;
-    try {
-      await connection.query(deleteTable);
-      console.log("deleted events table!");
-    } catch (err) {
-      console.error("Error deleting events table:", err);
-      // Handle specific errors if needed
-    }
+  const deleteTable = `DROP TABLE events`;
+  try {
+    await connection.query(deleteTable);
+    console.log("deleted events table!");
+  } catch (err) {
+    console.error("Error deleting events table:", err);
+    // Handle specific errors if needed
   }
-  
+}
