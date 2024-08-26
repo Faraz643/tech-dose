@@ -127,80 +127,84 @@ export const addArticle = async (req, res) => {
   }
 };
 
-function getFireBaseThumbnailName() {}
-// @middleware -> check if user is admin || updating article author name === loggedin user name
 export const updateArticle = async (req, res) => {
   const metaData = {
     contentType: "image/png",
   };
   const { title, description, slug, existingThumbnailFileName } = req.body;
-  // extract old file name
-  const decodedUrl = existingThumbnailFileName.split("%2F").pop().split("?")[0];
-  const thumbnailPath = req.file || null;
   const articleToBeUpdated = req.params.slug;
+  const thumbnailPath = req.file || null;
+
+  // Extract the old file name from the URL
+  const decodedFileName = decodeURIComponent(
+    existingThumbnailFileName.split("%2F").pop().split("?")[0]
+  );
+
+  // Prepare the SQL query and the table columns to be updated
   let tableColumns = [title, description, slug];
-  const updateArticleQuery = `
-UPDATE articles SET title=?, description=?, slug=? ${
-    thumbnailPath ? ", thumbnail=?" : ""
-  } WHERE slug=?`;
+  let updateArticleQuery = `
+    UPDATE articles 
+    SET title = ?, description = ?, slug = ?
+  `;
+
+  // If a new thumbnail is provided, include it in the update
+  if (thumbnailPath) {
+    updateArticleQuery += ", thumbnail = ?";
+  }
+
+  updateArticleQuery += " WHERE slug = ?";
+
   try {
-    const storageRef = ref(fireBaseStorage, `images/${decodedUrl}`);
-    await uploadBytes(storageRef, thumbnailPath.buffer, metaData);
-    const thumbnailDownloadURL = await getDownloadURL(storageRef);
     if (thumbnailPath) {
+      // Reference to the old thumbnail in Firebase Storage
+      const storageRef = ref(fireBaseStorage, `images/${decodedFileName}`);
+
+      // Upload the new thumbnail
+      await uploadBytes(storageRef, thumbnailPath.buffer, metaData);
+
+      // Get the new thumbnail's download URL
+      const thumbnailDownloadURL = await getDownloadURL(storageRef);
+
+      // Add the new thumbnail URL to the table columns
       tableColumns.push(thumbnailDownloadURL);
     }
-    tableColumns.push(articleToBeUpdated);
-    try {
-      connection
-        .query(updateArticleQuery, tableColumns)
-        .then(() => {
-          res.status(201).json({ message: "Article Updated" });
-        })
-        .catch((err) => console.log("Error Updating article:", err));
-    } catch (error) {
-      // console.log("this is error", error);
-      res.status(500).json({ message: "Internal Server Error", error });
-    }
-  } catch (e) {
-    console.error("Error processing request:", e);
 
+    // Add the slug of the article to be updated
+    tableColumns.push(articleToBeUpdated);
+
+    // Execute the update query
+    await connection.query(updateArticleQuery, tableColumns);
+    res.status(201).json({ message: "Article Updated" });
+  } catch (error) {
+    console.error("Error processing request:", error);
+
+    // Handle specific Firebase Storage errors
     let statusCode = 500;
     let message = "Internal Server Error";
 
-    switch (e.code) {
-      case "storage/unauthorized":
-        statusCode = 403;
-        message = "Unauthorized access to Firebase Storage";
-        break;
-      case "storage/quota-exceeded":
-        statusCode = 403;
-        message = "Firebase Storage quota exceeded";
-        break;
-      case "storage/invalid-argument":
-        statusCode = 400;
-        message = "Invalid argument provided to Firebase Storage";
-        break;
-      case "storage/retry-limit-exceeded":
-        statusCode = 503;
-        message = "Retry limit exceeded while accessing Firebase Storage";
-        break;
+    if (error.code) {
+      switch (error.code) {
+        case "storage/unauthorized":
+          statusCode = 403;
+          message = "Unauthorized access to Firebase Storage";
+          break;
+        case "storage/quota-exceeded":
+          statusCode = 403;
+          message = "Firebase Storage quota exceeded";
+          break;
+        case "storage/invalid-argument":
+          statusCode = 400;
+          message = "Invalid argument provided to Firebase Storage";
+          break;
+        case "storage/retry-limit-exceeded":
+          statusCode = 503;
+          message = "Retry limit exceeded while accessing Firebase Storage";
+          break;
+      }
     }
 
-    return res.status(statusCode).json({ message });
+    res.status(statusCode).json({ message });
   }
-  tableColumns.push(articleToBeUpdated);
-  connection
-    .query(updateArticleQuery, tableColumns)
-    .then(() => {
-      res.status(201).json({ message: "Article Updated" });
-    })
-    .catch((err) => {
-      console.log("Error Updating article:", err);
-      res
-        .status(500)
-        .json({ message: "Internal Server Error, Please try after some time" });
-    });
 };
 
 async function deleteFile(filePath) {
