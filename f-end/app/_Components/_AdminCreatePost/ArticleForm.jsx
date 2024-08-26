@@ -32,6 +32,8 @@ const ArticleForm = ({ formMode }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
   const [isDisabledButton, setIsButtonDisabled] = useState(false);
+  const [existingThumbnailFileName, setExistingThumbnailFileName] =
+    useState("");
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -63,6 +65,7 @@ const ArticleForm = ({ formMode }) => {
             slug: fetchedData.slug,
             thumbnail: fetchedData.thumbnail,
           });
+          setExistingThumbnailFileName(fetchedData.thumbnail);
         } else {
           router.replace("/admin/dashboard");
         }
@@ -239,6 +242,7 @@ const ArticleForm = ({ formMode }) => {
       formData.append("slug", articleData.slug + "-" + Date.now());
       formData.append("dateTime", dateTime);
       formData.append("authorName", userDetails.userName);
+      formData.append("existingThumbnailFileName", existingThumbnailFileName);
       !querySlug && formData.append("month", month);
       !querySlug && formData.append("year", year);
       // Add article -api

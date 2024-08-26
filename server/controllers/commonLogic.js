@@ -75,10 +75,7 @@ export const addArticle = async (req, res) => {
   }
 
   try {
-    const storageRef = ref(
-      fireBaseStorage,
-      `images/${thumbnailPath.originalname}`
-    );
+    const storageRef = ref(fireBaseStorage, `images/${Date.now()}`);
 
     // Upload file to Firebase Storage
     await uploadBytes(storageRef, thumbnailPath.buffer, metaData);
@@ -130,26 +127,69 @@ export const addArticle = async (req, res) => {
   }
 };
 
+function getFireBaseThumbnailName() {}
 // @middleware -> check if user is admin || updating article author name === loggedin user name
 export const updateArticle = async (req, res) => {
-  const { title, description, slug } = req.body;
-  const thumbnailPath = req.file?.filename || null;
+  const metaData = {
+    contentType: "image/png",
+  };
+  const { title, description, slug, existingThumbnailFileName } = req.body;
+  // extract old file name
+  const decodedUrl = existingThumbnailFileName.split("%2F").pop().split("?")[0];
+  const thumbnailPath = req.file || null;
   const articleToBeUpdated = req.params.slug;
   let tableColumns = [title, description, slug];
   const updateArticleQuery = `
 UPDATE articles SET title=?, description=?, slug=? ${
     thumbnailPath ? ", thumbnail=?" : ""
   } WHERE slug=?`;
-  if (thumbnailPath) {
-    tableColumns.push(thumbnailPath);
+  try {
+    const storageRef = ref(fireBaseStorage, `images/${decodedUrl}`);
+    await uploadBytes(storageRef, thumbnailPath.buffer, metaData);
+    const thumbnailDownloadURL = await getDownloadURL(storageRef);
+    if (thumbnailPath) {
+      tableColumns.push(thumbnailDownloadURL);
+    }
+    tableColumns.push(articleToBeUpdated);
+    try {
+      connection
+        .query(updateArticleQuery, tableColumns)
+        .then(() => {
+          res.status(201).json({ message: "Article Updated" });
+        })
+        .catch((err) => console.log("Error Updating article:", err));
+    } catch (error) {
+      // console.log("this is error", error);
+      res.status(500).json({ message: "Internal Server Error", error });
+    }
+  } catch (e) {
+    console.error("Error processing request:", e);
+
+    let statusCode = 500;
+    let message = "Internal Server Error";
+
+    switch (e.code) {
+      case "storage/unauthorized":
+        statusCode = 403;
+        message = "Unauthorized access to Firebase Storage";
+        break;
+      case "storage/quota-exceeded":
+        statusCode = 403;
+        message = "Firebase Storage quota exceeded";
+        break;
+      case "storage/invalid-argument":
+        statusCode = 400;
+        message = "Invalid argument provided to Firebase Storage";
+        break;
+      case "storage/retry-limit-exceeded":
+        statusCode = 503;
+        message = "Retry limit exceeded while accessing Firebase Storage";
+        break;
+    }
+
+    return res.status(statusCode).json({ message });
   }
-  tableColumns.push(articleToBeUpdated);
-  connection
-    .query(updateArticleQuery, tableColumns)
-    .then(() => {
-      res.status(201).json({ message: "Article Updated" });
-    })
-    .catch((err) => console.log("Error Updating article:", err));
+  // Upload file to Firebase Storage
 };
 
 async function deleteFile(filePath) {
