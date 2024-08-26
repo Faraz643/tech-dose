@@ -86,6 +86,7 @@ export const verifyAccount = async (req, res) => {
     const decoded = jwt.verify(token, SECRET_KEY_VERIFICATION_USE);
     const userName = decoded.userName;
     const userRole = decoded.userRole;
+    // const userRole = 1
     const enroll_id = decoded.enrollmentId;
     const password = decoded.hashedPassword;
     const email = decoded.email;
@@ -109,7 +110,7 @@ export const verifyAccount = async (req, res) => {
         res.status(201).json({ message: "New User Added" });
       })
       .catch((err) => {
-        res.status(500).json({ message: "Error Adding User" });
+        res.status(500).json({ message: "Error Adding User", err });
       });
   } catch (e) {
     return res.status(500).json({
