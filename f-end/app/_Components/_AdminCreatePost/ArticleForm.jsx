@@ -34,6 +34,7 @@ const ArticleForm = ({ formMode }) => {
   const [isDisabledButton, setIsButtonDisabled] = useState(false);
   const [existingThumbnailFileName, setExistingThumbnailFileName] =
     useState("");
+  const [existingSlug, setExistingSlug] = useState("");
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -62,9 +63,10 @@ const ArticleForm = ({ formMode }) => {
             ...articleData,
             title: fetchedData.title,
             description: fetchedData.description,
-            slug: fetchedData.slug,
+            // slug: fetchedData.slug,
             thumbnail: fetchedData.thumbnail,
           });
+          setExistingSlug(fetchedData.slug);
           setExistingThumbnailFileName(fetchedData.thumbnail);
         } else {
           router.replace("/admin/dashboard");
@@ -236,10 +238,14 @@ const ArticleForm = ({ formMode }) => {
       const today = new Date();
       const month = today.toLocaleString("default", { month: "long" });
       const year = today.getFullYear();
+      const slug =
+        formMode === "edit"
+          ? existingSlug
+          : articleData.slug + "-" + Date.now();
       thumbnailFile && formData.append("thumbnail", thumbnail);
       formData.append("title", title);
       formData.append("description", desc);
-      formData.append("slug", articleData.slug + "-" + Date.now());
+      formData.append("slug", slug);
       formData.append("dateTime", dateTime);
       formData.append("authorName", userDetails.userName);
       formData.append("existingThumbnailFileName", existingThumbnailFileName);
