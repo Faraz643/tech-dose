@@ -10,8 +10,8 @@ export default async function createEventsTable() {
     end_time VARCHAR(100) NOT NULL,
     location VARCHAR(200) NOT NULL,
     max_participants INT,
+    thumbnail VARCHAR(255) NOT NULL,
     event_id INT NOT NULL UNIQUE);
-    
     `;
 
   try {

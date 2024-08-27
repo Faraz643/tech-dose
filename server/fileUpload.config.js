@@ -75,3 +75,9 @@ export const extractAndSaveImages = (req, res, next) => {
   req.imageBuffer = imageBuffer;
   next();
 };
+
+// handle event-thumbnails config:
+
+export const handleEventsThumbnail = multer({
+  storage: multer.memoryStorage(),
+});

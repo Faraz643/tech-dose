@@ -1,9 +1,21 @@
 import { connection } from "../db.config.js";
-
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
+import { fireBaseStorage } from "../firebase.js";
 export const addEvent = async (req, res) => {
   const { name, description, startTime, endTime, location, maxParticipants } =
     req.body;
-  const event_id = 5566278;
+  const eventThumbnail = req.file;
+  if (!eventThumbnail) {
+    return res.status(422).json({ message: "Please add a thumbnail" });
+  }
+
+  const event_id = Date.now().toString().substring(5);
   let columns = "name, description, start_time, end_time, location, event_id";
   let values = "?, ?, ?, ?, ?, ?";
   const params = [name, description, startTime, endTime, location, event_id];
@@ -13,40 +25,122 @@ export const addEvent = async (req, res) => {
     values += ", ?";
     params.push(maxParticipants);
   }
+  const metaData = {
+    contentType: "image/png",
+  };
 
-  const addEventQuery = `INSERT INTO events (${columns}) VALUES (${values})`;
   try {
+    const storageRef = ref(fireBaseStorage, `events/${Date.now()}`);
+
+    // Upload file to Firebase Storage
+    await uploadBytes(storageRef, eventThumbnail.buffer, metaData);
+    const thumbnailDownloadURL = await getDownloadURL(storageRef);
+    columns += ", thumbnail";
+    values += ", ?";
+    params.push(thumbnailDownloadURL);
+
+    const addEventQuery = `INSERT INTO events (${columns}) VALUES (${values})`;
     await connection.query(addEventQuery, params);
     res.status(201).json({ message: "New Event Added" });
   } catch (e) {
-    res.status(500).json({
-      message: "Internal Server Error, Please again try after some time",
-      e,
-    });
+    console.error("Error processing request:", e);
+
+    const errorMap = {
+      "storage/unauthorized": {
+        status: 403,
+        message: "Unauthorized access to Firebase Storage",
+      },
+      "storage/quota-exceeded": {
+        status: 403,
+        message: "Firebase Storage quota exceeded",
+      },
+      "storage/invalid-argument": {
+        status: 400,
+        message: "Invalid argument provided to Firebase Storage",
+      },
+      "storage/retry-limit-exceeded": {
+        status: 503,
+        message: "Retry limit exceeded while accessing Firebase Storage",
+      },
+    };
+
+    const { status = 500, message = "Internal Server Error" } =
+      errorMap[e.code] || {};
+    res.status(status).json({ message });
   }
 };
 
 export const updateEvent = async (req, res) => {
+  const metaData = {
+    contentType: "image/png",
+  };
   const eventToBeUpdated = req.params.eventId;
-  const { name, description, startTime, endTime, location, maxParticipants } =
-    req.body;
-  const findEventQuery = `UPDATE events SET name=?, description=?, start_time=?, end_time=?, location=?, max_participants=? WHERE event_id=?`;
+  const {
+    name,
+    description,
+    startTime,
+    endTime,
+    location,
+    maxParticipants,
+    existingThumbnailFileName,
+  } = req.body;
+
+  console.log(existingThumbnailFileName);
+
+  const eventThumbnail = req.file || null;
+
+  // Extract the old file name from the URL
+  const decodedFileName = decodeURIComponent(
+    existingThumbnailFileName.split("%2F").pop().split("?")[0]
+  );
+
+  // Initial columns and query
+  let tableColumns = [
+    name,
+    description,
+    startTime,
+    endTime,
+    location,
+    maxParticipants,
+  ];
+  let findEventQuery = `UPDATE events SET name=?, description=?, start_time=?, end_time=?, location=?, max_participants=?`;
+
+  // Check if a new thumbnail is provided
+  if (eventThumbnail) {
+    findEventQuery += ", thumbnail=?";
+  }
+
+  // Append the condition for updating the specific event
+  findEventQuery += " WHERE event_id=?";
+
+  console.log(findEventQuery);
+
   try {
-    await connection.query(findEventQuery, [
-      name,
-      description,
-      startTime,
-      endTime,
-      location,
-      maxParticipants,
-      eventToBeUpdated,
-    ]);
+    if (eventThumbnail) {
+      // Reference to the old thumbnail in Firebase Storage
+      const storageRef = ref(fireBaseStorage, `events/${decodedFileName}`);
+
+      // Upload the new thumbnail
+      await uploadBytes(storageRef, eventThumbnail.buffer, {
+        contentType: eventThumbnail.mimetype,
+      });
+
+      // Get the new thumbnail's download URL
+      const thumbnailDownloadURL = await getDownloadURL(storageRef);
+
+      // Add the new thumbnail URL to the table columns
+      tableColumns.push(thumbnailDownloadURL);
+      tableColumns.push(eventToBeUpdated);
+    }
+
+    // Execute the update query
+    await connection.query(findEventQuery, tableColumns);
     res.status(201).json({ message: "Event Updated" });
   } catch (e) {
-    console.log(e);
+    console.error("Error updating event:", e);
     res
       .status(500)
-      .json({ message: "Internal Server Error, Please try after some time" });
+      .json({ message: "Internal Server Error", error: e.message });
   }
 };
 
@@ -62,6 +156,8 @@ export const showAllEvents = async (req, res) => {
     });
   }
 };
+
+
 export const showSingleEvent = async (req, res) => {
   const eventId = req.params.eventId;
   const showSingleEventQuery = `SELECT * FROM events WHERE event_id=?`;

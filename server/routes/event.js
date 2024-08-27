@@ -8,11 +8,12 @@ import {
   showSingleEvent,
 } from "../controllers/eventLogic.js";
 const router = express.Router();
+import { handleEventsThumbnail } from "../fileUpload.config.js";
 
 router
   .get("/", showAllEvents)
   .get("/:eventId", showSingleEvent)
-  .post("/", addEvent)
-  .put("/:eventId", updateEvent)
+  .post("/", handleEventsThumbnail.single("thumbnail"), addEvent)
+  .put("/:eventId", handleEventsThumbnail.single("thumbnail"), updateEvent)
   .delete("/:eventId", deleteEvent);
 export default router;
