@@ -157,7 +157,6 @@ export const showAllEvents = async (req, res) => {
   }
 };
 
-
 export const showSingleEvent = async (req, res) => {
   const eventId = req.params.eventId;
   const showSingleEventQuery = `SELECT * FROM events WHERE event_id=?`;
@@ -173,12 +172,26 @@ export const showSingleEvent = async (req, res) => {
     });
   }
 };
+
 export const deleteEvent = async (req, res) => {
   const eventId = req.params.eventId;
+  const thumbnailPath = req.body.thumbnailPath;
+  const thumbnailName = decodeURIComponent(
+    thumbnailPath.split("%2F").pop().split("?")[0]
+  );
+  const fileRef = ref(fireBaseStorage, thumbnailName);
   const deleteEventQuery = `DELETE FROM events WHERE event_id=?`;
   try {
     await connection.query(deleteEventQuery, [eventId]);
-    res.sendStatus(204).end();
+    try {
+      await deleteObject(fileRef);
+      res.status(204).end();
+    } catch (error) {
+      console.log("Error deleting event thumbnail", error);
+      res
+        .status(500)
+        .json({ message: "Event deleted but file deletion failed" });
+    }
   } catch (e) {
     res
       .status(500)
