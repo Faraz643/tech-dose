@@ -177,24 +177,25 @@ export const deleteEvent = async (req, res) => {
   const eventId = req.params.eventId;
   const thumbnailPath = req.body.thumbnailPath;
   const thumbnailName = decodeURIComponent(
-    thumbnailPath.split("%2F").pop().split("?")[0]
+    thumbnailPath.split("/o/")[1].split("?")[0]
   );
+
   const fileRef = ref(fireBaseStorage, thumbnailName);
   const deleteEventQuery = `DELETE FROM events WHERE event_id=?`;
   try {
     await connection.query(deleteEventQuery, [eventId]);
     try {
       await deleteObject(fileRef);
-      res.status(204).end();
+      return res.status(204).end(); // Success response, no more actions needed
     } catch (error) {
       console.log("Error deleting event thumbnail", error);
-      res
+      return res
         .status(500)
         .json({ message: "Event deleted but file deletion failed" });
     }
   } catch (e) {
-    res
+    return res
       .status(500)
-      .json({ message: "An error occured while deleting the event" });
+      .json({ message: "An error occurred while deleting the event" });
   }
 };
