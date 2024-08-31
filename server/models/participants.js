@@ -6,8 +6,8 @@ export default async function createParticipantsTable() {
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     event_id INT NOT NULL,
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id),
-    CONSTRAINT fk_event_id FOREIGN KEY (event_id) REFERENCES events(id)
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(enroll_id),
+    CONSTRAINT fk_event_id FOREIGN KEY (event_id) REFERENCES events(event_id)
 );
     `;
 

@@ -199,3 +199,30 @@ export const deleteEvent = async (req, res) => {
       .json({ message: "An error occurred while deleting the event" });
   }
 };
+
+export const registerParticipants = async (req, res) => {
+  const { fireBaseId, eventId } = req.body;
+  try {
+    // Find if user exists
+    const findParticipantQuery = `SELECT * from users WHERE firebase_uid=?`;
+    const [participant] = await connection.query(findParticipantQuery, [
+      fireBaseId,
+    ]);
+    console.log(participant[0])
+    // console.log("participant details", participant[0]["enroll_id"]);
+    // console.log("participant details", participant[0][0].enroll_id);
+    // Register user with eventId
+    const registerParticipantQuery = `INSERT into participants (user_id, event_id) VALUES (?,?)`;
+    const participantRegistered = await connection.query(
+      registerParticipantQuery,
+      [participant[0].enroll_id, eventId]
+    );
+    // send success in response
+    return res
+      .status(201)
+      .json({ message: "Participant registered successfully" });
+  } catch (error) {
+    console.log("Error registering participant", error);
+    return res.status(500).json({ message: "Error registering participant" });
+  }
+};
