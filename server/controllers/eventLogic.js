@@ -223,9 +223,9 @@ export const registerParticipants = async (req, res) => {
     const queryInfoStatus = userInfoFound[0].result;
 
     if (queryInfoStatus === "Event does not exist") {
-      return res.status(400).json({ message: "Event does not exist." });
+      return res.status(400).json({ message: queryInfoStatus });
     } else if (queryInfoStatus === "User already registered") {
-      return res.status(400).json({ message: "User already registered." });
+      return res.status(400).json({ message: queryInfoStatus });
     } else {
       const registerParticipantQuery = `
         INSERT INTO participants (user_id, event_id) VALUES (?, ?)
