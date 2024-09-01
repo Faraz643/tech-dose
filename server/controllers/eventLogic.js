@@ -203,24 +203,36 @@ export const deleteEvent = async (req, res) => {
 export const registerParticipants = async (req, res) => {
   const { fireBaseId, eventId } = req.body;
   try {
-    // Find if user exists
-    const findParticipantQuery = `SELECT * from users WHERE firebase_uid=?`;
-    const [participant] = await connection.query(findParticipantQuery, [
-      fireBaseId,
-    ]);
-    console.log(participant[0])
-    // console.log("participant details", participant[0]["enroll_id"]);
-    // console.log("participant details", participant[0][0].enroll_id);
-    // Register user with eventId
-    const registerParticipantQuery = `INSERT into participants (user_id, event_id) VALUES (?,?)`;
-    const participantRegistered = await connection.query(
-      registerParticipantQuery,
-      [participant[0].enroll_id, eventId]
-    );
-    // send success in response
-    return res
-      .status(201)
-      .json({ message: "Participant registered successfully" });
+    const findParticipantQuery = `SELECT * FROM users WHERE firebase_uid = ?`;
+    const [participant] = await connection.query(findParticipantQuery, [fireBaseId]);
+
+    if (participant.length === 0 || participant[0].enroll_id === undefined) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+    const userEnrollId = participant[0].enroll_id;
+
+    const checkParticipantInfoQuery = `
+      SELECT
+        CASE
+          WHEN NOT EXISTS (SELECT 1 FROM events WHERE event_id = ?) THEN 'Event does not exist'
+          WHEN EXISTS (SELECT 1 FROM participants WHERE user_id = ? AND event_id = ?) THEN 'User already registered'
+          ELSE 'OK'
+        END AS result
+    `;
+    const [userInfoFound] = await connection.query(checkParticipantInfoQuery, [eventId, userEnrollId, eventId]);
+    const queryInfoStatus = userInfoFound[0].result;
+
+    if (queryInfoStatus === "Event does not exist") {
+      return res.status(400).json({ message: "Event does not exist." });
+    } else if (queryInfoStatus === "User already registered") {
+      return res.status(400).json({ message: "User already registered." });
+    } else {
+      const registerParticipantQuery = `
+        INSERT INTO participants (user_id, event_id) VALUES (?, ?)
+      `;
+      await connection.query(registerParticipantQuery, [userEnrollId, eventId]);
+      return res.status(201).json({ message: "Participant registered successfully" });
+    }
   } catch (error) {
     console.log("Error registering participant", error);
     return res.status(500).json({ message: "Error registering participant" });
