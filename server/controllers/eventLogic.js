@@ -204,13 +204,17 @@ export const registerParticipants = async (req, res) => {
   const { fireBaseId, eventId } = req.body;
   try {
     const findParticipantQuery = `SELECT * FROM users WHERE firebase_uid = ?`;
-    const [participant] = await connection.query(findParticipantQuery, [fireBaseId]);
+    const [participant] = await connection.query(findParticipantQuery, [
+      fireBaseId,
+    ]);
 
     if (participant.length === 0 || participant[0].enroll_id === undefined) {
       return res.status(400).json({ message: "User does not exist" });
     }
     const userEnrollId = participant[0].enroll_id;
 
+    //case 1: returns true if event does not exists
+    //case 2: returns true if event_id and user_id does exists
     const checkParticipantInfoQuery = `
       SELECT
         CASE
@@ -219,19 +223,27 @@ export const registerParticipants = async (req, res) => {
           ELSE 'OK'
         END AS result
     `;
-    const [userInfoFound] = await connection.query(checkParticipantInfoQuery, [eventId, userEnrollId, eventId]);
+    const [userInfoFound] = await connection.query(checkParticipantInfoQuery, [
+      eventId,
+      userEnrollId,
+      eventId,
+    ]);
     const queryInfoStatus = userInfoFound[0].result;
 
-    if (queryInfoStatus === "Event does not exist") {
-      return res.status(400).json({ message: queryInfoStatus });
-    } else if (queryInfoStatus === "User already registered") {
+   
+    if (
+      queryInfoStatus === "Event does not exist" ||
+      queryInfoStatus === "User already registered"
+    ) {
       return res.status(400).json({ message: queryInfoStatus });
     } else {
       const registerParticipantQuery = `
-        INSERT INTO participants (user_id, event_id) VALUES (?, ?)
-      `;
+            INSERT INTO participants (user_id, event_id) VALUES (?, ?)
+          `;
       await connection.query(registerParticipantQuery, [userEnrollId, eventId]);
-      return res.status(201).json({ message: "Participant registered successfully" });
+      return res
+        .status(201)
+        .json({ message: "Participant registered successfully" });
     }
   } catch (error) {
     console.log("Error registering participant", error);
