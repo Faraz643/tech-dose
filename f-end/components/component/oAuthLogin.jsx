@@ -10,10 +10,43 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { tcHeaderLogo } from "@/public/assets/_index";
 import Image from "next/image";
+import {
+  fireBaseAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "@/app/firebase";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const allowedMails = ["student.iul.ac.in"];
+
 export default function Component() {
+  async function handleGoogleLogin() {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(fireBaseAuth, provider);
+      const user = result.user;
+      console.log();
+      if (user.email.includes(allowedMails)) {
+        toast.success("Sign-in Success !");
+      } else {
+        await fireBaseAuth.signOut();
+        toast.error("Please sign-in with your college id");
+        console.log(fireBaseAuth.currentUser);
+      }
+    } catch (error) {
+      console.error("Error during google sign-in", error);
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background">
-      <Image src={tcHeaderLogo} height={70} width={70}/>
+      <Image
+        src={tcHeaderLogo}
+        height={70}
+        width={70}
+        alt="Tech Dose Logo Sign In"
+      />
       <div>
         <div className="max-w-md w-full space-y-6 p-6 bg-card rounded-xl shadow-lg">
           <div className="space-y-2 text-center">
@@ -27,15 +60,21 @@ export default function Component() {
 
           <Button
             variant="outline"
-            onClick
+            onClick={handleGoogleLogin}
             className="flex items-center justify-center gap-2 w-full bg-[#242424] text-white"
-            
           >
             <ChromeIcon className="h-4 w-4" />
             Sign in with Google
           </Button>
         </div>
       </div>
+      <ToastContainer
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        closeOnClick
+        position="top-right"
+      />
     </div>
   );
 }
