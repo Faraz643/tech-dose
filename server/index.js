@@ -3,6 +3,7 @@ import express from "express";
 import serverless from "serverless-http";
 import adminRouter from "./routes/admin.js";
 import authRouter from "./routes/auth.js";
+import authRouterStudent from "./routes/authStudent.js";
 import articleActions from "./routes/commonApi.js";
 import eventActions from "./routes/event.js";
 import createUsersTable, { deletedUsersTable } from "./models/users.js";
@@ -108,7 +109,7 @@ app.use("/api/article", articleActions);
 app.use("/api/event", eventActions);
 // app.use("/api/admin", adminRouter);
 app.use("/api/auth", authRouter);
-
+app.use("/api/auth/student", authRouterStudent);
 //Error handling middleware
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {

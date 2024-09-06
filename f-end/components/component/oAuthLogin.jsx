@@ -20,19 +20,35 @@ import "react-toastify/dist/ReactToastify.css";
 
 const allowedMails = ["student.iul.ac.in"];
 
-export default function Component() {
+export default async function Component() {
   async function handleGoogleLogin() {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(fireBaseAuth, provider);
       const user = result.user;
-      console.log();
       if (user.email.includes(allowedMails)) {
-        toast.success("Sign-in Success !");
+        const checkUserExists = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/student/verify-user`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              firebaseId: user.uid,
+            }),
+            credentials: "include",
+          }
+        );
+        const response = await checkUserExists.json();
+        response.userExists
+          ? toast.success("User Exists !")
+          : toast.error(
+              "User Does not exists, please fill in the details to register for events"
+            );
       } else {
         await fireBaseAuth.signOut();
         toast.error("Please sign-in with your college id");
-        console.log(fireBaseAuth.currentUser);
       }
     } catch (error) {
       console.error("Error during google sign-in", error);
