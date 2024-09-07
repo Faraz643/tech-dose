@@ -44,10 +44,8 @@ export default async function Component() {
         );
         const response = await checkUserExists.json();
         response.userExists
-          ? router.replace("student/info")
-          : toast.error(
-              "User Does not exists, please fill in the details to register for events"
-            );
+          ? router.replace("/")
+          : router.replace("/student/profile-setup");
       } else {
         await fireBaseAuth.signOut();
         toast.error("Please sign-in with your college id");

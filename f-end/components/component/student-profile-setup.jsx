@@ -13,10 +13,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fireBaseAuth } from "@/app/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
+
 export function StudentProfileSetup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
+  const [firebaseId, setfirebaseId] = useState("");
+  const router = useRouter();
   useEffect(() => {
     // Listen for auth state changes
     const unsubscribe = onAuthStateChanged(fireBaseAuth, (user) => {
@@ -24,9 +27,7 @@ export function StudentProfileSetup() {
         // Set user name and email if the user is logged in
         setName(user.displayName);
         setEmail(user.email);
-      } else {
-        // Handle the case where no user is logged in
-        console.log("No user is logged in");
+        setfirebaseId(user.uid);
       }
     });
 
@@ -34,7 +35,6 @@ export function StudentProfileSetup() {
     return () => unsubscribe();
   }, []);
 
-  console.log(name);
   // Call this function when your page loads
   const [time, setTime] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -80,7 +80,7 @@ export function StudentProfileSetup() {
     try {
       setIsButtonDisabled(true);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/sign-up`,
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/student/setup-profile`,
         {
           method: "POST",
           headers: {
@@ -90,9 +90,9 @@ export function StudentProfileSetup() {
             userName: userName,
             enrollmentId: userID,
             email: userMail,
-            password: userPass,
             branch: userBranch,
             year: userYear,
+            firebaseId: firebaseId,
           }),
         }
       );
@@ -100,6 +100,7 @@ export function StudentProfileSetup() {
       const data = await response.json();
       if (response.ok) {
         notify(data.message, 1, "success");
+        router.replace("/events");
         setTime(60);
       } else {
         setIsButtonDisabled(false);
@@ -309,19 +310,12 @@ export function StudentProfileSetup() {
               </svg>
             </div> */}
             <input
-              className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full`}
+              className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full hover:cursor-pointer`}
               type="submit"
-              value="Create An Account"
+              value="Count Me In !"
               disabled={isButtonDisabled}
             />
           </form>
-          <LiveTimer
-            isDisabled={isButtonDisabled}
-            setIsDisabled={setIsButtonDisabled}
-            setButtonText={setButtonText}
-            time={time}
-            setTime={setTime}
-          />
         </div>
       </div>
       <ToastContainer />
