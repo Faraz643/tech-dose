@@ -17,10 +17,12 @@ import {
 } from "@/app/firebase";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const allowedMails = ["student.iul.ac.in"];
 
 export default async function Component() {
+  const router = useRouter();
   async function handleGoogleLogin() {
     const provider = new GoogleAuthProvider();
     try {
@@ -42,7 +44,7 @@ export default async function Component() {
         );
         const response = await checkUserExists.json();
         response.userExists
-          ? toast.success("User Exists !")
+          ? router.replace("student/info")
           : toast.error(
               "User Does not exists, please fill in the details to register for events"
             );
