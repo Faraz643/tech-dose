@@ -39,4 +39,4 @@ f-end/next-env.d.ts
 .env*
 
 # google private key file
-f-end//app/tcd-pvtk.json
+f-end/app/tcd-pvtk.json
