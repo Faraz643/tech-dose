@@ -29,6 +29,7 @@ export default async function Component() {
       const result = await signInWithPopup(fireBaseAuth, provider);
       const user = result.user;
       if (user.email.includes(allowedMails)) {
+      // if (allowedMails.includes(user.email)) {
         const checkUserExists = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_API}/auth/student/verify-user`,
           {
@@ -43,9 +44,13 @@ export default async function Component() {
           }
         );
         const response = await checkUserExists.json();
-        response.userExists
-          ? router.replace("/")
-          : router.replace("/student/profile-setup");
+        if (response.userExists) {
+          const token = await result.user.getIdToken(); // Get the Firebase ID token
+          document.cookie = `fireBaseToken=${token}; path=/`;
+          router.replace("/");
+        } else {
+          router.replace("/student/profile-setup");
+        }
       } else {
         await fireBaseAuth.signOut();
         toast.error("Please sign-in with your college id");
