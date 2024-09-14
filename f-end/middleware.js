@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 import { getFirebaseAuth } from "next-firebase-auth-edge";
 
-
 // Utility function to validate token
 const { verifyIdToken } = getFirebaseAuth({
   serviceAccount: {
@@ -12,7 +11,6 @@ const { verifyIdToken } = getFirebaseAuth({
   },
   apiKey: process.env.FIREBASE_PRIVATE_KEY,
 });
-
 
 const SECRET_KEY = new TextEncoder().encode(process.env.NEXT_PUBLIC_SECRET_KEY);
 
