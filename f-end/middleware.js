@@ -1,10 +1,21 @@
 import { NextResponse, NextRequest } from "next/server";
-import { useState, useEffect } from "react";
 import { jwtVerify } from "jose";
+import { getFirebaseAuth } from "next-firebase-auth-edge";
+
+
+// Utility function to validate token
+const { verifyIdToken } = getFirebaseAuth({
+  serviceAccount: {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  },
+  apiKey: process.env.FIREBASE_PRIVATE_KEY,
+});
+
 
 const SECRET_KEY = new TextEncoder().encode(process.env.NEXT_PUBLIC_SECRET_KEY);
 
-// Utility function to validate token
 async function validateToken(token) {
   try {
     const decoded = await jwtVerify(token, SECRET_KEY);
@@ -20,7 +31,7 @@ export async function middleware(req) {
     cookies,
   } = req;
   const token = cookies.get("token")?.value;
-
+  const fireBaseToken = cookies.get("fireBaseToken")?.value;
   // Paths for admin and student areas
   const isAdminPath = pathname.startsWith("/admin");
   const isStudentPath = pathname.startsWith("/student");
@@ -55,37 +66,24 @@ export async function middleware(req) {
     }
   }
 
-  if (isStudentPath) {
+  if (isStudentPath && fireBaseToken) {
     // Middleware logic for students
-    const publicStudentPaths = ["/student/open-auth"];
-    const isPublicStudentPath = publicStudentPaths.includes(pathname);
+    // console.log("token", verifyIdToken(fireBaseToken));
 
-    if (isPublicStudentPath && token) {
-      const decoded = await validateToken(token);
-      if (decoded) {
-        return NextResponse.redirect(new URL("/", origin));
-      }
-    } else if (!isPublicStudentPath) {
-      if (token) {
-        const decoded = await validateToken(token);
-        if (!decoded) {
-          return NextResponse.redirect(
-            new URL(`/student/open-auth?next=${pathname.split("/")[2]}`, origin)
-          );
-        }
-      } else {
-        return NextResponse.redirect(
-          new URL(`/student/open-auth?next=${pathname.split("/")[2]}`, origin)
-        );
-      }
+    try {
+      const decodedToken = await verifyIdToken(fireBaseToken);
+      // console.log(decodedToken);
+      return NextResponse.redirect(new URL("/", origin));
+    } catch (error) {
+      // console.log(error);
+      return NextResponse.next(new URL("/admin/signin", origin));
     }
   }
-
-  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
     "/admin/:path((?!reset-password$|verify-account$|reset-password/[^/]+$|verify-account/[^/]+$).*)",
+    "/student/:path*",
   ],
 };
