@@ -37,3 +37,6 @@ f-end/*.tsbuildinfo
 f-end/next-env.d.ts
 .vercel
 .env*
+
+# google private key file
+f-end/app/tcd-pvtk.json

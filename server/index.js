@@ -3,8 +3,9 @@ import express from "express";
 import serverless from "serverless-http";
 import adminRouter from "./routes/admin.js";
 import authRouter from "./routes/auth.js";
+import authRouterStudent from "./routes/authStudent.js";
 import articleActions from "./routes/commonApi.js";
-
+import eventActions from "./routes/event.js";
 import createUsersTable, { deletedUsersTable } from "./models/users.js";
 import createArticlesTables, {
   deletedArticlesTable,
@@ -23,6 +24,10 @@ import invalidateToken from "./redisClient.js";
 import dotenv from "dotenv";
 import { connection } from "./db.config.js";
 import { client } from "./redisClient.js";
+import createEventsTable, { deletedEventsTable } from "./models/events.js";
+import createParticipantsTable, {
+  deletedParticipantsTable,
+} from "./models/participants.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
@@ -71,12 +76,16 @@ checkConnection();
 // await deletedArticlesTable();
 // await deletedRolesTable();
 // await deletedUsersTable();
+// await deletedEventsTable();
+// await deletedParticipantsTable();
 
 async function createAllTables() {
   try {
     await createRolesTable();
+    await createEventsTable();
     await createUsersTable();
     await createArticlesTables();
+    await createParticipantsTable();
   } catch (err) {
     console.error("Error during database creating tables:", err);
   }
@@ -97,9 +106,10 @@ client.connect();
 
 app.use(express.json());
 app.use("/api/article", articleActions);
-app.use("/api/admin", adminRouter);
+app.use("/api/event", eventActions);
+// app.use("/api/admin", adminRouter);
 app.use("/api/auth", authRouter);
-
+app.use("/api/auth/student", authRouterStudent);
 //Error handling middleware
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {

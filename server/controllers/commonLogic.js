@@ -228,6 +228,11 @@ export const deleteArticle = async (req, res) => {
   const encodedPath = thumbnailPath.substring(pathStartIndex, pathEndIndex);
   const decodedPath = decodeURIComponent(encodedPath);
 
+  // Alternate logic
+  // const thumbnailName = decodeURIComponent(
+  //   thumbnailPath.split("/o/")[1].split("?")[0]
+  // );
+
   const fileRef = ref(fireBaseStorage, decodedPath);
 
   // Delete the article from the database

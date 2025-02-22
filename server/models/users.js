@@ -11,6 +11,7 @@ export default async function createUsersTable() {
     email VARCHAR(200) NOT NULL UNIQUE,
     year INT NOT NULL,
     branch VARCHAR(100) NOT NULL,
+    firebase_uid VARCHAR(250) UNIQUE,
     user_role INT NOT NULL,
     CONSTRAINT fk_user_role FOREIGN KEY (user_role) REFERENCES roles(id)
   );
