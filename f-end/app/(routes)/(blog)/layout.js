@@ -19,7 +19,12 @@ export const futuraBKBT = localfont({
   src: [
     {
       path: "../../../public/assets/fonts/futura-bk-bt/FutuBk.ttf",
-      weight: "900",
+      weight: "400",
+    },
+    {
+      path: "../../../public/assets/fonts/futura-bk-bt/FuturaMdBT.ttf", // Ensure correct path
+      weight: "700", // Bold weight
+      // style: "normal",
     },
   ],
   variable: "--font-futura",

@@ -101,7 +101,6 @@ html {
   height: 100vh;
   margin: 0;
   padding: 0;
-
   overflow-x: hidden;
 }
 .navlinks:focus,
@@ -460,7 +459,7 @@ textarea {
 /* Events' Page styling */
 
 .event-banner-image {
-  background-image: url("../../public/assets/images/events-images/event-banner.jpg");
+  background-image: url("../../public/assets/images/events-images/holo-banner-image.jpg");
   /* height: 400px; */
   /* max-width: 1200px; */
   /* background-position: center; */
@@ -473,4 +472,8 @@ textarea {
   cursor: not-allowed;
   background-color: #cccccc;
   pointer-events: none;
+}
+
+.rm-clr{
+  -webkit-tap-highlight-color: transparent;
 }

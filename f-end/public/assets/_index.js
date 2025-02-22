@@ -74,6 +74,12 @@ import imagePlaceholder from "./images/sample-post-thumbnails/image-loading-plac
 
 import eventBanner from "./images/events-images/event-banner.jpg";
 
+// Events card icons images
+
+import liveEvent from "./images/event-card-icons/eventLive.png";
+import upcomingEvent from "./images/event-card-icons/eventUpcoming.png";
+import completedEvents from "./images/event-card-icons/eventCompleted.png";
+
 // Admin Icons
 
 import greeting from "./images/admin-icons/greeting.png";
@@ -95,6 +101,13 @@ import calendar from "./images/admin-icons/calendar.png";
 
 import UploadingAnimationJson from "./animations/publishing-animation.json";
 import UploadedAnimationJson from "./animations/published-animation.json";
+
+// Event details icon
+
+import venueIcon from "./images/events-images/venue-icon.png";
+import clockIcon from "./images/events-images/clock-icon.png";
+import dateIcon from "./images/events-images/date-icon.png";
+import eligibilityIcon from "./images/events-images/eligibility-icon.png";
 
 // Excel file template
 
@@ -151,4 +164,11 @@ export {
   eventBanner,
   UploadingAnimationJson,
   UploadedAnimationJson,
+  liveEvent,
+  upcomingEvent,
+  completedEvents,
+  venueIcon,
+  clockIcon,
+  dateIcon,
+  eligibilityIcon,
 };
