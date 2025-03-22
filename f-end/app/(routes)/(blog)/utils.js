@@ -28,7 +28,7 @@ import {
   tag,
   text,
   userProfile,
-  imagePlaceholder
+  imagePlaceholder,
 } from "@/public/assets/_index";
 
 const navLinks = [
@@ -75,13 +75,13 @@ const socialLinks = [
 
 const adminMenuLink = [
   {
-    for: 'admin',
+    for: "admin",
     id: "AdminDashboard",
     menuName: "Dashboard",
     menulink: "/admin/dashboard",
     menuIcon: home,
   },
-  
+
   // {
   //   for: "editor",
   //   id: "editorDashboard",
@@ -105,23 +105,37 @@ const adminMenuLink = [
   // },
   {
     for: "admin",
+    id: "add-event",
+    menuName: "Add an Event",
+    menulink: "/admin/add-event",
+    menuIcon: article,
+  },
+  {
+    for: "admin",
     id: "manageTags",
     menuName: "Upload an Excel",
     menulink: "/admin/upload-excel",
     menuIcon: tag,
   },
+  // {
+  //   for: "admin",
+  //   id: "manageEditors",
+  //   menuName: "Manage Editors",
+  //   menulink: "/admin/manage-editors",
+  //   menuIcon: editors,
+  // },
   {
     for: "admin",
-    id: "manageEditors",
-    menuName: "Manage Editors",
-    menulink: "/admin/manage-editors",
-    menuIcon: editors,
-  },
-  {
-    for: 'admin',
     id: "edit-article",
     menuName: "Edit an Article",
     menulink: "/admin/edit-article",
+    menuIcon: article,
+  },
+  {
+    for: "admin",
+    id: "edit-event",
+    menuName: "Edit an Event",
+    menulink: "/admin/edit-event",
     menuIcon: article,
   },
 ];
@@ -145,7 +159,7 @@ const topImagesCard = [
 ];
 
 const months = [
-  { month: "Show All", id: 0},
+  { month: "Show All", id: 0 },
   { month: "January", id: 1 },
   { month: "February", id: 2 },
   { month: "March", id: 3 },
@@ -158,6 +172,19 @@ const months = [
   { month: "October", id: 10 },
   { month: "November", id: 11 },
   { month: "December", id: 12 },
+];
+
+const categories = [
+  { category: "Articles", id: 0 },
+  { category: "Events", id: 1 },
+  { category: "Seminar", id: 2 },
+];
+
+const eventStatus = [
+  { status: "Show All", id: 0 },
+  { status: "Completed", id: 1 },
+  { status: "Live", id: 2 },
+  { status: "Future", id: 3 },
 ];
 
 const articleDetails = [
@@ -256,4 +283,6 @@ export {
   articleDetails,
   adminMenuLink,
   sampleTags,
+  categories,
+  eventStatus,
 };

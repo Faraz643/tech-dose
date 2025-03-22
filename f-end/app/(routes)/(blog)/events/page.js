@@ -9,11 +9,13 @@ import {
 } from "@/public/assets/_index";
 import React, { useState } from "react";
 import styles from "./eventCard.module.css";
+import useFetchEvents from "../useFetchEvents";
+import Link from "next/link";
 
 function Events() {
   const [activeCard, setActiveCard] = useState(0);
   const [eventActiveinfo, setEventActiveinfo] = useState();
-
+  const { allEvents } = useFetchEvents();
   const handleMouseOver = (index) => {
     setActiveCard(index);
   };
@@ -41,21 +43,26 @@ function Events() {
         <div className="py-10">
           <div className={styles.cardContainer}>
             {/* using fetch, get all the events in an array, then use the array here to show all the events */}
-            {eventDetails.map((card, index) => (
+            {allEvents.map((card, index) => (
               <div
                 key={index}
                 className={`rm-clr relative rounded-[50px] ${styles.cards} ${
                   activeCard === index ? styles.active : ""
                 }`}
                 style={{
-                  backgroundImage: `url(${vrMan.src})`,
+                  backgroundImage: `url(${card.thumbnail})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  
                 }}
                 onMouseOver={() => handleMouseOver(index)}
               >
-                <Image src={completedEvents} height={25} width={25} className="absolute bottom-4 ml-6" alt="Event current status"/>
+                <Image
+                  src={completedEvents}
+                  height={25}
+                  width={25}
+                  className="absolute bottom-4 ml-6"
+                  alt="Event current status"
+                />
                 <div
                   className={`${styles.cardEventsInfo} ${eventActiveinfo} ${
                     activeCard === index ? styles.infoActive : ""
@@ -69,21 +76,28 @@ function Events() {
                           className={`text-white font-bold text-5xl event-heading ${styles.eventHeading}`}
                         >
                           {" "}
-                          Hackathon 2.0
+                          {card.name}
                         </h2>
                       </div>
                       <div className="justify-self-center">
-                        <span className="text-white ">24th April</span>
+                        <span className="text-white ">
+                          <DateDisplay date={card.event_date} />
+                        </span>
                       </div>
                     </div>
                     <div>
-                      <a href="#" className="bg-white rounded-[20px] p-1 px-3">
+                      <Link
+                        href={`/events/${card.event_id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-white rounded-[20px] p-1 px-3"
+                      >
                         See info
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <span className="p-7 text-white absolute bottom-0">
-                    Status: Upcoming
+                    Status: {card.status}
                   </span>
                 </div>
               </div>
@@ -95,14 +109,32 @@ function Events() {
   );
 }
 
-const eventDetails = [
-  { id: 1, image: vrMan },
-  { id: 2, image: vrMan },
-  { id: 3, image: vrMan },
-  { id: 4, image: vrMan },
-  { id: 5, image: vrMan },
-  { id: 6, image: vrMan },
-  { id: 7, image: vrMan },
-];
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.toLocaleString("en-US", { month: "long" });
+  const year = date.getFullYear();
+
+  // Function to add ordinal suffix (st, nd, rd, th)
+  const getOrdinalSuffix = (day) => {
+    if (day > 3 && day < 21) return "th"; // Covers 4th to 20th
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  return `${day}${getOrdinalSuffix(day)} ${month}, ${year}`;
+}
+
+export function DateDisplay({ date }) {
+  return <p>{formatDate(date)}</p>;
+}
 
 export default Events;

@@ -7,18 +7,40 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { fireBaseStorage } from "../firebase.js";
+
 export const addEvent = async (req, res) => {
-  const { name, description, startTime, endTime, location, maxParticipants } =
-    req.body;
+  const {
+    name,
+    description,
+    startTime,
+    endTime,
+    location,
+    maxParticipants,
+    status,
+    eventDate,
+  } = req.body;
+
+console.log(eventDate)
+
   const eventThumbnail = req.file;
   if (!eventThumbnail) {
     return res.status(422).json({ message: "Please add a thumbnail" });
   }
 
   const event_id = Date.now().toString().substring(5);
-  let columns = "name, description, start_time, end_time, location, event_id";
-  let values = "?, ?, ?, ?, ?, ?";
-  const params = [name, description, startTime, endTime, location, event_id];
+  let columns =
+    "name, description, start_time, end_time, location, status, event_id, event_date";
+  let values = "?, ?, ?, ?, ?, ?, ?, ?";
+  const params = [
+    name,
+    description,
+    startTime,
+    endTime,
+    location,
+    status,
+    event_id,
+    eventDate,
+  ];
 
   if (maxParticipants) {
     columns += ", max_participants";
@@ -83,8 +105,9 @@ export const updateEvent = async (req, res) => {
     location,
     maxParticipants,
     existingThumbnailFileName,
+    eventDate
   } = req.body;
-
+console.log('this is event date', eventDate)
   console.log(existingThumbnailFileName);
 
   const eventThumbnail = req.file || null;
@@ -102,8 +125,9 @@ export const updateEvent = async (req, res) => {
     endTime,
     location,
     maxParticipants,
+    eventDate
   ];
-  let findEventQuery = `UPDATE events SET name=?, description=?, start_time=?, end_time=?, location=?, max_participants=?`;
+  let findEventQuery = `UPDATE events SET name=?, description=?, start_time=?, end_time=?, event_date?, location=?, max_participants=?`;
 
   // Check if a new thumbnail is provided
   if (eventThumbnail) {
@@ -164,7 +188,9 @@ export const showSingleEvent = async (req, res) => {
     const result = await connection.query(showSingleEventQuery, [eventId]);
     if (result[0].length === 0)
       res.status(404).json({ message: "No event found with such id" });
-    res.send(result[0]);
+    else {
+      res.send(result[0]);
+    }
   } catch (e) {
     res.status(500).json({
       message:
@@ -230,7 +256,6 @@ export const registerParticipants = async (req, res) => {
     ]);
     const queryInfoStatus = userInfoFound[0].result;
 
-   
     if (
       queryInfoStatus === "Event does not exist" ||
       queryInfoStatus === "User already registered"

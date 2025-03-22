@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../eventCard.module.css";
 
@@ -8,14 +9,57 @@ import {
   dateIcon,
   eligibilityIcon,
 } from "@/public/assets/_index";
+import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
+import { DateDisplay } from "../page";
+
 const Page = () => {
+  // const router = useRouter();
+  const [eventDetails, setEventDetails] = useState({});
+  const [notFound, setNotFound] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [placeholder, setPlaceholder] = useState("skeleton");
+  const params = useParams();
+  const eventId = useParams().eventId;
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_API}/event/${eventId}`,
+          {
+            method: "GET",
+          }
+        );
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result[0]);
+          // console.log(result.articleData[0])
+          setEventDetails(result[0]);
+          setPlaceholder("");
+        } else {
+          setNotFound(true);
+        }
+      } catch (err) {
+        console.log("An error occured:", err);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
+        setPlaceholder("");
+      }
+    };
+    fetchArticle();
+  }, []);
+  // const onModalClose = () => {
+  //   router.back();
+  // };
+
   return (
     <section className="w-full my-[30px]">
       <div className="container mx-auto px-6 max-w-[1200px]">
         <div
           className="w-full h-[450px] rounded-[40px] bg-cover bg-center"
           style={{
-            backgroundImage: `url('/assets/images/events-images/holo-banner-image.jpg')`,
+            backgroundImage: `url(${eventDetails.thumbnail})`,
           }}
         ></div>
         {/* full container */}
@@ -36,15 +80,15 @@ const Page = () => {
                   </span>
                 </div>
                 <div>
-                  <h2 className="text-4xl text-center">Santa's Scientific Workshop</h2>
+                  <h2 className="text-4xl text-center">
+                    {placeholder === "skeleton" ? "loading" : eventDetails.name}
+                  </h2>
                 </div>
                 <div>
                   <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book. It has survived not only five centuries,
+                    {placeholder === "skeleton"
+                      ? "loading"
+                      : eventDetails.description}
                   </p>
                 </div>
               </div>
@@ -61,11 +105,21 @@ const Page = () => {
                   width={25}
                   alt="Venue Icon"
                 />
-                <span className="font-bold">Venue Hall 1</span>
+                <span className="font-bold">
+                  {placeholder === "skeleton"
+                    ? "loading"
+                    : eventDetails.location}
+                </span>
               </div>
               <div className="flex gap-5">
                 <Image src={dateIcon} height={20} width={25} alt="Date Icon" />
-                <span className="font-bold">Dec 14, 2025</span>
+                <span className="font-bold">
+                  {placeholder === "skeleton" ? (
+                    "loading"
+                  ) : (
+                    <DateDisplay date={eventDetails.event_date} />
+                  )}
+                </span>
               </div>
               <div className="flex gap-5">
                 <Image
@@ -74,7 +128,11 @@ const Page = () => {
                   width={25}
                   alt="Clock Icon"
                 />
-                <span className="font-bold">5:30-8:30</span>
+                <span className="font-bold">
+                  {placeholder === "skeleton"
+                    ? "loading"
+                    : `${eventDetails.start_time} - ${eventDetails.end_time}`}
+                </span>
               </div>
               <div className="flex gap-5">
                 <Image

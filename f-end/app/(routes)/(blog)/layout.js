@@ -1,3 +1,5 @@
+// 'use client'
+
 import localfont from "next/font/local";
 import "../../styles/globals.css";
 import { Header } from "@/app/_Components/_Blog/Header";
@@ -5,6 +7,9 @@ import Footer from "@/app/_Components/_Blog/Footer";
 import Contexts from "@/app/_Components/_Blog/Contexts";
 import Heading from "@/app/_Components/_Blog/Heading";
 import { FooterSignature } from "@/app/_Components/_Blog/FooterSignature";
+import { Provider } from "react-redux";
+import { store } from "@/app/Redux/store";
+
 export const futureEarth = localfont({
   src: [
     {
@@ -43,17 +48,19 @@ export default function RootLayout(props) {
       className={`${futureEarth.variable} ${futuraBKBT.variable} font-futura`}
     >
       <head></head>
-      <body>
-        <Contexts>
-          <Header />
-          <Heading headingFor={"/blog"} />
-          {props.children}
-          <Footer />
-          <Heading headingFor={"/"} />
-          {props.modal}
-          <FooterSignature />
-        </Contexts>
-      </body>
+      {/* <Provider store={store}> */}
+        <body>
+          <Contexts>
+            <Header />
+            <Heading headingFor={"/blog"} />
+            {props.children}
+            <Footer />
+            <Heading headingFor={"/"} />
+            {props.modal}
+            <FooterSignature />
+          </Contexts>
+        </body>
+      {/* </Provider> */}
     </html>
   );
 }

@@ -5,9 +5,11 @@ import Image from 'next/image'
 import { twitterFeedThumbnail } from '@/public/assets/_index'
 import { articleDetails } from '@/app/(routes)/(blog)/utils'
 import useFetchArticles from '@/app/(routes)/(blog)/useFetchArticles'
+import { useMonthlyFilterContext } from '../../_AdminDashboard/MonthFilterContext'
 
-const ArticleCard = ({ filteredMonth }) => {
+const ArticleCard = () => {
 
+  const {filteredMonth} = useMonthlyFilterContext()
   // const [articles, setArticles] = useState([])
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -34,7 +36,7 @@ const ArticleCard = ({ filteredMonth }) => {
   // console.log(articleDetails[0])
 
   const { allArticles } = useFetchArticles()
-
+// console.log(allArticles)
   const thumbnailStyling = {
     backgroundImage: `url('${twitterFeedThumbnail.src}')`,
     backgroundPosition: 'center',
@@ -57,6 +59,7 @@ const ArticleCard = ({ filteredMonth }) => {
   // }
 
   const filteredArticles = filteredMonth === 'Show All' ? allArticles : allArticles.filter((article) => article.month === filteredMonth)
+  // console.log(filteredArticles)
   return (
     <div className='p-10 bg-[#00000000] flex justify-center'>
       <div className='flex justify-center items-center flex-wrap gap-20 max-[570px]:flex-col max-[570px]:items-center'>

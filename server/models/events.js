@@ -8,6 +8,8 @@ export default async function createEventsTable() {
     description TEXT NOT NULL,
     start_time VARCHAR(100) NOT NULL,
     end_time VARCHAR(100) NOT NULL,
+    event_date VARCHAR(100) NOT NULL,
+    status VARCHAR(50) NOT NULL,
     location VARCHAR(200) NOT NULL,
     max_participants INT,
     thumbnail VARCHAR(255) NOT NULL,
@@ -31,5 +33,16 @@ export async function deletedEventsTable() {
   } catch (err) {
     console.error("Error deleting events table:", err);
     // Handle specific errors if needed
+  }
+}
+
+
+export async function updateEventsColumn(){
+  const updateColumn = `ALTER TABLE events ADD COLUMN status VARCHAR(20) NOT NULL;`
+  try{
+    await connection.query(updateColumn)
+    console.log('Added column(s) in events table')
+  }catch(err){
+    console.error('Error adding new column(s) in events table:', err)
   }
 }
