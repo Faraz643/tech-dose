@@ -82,13 +82,6 @@ const adminMenuLink = [
     menuIcon: home,
   },
 
-  // {
-  //   for: "editor",
-  //   id: "editorDashboard",
-  //   menuName: "Dashboard",
-  //   menulink: "/editor/dashboard",
-  //   menuIcon: home,
-  // },
   {
     for: "admin",
     id: "add-article",
@@ -96,13 +89,7 @@ const adminMenuLink = [
     menulink: "/admin/add-article",
     menuIcon: article,
   },
-  // {
-  //   for: "editor",
-  //   id: "editor-add-article",
-  //   menuName: "Add an Article",
-  //   menulink: "/editor/add-article",
-  //   menuIcon: article,
-  // },
+
   {
     for: "admin",
     id: "add-event",
@@ -117,13 +104,7 @@ const adminMenuLink = [
     menulink: "/admin/upload-excel",
     menuIcon: tag,
   },
-  // {
-  //   for: "admin",
-  //   id: "manageEditors",
-  //   menuName: "Manage Editors",
-  //   menulink: "/admin/manage-editors",
-  //   menuIcon: editors,
-  // },
+
   {
     for: "admin",
     id: "edit-article",
