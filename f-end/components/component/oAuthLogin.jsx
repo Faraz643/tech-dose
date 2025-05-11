@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 
 const allowedMails = ["student.iul.ac.in"];
 
-export default async function Component() {
+export default function Component() {
   const router = useRouter();
   async function handleGoogleLogin() {
     const provider = new GoogleAuthProvider();
