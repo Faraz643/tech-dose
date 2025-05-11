@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 import { getFirebaseAuth } from "next-firebase-auth-edge";
 
-
 // Utility function to validate token
 const { verifyIdToken } = getFirebaseAuth({
   serviceAccount: {
@@ -12,7 +11,6 @@ const { verifyIdToken } = getFirebaseAuth({
   },
   apiKey: process.env.FIREBASE_PRIVATE_KEY,
 });
-
 
 const SECRET_KEY = new TextEncoder().encode(process.env.NEXT_PUBLIC_SECRET_KEY);
 
@@ -35,6 +33,7 @@ export async function middleware(req) {
   // Paths for admin and student areas
   const isAdminPath = pathname.startsWith("/admin");
   const isStudentPath = pathname.startsWith("/student");
+  const isStudentPathandCreateAccount = pathname.startsWith("/student/profile-setup");
 
   if (isAdminPath) {
     // Middleware logic for admin
@@ -70,7 +69,7 @@ export async function middleware(req) {
     // Middleware logic for students
     // console.log("token", verifyIdToken(fireBaseToken));
 
-    try {
+    try {````````````````````
       const decodedToken = await verifyIdToken(fireBaseToken);
       // console.log(decodedToken);
       return NextResponse.redirect(new URL("/", origin));
@@ -78,6 +77,9 @@ export async function middleware(req) {
       // console.log(error);
       return NextResponse.next(new URL("/admin/signin", origin));
     }
+  } 
+  if (isStudentPathandCreateAccount && !fireBaseToken) {
+    return NextResponse.redirect(new URL("/", origin));
   }
 }
 

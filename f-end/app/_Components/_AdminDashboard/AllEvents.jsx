@@ -18,7 +18,7 @@ const AllEvents = () => {
   const [eventDeleted, setEventDeleted] = useState(true);
   const { allEvents, fetchData } = useFetchEvents();
   //   const { allEvents, fetchEventsData } = useFetchEvents();
-  console.log("this are events var", allEvents);
+  // console.log("this are events var", allEvents);
   useEffect(() => {
     fetchData();
   }, [eventDeleted]);
@@ -26,7 +26,7 @@ const AllEvents = () => {
     eventStatusFilter === "Show All"
       ? allEvents
       : allEvents.filter((event) => event.status === eventStatusFilter);
-  console.log("fake events", filteredEvents);
+  // console.log("fake events", filteredEvents);
   return (
     <div className="bg-blur min-h-[300px] mt-3 rounded-[25px] !border-white flex gap-5 p-3 flex-wrap justify-center ">
       {filteredEvents.map((event, index) => (

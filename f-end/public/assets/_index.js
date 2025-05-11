@@ -1,6 +1,5 @@
-// Attribute: 
+// Attribute:
 // <a href="https://www.flaticon.com/free-icons/clock" title="clock icons">Clock icons created by Those Icons - Flaticon</a>
-
 
 // import all images in a single file
 
@@ -100,7 +99,7 @@ import text from "./images/admin-icons/text.png";
 import userProfile from "./images/admin-icons/user-profile.jpg";
 import redirect from "./images/admin-icons/redirect.png";
 import calendar from "./images/admin-icons/calendar.png";
-import clock from "./images/admin-icons/clock.png"
+import clock from "./images/admin-icons/clock.png";
 
 // Animations
 
@@ -113,6 +112,7 @@ import venueIcon from "./images/events-images/venue-icon.png";
 import clockIcon from "./images/events-images/clock-icon.png";
 import dateIcon from "./images/events-images/date-icon.png";
 import eligibilityIcon from "./images/events-images/eligibility-icon.png";
+import closeIcon from "./images/mini-icons/close.png";
 
 // Excel file template
 
@@ -177,4 +177,5 @@ export {
   dateIcon,
   eligibilityIcon,
   clock,
+  closeIcon,
 };

@@ -298,3 +298,23 @@ export const uploadArticleByFile = async (req, res) => {
       .json({ Message: "An Error Occured while processing the file" });
   }
 };
+
+export const getParticipantList = async (req, res) => {
+  const event_id = req.params.event_id;
+  const getParticipantListQuery = `SELECT 
+  p.*, 
+  u.name, 
+  u.enroll_id, 
+  u.year, 
+  u.email,
+  u.branch
+FROM 
+  participants p
+JOIN 
+  users u ON p.user_id = u.enroll_id
+WHERE 
+  p.event_id = ?`;
+  const result = await connection.query(getParticipantListQuery, [event_id]);
+
+  res.json({ data: result[0] });
+};

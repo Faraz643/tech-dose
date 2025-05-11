@@ -47,8 +47,11 @@ export default async function Component() {
         if (response.userExists) {
           const token = await result.user.getIdToken(); // Get the Firebase ID token
           document.cookie = `fireBaseToken=${token}; path=/`;
+          localStorage.setItem('UserFId', user.uid)
           router.replace("/");
         } else {
+          document.cookie = `fireBaseToken=${'temp'}; path=/`;
+
           router.replace("/student/profile-setup");
         }
       } else {

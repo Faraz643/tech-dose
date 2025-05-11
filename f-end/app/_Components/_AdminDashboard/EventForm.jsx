@@ -238,7 +238,7 @@ const EventForm = ({ formMode }) => {
 
   function clearFormData() {
     if (formMode === "edit") {
-      router.replace("/admin/add-article");
+      router.replace("/admin/dashboard");
     }
     setArticleData({
       thumbnail: "",

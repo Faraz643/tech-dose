@@ -20,7 +20,7 @@ export const addEvent = async (req, res) => {
     eventDate,
   } = req.body;
 
-console.log(eventDate)
+  console.log(eventDate);
 
   const eventThumbnail = req.file;
   if (!eventThumbnail) {
@@ -105,10 +105,11 @@ export const updateEvent = async (req, res) => {
     location,
     maxParticipants,
     existingThumbnailFileName,
-    eventDate
+    eventDate,
+    status
   } = req.body;
-console.log('this is event date', eventDate)
-  console.log(existingThumbnailFileName);
+  // console.log("this is event date", eventDate);
+  // console.log(existingThumbnailFileName);
 
   const eventThumbnail = req.file || null;
 
@@ -123,11 +124,13 @@ console.log('this is event date', eventDate)
     description,
     startTime,
     endTime,
+    eventDate,
+    status,
     location,
     maxParticipants,
-    eventDate
+    
   ];
-  let findEventQuery = `UPDATE events SET name=?, description=?, start_time=?, end_time=?, event_date?, location=?, max_participants=?`;
+  let findEventQuery = `UPDATE events SET name=?, description=?, start_time=?, end_time=?, event_date=?, status=?, location=?, max_participants=?`;
 
   // Check if a new thumbnail is provided
   if (eventThumbnail) {
@@ -137,7 +140,7 @@ console.log('this is event date', eventDate)
   // Append the condition for updating the specific event
   findEventQuery += " WHERE event_id=?";
 
-  console.log(findEventQuery);
+  // console.log(findEventQuery);
 
   try {
     if (eventThumbnail) {
@@ -154,9 +157,8 @@ console.log('this is event date', eventDate)
 
       // Add the new thumbnail URL to the table columns
       tableColumns.push(thumbnailDownloadURL);
-      tableColumns.push(eventToBeUpdated);
     }
-
+    tableColumns.push(eventToBeUpdated);
     // Execute the update query
     await connection.query(findEventQuery, tableColumns);
     res.status(201).json({ message: "Event Updated" });
@@ -199,6 +201,42 @@ export const showSingleEvent = async (req, res) => {
   }
 };
 
+export const showSingleEvent_Blog = async (req, res) => {
+  const { eventId, fireBaseId } = req.params;
+  const showSingleEventQuery = `SELECT * FROM events WHERE event_id=?`;
+  // const checkParticipationQuery = `SELECT * FROM participants WHERE event_id=?`;
+  const checkParticipationQuery = `SELECT
+  CASE
+    WHEN EXISTS (
+      SELECT 1
+      FROM participants
+      WHERE user_id = (SELECT user_id FROM users WHERE firebase_uid = ?)
+      AND event_id = ?
+    ) THEN 'true'
+    ELSE 'false'
+  END AS status;`;
+  try {
+    const checkParticipationResult = await connection.query(
+      checkParticipationQuery,
+      [fireBaseId, eventId]
+    );
+    const userParticipated = checkParticipationResult[0][0].status;
+    // console.log(checkParticipationResult[0][0].status);
+    const result = await connection.query(showSingleEventQuery, [eventId]);
+    if (result[0].length === 0)
+      res.status(404).json({ message: "No event found with such id" });
+    else {
+      result[0][0].participation = userParticipated;
+      res.send(result[0]);
+    }
+  } catch (e) {
+    res.status(500).json({
+      message:
+        "Can not fetch event at this moment, please try again after some time",
+    });
+  }
+};
+
 export const deleteEvent = async (req, res) => {
   const eventId = req.params.eventId;
   const thumbnailPath = req.body.thumbnailPath;
@@ -227,7 +265,8 @@ export const deleteEvent = async (req, res) => {
 };
 
 export const registerParticipants = async (req, res) => {
-  const { fireBaseId, eventId } = req.body;
+  const { fireBaseId, eventId } = req.body; //firebaseId = userFireBaseId
+  // console.log(fireBaseId, eventId);
   try {
     const findParticipantQuery = `SELECT * FROM users WHERE firebase_uid = ?`;
     const [participant] = await connection.query(findParticipantQuery, [

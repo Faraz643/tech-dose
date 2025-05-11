@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../eventCard.module.css";
+import { fireBaseAuth } from "@/app/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 import {
   venueIcon,
@@ -19,20 +21,22 @@ const Page = () => {
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
   const [placeholder, setPlaceholder] = useState("skeleton");
+  const [fireBaseId, setFireBaseId] = useState("");
   const params = useParams();
   const eventId = useParams().eventId;
   useEffect(() => {
+    if (!fireBaseId) return; // wait until fireBaseId is set
     const fetchArticle = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API}/event/${eventId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_API}/event/${eventId}/${fireBaseId}`,
           {
             method: "GET",
           }
         );
         if (response.ok) {
           const result = await response.json();
-          console.log(result[0]);
+          // console.log(result[0]);
           // console.log(result.articleData[0])
           setEventDetails(result[0]);
           setPlaceholder("");
@@ -48,10 +52,41 @@ const Page = () => {
       }
     };
     fetchArticle();
+  }, [fireBaseId]);
+
+  useEffect(() => {
+    // Listen for auth state changes
+    const unsubscribe = onAuthStateChanged(fireBaseAuth, (user) => {
+      if (user) {
+        async function getToken() {
+          const result1 = user.uid;
+          setFireBaseId(result1);
+          // console.log(result1);
+        }
+        getToken();
+      }
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
   }, []);
-  // const onModalClose = () => {
-  //   router.back();
-  // };
+
+  const participateUser = async (e) => {
+    e.preventDefault();
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/event/registerEvent/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fireBaseId,
+          eventId,
+        }),
+      }
+    );
+  };
 
   return (
     <section className="w-full my-[30px]">
@@ -145,9 +180,18 @@ const Page = () => {
               </div>
             </div>
             <div className="flex justify-center">
-              <button className="font-bold border-[2px] border-black rounded-3xl p-2 hover:bg-black hover:text-white transition-all">
-                Count Me In
-              </button>
+              {eventDetails.participation === "false" ? (
+                <button
+                  className="font-bold border-[2px] border-black rounded-3xl p-2 hover:bg-black hover:text-white transition-all"
+                  onClick={participateUser}
+                >
+                  Count Me In
+                </button>
+              ) : (
+                <button className="font-bold border-[2px] border-black rounded-3xl p-2 bg-[#131313] text-white transition-all">
+                  You are In
+                </button>
+              )}
             </div>
           </div>
         </div>

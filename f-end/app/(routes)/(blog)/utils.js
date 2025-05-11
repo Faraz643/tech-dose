@@ -138,6 +138,13 @@ const adminMenuLink = [
     menulink: "/admin/edit-event",
     menuIcon: article,
   },
+  {
+    for: "admin",
+    id: "show-participants",
+    menuName: "Show Participant",
+    menulink: "/admin/show-participants",
+    menuIcon: article,
+  },
 ];
 
 const topImagesCard = [
