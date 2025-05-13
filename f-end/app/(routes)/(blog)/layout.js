@@ -10,6 +10,7 @@ import { FooterSignature } from "@/app/_Components/_Blog/FooterSignature";
 import { Provider } from "react-redux";
 import { store } from "@/app/Redux/store";
 
+
 export const futureEarth = localfont({
   src: [
     {

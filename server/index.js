@@ -89,7 +89,7 @@ async function createAllTables() {
     console.error("Error during database creating tables:", err);
   }
 }
-// createAllTables();
+createAllTables();
 
 
 // deletedParticipantsTable()
