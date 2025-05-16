@@ -72,11 +72,11 @@ async function checkConnection() {
 // Check and log the connection status
 checkConnection();
 
-await deletedArticlesTable();
-await deletedRolesTable();
-await deletedUsersTable();
-await deletedEventsTable();
-await deletedParticipantsTable();
+// await deletedArticlesTable();
+// await deletedRolesTable();
+// await deletedUsersTable();
+// await deletedEventsTable();
+// await deletedParticipantsTable();
 
 async function createAllTables() {
   try {
@@ -89,7 +89,7 @@ async function createAllTables() {
     console.error("Error during database creating tables:", err);
   }
 }
-// createAllTables();
+createAllTables();
 
 
 // deletedParticipantsTable()
