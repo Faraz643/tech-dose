@@ -37,6 +37,7 @@ const port = process.env.PORT || 3001;
 const allowedOrigins = [
   "http://localhost:3000",
   "https://tech-dose.vercel.app",
+  "https://tech-dose-git-events-page-techybadshah-gmailcoms-projects.vercel.app",
   "https://tech-dose-view.onrender.com",
 ];
 app.use(
