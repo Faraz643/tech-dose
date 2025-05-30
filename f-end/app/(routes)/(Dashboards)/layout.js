@@ -8,10 +8,7 @@ import { futuraBKBT, futureEarth } from "../(blog)/layout";
 import Image from "next/image";
 import { store } from "@/app/Redux/store";
 import { Provider } from "react-redux";
-<<<<<<< HEAD
-=======
 import TopLoader from "@/app/_Components/TopLoader";
->>>>>>> ft-evt
 import CategoryFilterContextProvider from "@/app/_Components/_AdminDashboard/CategoryFilterContexts";
 
 export const metadata = {
@@ -29,10 +26,7 @@ export default function DashboardLayout({ children }) {
       {/* <Provider store={store}> */}
       <CategoryFilterContextProvider>
         <body suppressHydrationWarning={true} className="admin-layout">
-<<<<<<< HEAD
-=======
           <TopLoader />
->>>>>>> ft-evt
           <div className=" flex justify-center">
             <div className="flex gap-5 px-1 py-4 h-[100vh] w-[1200px] relative max-[500px]:w-[100%] max-[500px]:px-2">
               <div className="w-[280px]  bg-red- fixed max-[810px]:hidden">
