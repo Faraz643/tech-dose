@@ -12,7 +12,7 @@ import React from "react";
 import { useCategoryFilterContext } from "@/app/_Components/_AdminDashboard/CategoryFilterContexts";
 import AllEvents from "@/app/_Components/_AdminDashboard/AllEvents";
 import EventStatusFilter from "@/app/_Components/_AdminDashboard/EventsStatusFilter"
-
+import YearlyFilter from "@/app/_Components/_Blog/_BlogPage/YearlyFilter ";
 const Page = () => {
   const { category, setCategory } = useCategoryFilterContext();
   const router = useRouter();
@@ -25,6 +25,7 @@ const Page = () => {
           <div className="flex justify-between flex-wrap">
             <CategoryFilter filterFor={"dashboard"} />
             <MonthlyFilter filterFor={"dashboard"} />
+            <YearlyFilter filterFor={"dashboard"} />
           </div>
           <AllArticles />
         </div>

@@ -11,10 +11,9 @@ import {
   dateIcon,
   eligibilityIcon,
 } from "@/public/assets/_index";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { DateDisplay } from "../page";
-
 const Page = () => {
   // const router = useRouter();
   const [eventDetails, setEventDetails] = useState({});
@@ -23,13 +22,17 @@ const Page = () => {
   const [placeholder, setPlaceholder] = useState("skeleton");
   const [fireBaseId, setFireBaseId] = useState("");
   const params = useParams();
+  const router = useRouter()
   const eventId = useParams().eventId;
   useEffect(() => {
-    if (!fireBaseId) return; // wait until fireBaseId is set
+    // if (!fireBaseId) return; // wait until fireBaseId is set
     const fetchArticle = async () => {
       try {
+        const getSingleEventApi = fireBaseId
+          ? `${eventId}/${fireBaseId}`
+          : `${eventId}`;
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API}/event/${eventId}/${fireBaseId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_API}/event/${getSingleEventApi}`,
           {
             method: "GET",
           }
@@ -187,9 +190,15 @@ const Page = () => {
                 >
                   Count Me In
                 </button>
-              ) : (
+              ) : eventDetails.participation === "true" ? (
                 <button className="font-bold border-[2px] border-black rounded-3xl p-2 bg-[#131313] text-white transition-all">
                   You are In
+                </button>
+              ) : (
+                <button onClick={()=>router.push('/student/open-auth')}>
+                  <span className="underline">
+                    Login with your college id to participate
+                  </span>
                 </button>
               )}
             </div>

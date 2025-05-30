@@ -203,6 +203,8 @@ export const showSingleEvent = async (req, res) => {
 
 export const showSingleEvent_Blog = async (req, res) => {
   const { eventId, fireBaseId } = req.params;
+  console.log('this is event id', eventId)
+
   const showSingleEventQuery = `SELECT * FROM events WHERE event_id=?`;
   // const checkParticipationQuery = `SELECT * FROM participants WHERE event_id=?`;
   const checkParticipationQuery = `SELECT

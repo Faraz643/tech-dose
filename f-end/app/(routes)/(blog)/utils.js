@@ -162,6 +162,16 @@ const months = [
   { month: "December", id: 12 },
 ];
 
+<<<<<<< HEAD
+=======
+const years = [
+  { year: "2023", id: 0 },
+  { year: "2024", id: 1 },
+  { year: "2025", id: 2 },
+  
+];
+
+>>>>>>> ft-evt
 const categories = [
   { category: "Articles", id: 0 },
   { category: "Events", id: 1 },
@@ -268,6 +278,7 @@ export {
   socialLinks,
   topImagesCard,
   months,
+  years,
   articleDetails,
   adminMenuLink,
   sampleTags,

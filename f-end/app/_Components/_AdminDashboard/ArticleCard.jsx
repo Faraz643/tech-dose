@@ -13,7 +13,10 @@ const ArticleCard = ({ articleDetails, onDelete }) => {
           fill
           alt="Article Title Thumbnail"
           className="object-cover"
-          priority
+          // priority
+          // loading="lazy"
+          // quality={1}
+          // placeholder="empty"
         />
       </div>
       <div className="mt-2">

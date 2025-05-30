@@ -90,7 +90,17 @@ async function createAllTables() {
     console.error("Error during database creating tables:", err);
   }
 }
+<<<<<<< HEAD
 createAllTables();
+
+
+// deletedParticipantsTable()
+// deletedEventsTable()
+// updateEventsColumn()
+
+=======
+// createAllTables();
+>>>>>>> ft-evt
 
 
 // deletedParticipantsTable()

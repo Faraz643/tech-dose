@@ -48,7 +48,7 @@ export default function Component() {
           const token = await result.user.getIdToken(); // Get the Firebase ID token
           document.cookie = `fireBaseToken=${token}; path=/`;
           localStorage.setItem('UserFId', user.uid)
-          router.replace("/");
+          router.replace("/events");
         } else {
           document.cookie = `fireBaseToken=${'temp'}; path=/`;
 

@@ -36,7 +36,8 @@ export const storeExcelInDb = async (
 
     // data.forEach(async (row, index) => {
     for (const [index, row] of data.entries()) {
-      const { title, description } = row;
+      // console.log('these are rows:',row)
+      const { title, description, month, year } = row;
       const authorName = activeUserName;
       const slug = generateSlug(title);
       // GET AUTHOR NAME FROM CLIENT
@@ -44,8 +45,8 @@ export const storeExcelInDb = async (
       // console.log('this is thumbnail from publishArticle function', thumbnail)
       // Getting full month name (e.g. "September")
       const today = new Date();
-      const ArticleMonth = today.toLocaleString("default", { month: "long" });
-      const ArticleYear = today.getFullYear();
+      // const ArticleMonth = today.toLocaleString("default", { month: "long" });
+      // const ArticleYear = today.getFullYear();
 
       // const thumbnail = thumbnailsArray[index] || null;
       const metaData = {
@@ -66,18 +67,19 @@ export const storeExcelInDb = async (
         slug,
         authorName,
         thumbnailDownloadURL,
-        ArticleMonth,
-        ArticleYear,
+        month,
+        year,
         author_id,
         dateTime,
       ]);
     }
   } catch (error) {
-    // console.error("Error is blah:", error);
+    console.error("Error is blah:", error);
     return {
       success: false,
       message:
         "An error occurred while processing the file, ensure the data is organized sequentially",
+        
     };
   }
   return { success: true, message: "Article Added Successfully" };

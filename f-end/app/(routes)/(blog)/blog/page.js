@@ -3,7 +3,7 @@ import "../blog/styles.css";
 import MonthlyFilter from "@/app/_Components/_Blog/_BlogPage/MonthlyFilter";
 import ArticleCard from "@/app/_Components/_Blog/_BlogPage/ArticleCard";
 import MonthlyFilterContextProvider from "@/app/_Components/_AdminDashboard/MonthFilterContext";
-
+import YearlyFilter from "@/app/_Components/_Blog/_BlogPage/YearlyFilter ";
 export default function BlogPage() {
   return (
     <div className="flex justify-center bg-[#ff000000]">
@@ -25,7 +25,11 @@ export default function BlogPage() {
           </div>
         </div>
         <MonthlyFilterContextProvider>
-          <MonthlyFilter fiterFor={null} />
+          <div className="flex justify-end">
+            <YearlyFilter fiterFor={null} />
+            <MonthlyFilter fiterFor={null} />
+          </div>
+
           <ArticleCard />
         </MonthlyFilterContextProvider>
       </div>

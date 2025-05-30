@@ -20,7 +20,11 @@ const Tags = ({
     const token = Cookies.get("token");
     let dynamicRoute
     if (category === "article") {
+<<<<<<< HEAD
       dynamicRoute = `/artilce/${slug}`;
+=======
+      dynamicRoute = `/article/${slug}`;
+>>>>>>> ft-evt
     } else if (category === "event") {
        dynamicRoute = `/event/${eventId}`;
     }

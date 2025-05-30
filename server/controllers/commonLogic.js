@@ -257,10 +257,10 @@ export const deleteArticle = async (req, res) => {
   }
 };
 
+// Upload articles using excel file for content and zip file for thumbnail
+
 export const uploadArticleByFile = async (req, res) => {
-  // console.log(file.buffer);
   const { authorName } = req.body;
-  // console.log(req.files.excelFile[0].fieldname);
   const file = req.files.excelFile;
   const imageBuffer = req.imageBuffer;
   const userId = req.userId;

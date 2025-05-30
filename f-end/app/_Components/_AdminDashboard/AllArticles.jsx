@@ -16,10 +16,22 @@ const AllArticles = () => {
   useEffect(() => {
     fetchData();
   }, [articleDeleted]);
+
+  const monthfromLocal = localStorage.getItem("MonthF");
+  const YearfromLocal = localStorage.getItem("YearF");
+
+  // const filteredArticles =
+  //   filteredMonth === "Show All"
+  //     ? allArticles
+  //     : allArticles.filter((article) => article.month === filteredMonth);
+
   const filteredArticles =
-    filteredMonth === "Show All"
-      ? allArticles
-      : allArticles.filter((article) => article.month === filteredMonth);
+    monthfromLocal === "Show All"
+      ? allArticles.filter((article) => article.year === YearfromLocal)
+      : allArticles.filter(
+          (article) =>
+            article.month === monthfromLocal && article.year === YearfromLocal
+        );
 
   return (
     <div className="bg-blur min-h-[300px] mt-3 rounded-[25px] !border-white flex gap-5 p-3 flex-wrap justify-center ">
