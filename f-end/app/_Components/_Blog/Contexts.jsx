@@ -19,17 +19,10 @@ const Contexts = ({ children }) => {
       document.body.style.backgroundColor = "#201F1E"; // can use states here
     } else if (activeMenuLink === "/events") {
       document.body.style.backgroundColor = "#ECECEC";
-<<<<<<< HEAD
-      console.log(activeMenuLink);
-    } else if (activeMenuLink === "/blog") {
-      document.body.style.backgroundColor = "#ECECEC ";
-      console.log(activeMenuLink);
-=======
       // console.log(activeMenuLink);
     } else if (activeMenuLink === "/blog") {
       document.body.style.backgroundColor = "#ECECEC ";
       // console.log(activeMenuLink);
->>>>>>> ft-evt
     }
   }, [activeMenuLink]);
 

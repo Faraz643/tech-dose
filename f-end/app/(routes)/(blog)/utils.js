@@ -162,8 +162,6 @@ const months = [
   { month: "December", id: 12 },
 ];
 
-<<<<<<< HEAD
-=======
 const years = [
   { year: "2023", id: 0 },
   { year: "2024", id: 1 },
@@ -171,7 +169,6 @@ const years = [
   
 ];
 
->>>>>>> ft-evt
 const categories = [
   { category: "Articles", id: 0 },
   { category: "Events", id: 1 },

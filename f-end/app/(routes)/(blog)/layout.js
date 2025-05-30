@@ -9,11 +9,7 @@ import Heading from "@/app/_Components/_Blog/Heading";
 import { FooterSignature } from "@/app/_Components/_Blog/FooterSignature";
 import { Provider } from "react-redux";
 import { store } from "@/app/Redux/store";
-<<<<<<< HEAD
-
-=======
 import TopLoader from "@/app/_Components/TopLoader";
->>>>>>> ft-evt
 
 export const futureEarth = localfont({
   src: [
@@ -54,19 +50,6 @@ export default function RootLayout(props) {
     >
       <head></head>
       {/* <Provider store={store}> */}
-<<<<<<< HEAD
-        <body>
-          <Contexts>
-            <Header />
-            <Heading headingFor={"/blog"} />
-            {props.children}
-            <Footer />
-            <Heading headingFor={"/"} />
-            {props.modal}
-            <FooterSignature />
-          </Contexts>
-        </body>
-=======
       <body>
         <TopLoader/>
         <Contexts>
@@ -79,7 +62,6 @@ export default function RootLayout(props) {
           <FooterSignature />
         </Contexts>
       </body>
->>>>>>> ft-evt
       {/* </Provider> */}
     </html>
   );
