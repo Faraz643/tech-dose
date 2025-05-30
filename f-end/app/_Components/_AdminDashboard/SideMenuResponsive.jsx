@@ -4,6 +4,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 
+const menuNotToShow = ['edit-article','edit-event','show-participants']
+
+
 const SideMenuResponsive = () => {
   const pathName = usePathname()
   const foundObject = adminMenuLink.find((e) =>
@@ -11,11 +14,11 @@ const SideMenuResponsive = () => {
   )
   const [activeDash, setActiveDash] = useState(foundObject.id)
   return (
-    <section className='hidden  max-[810px]:block'>
+    <section className='hidden max-[810px]:block'>
       <div className='bg-blur flex gap-2  p-2 overflow-hidden rounded-[15px] menu-carousel'>
         {
           adminMenuLink.map((menu) => (
-            (menu.for === pathName.split('/')[1]) &&
+            (menu.for === pathName.split('/')[1]) && (!menuNotToShow.includes(menu.id)) &&
             <Link
               key={menu.id}
               href={menu.menulink}

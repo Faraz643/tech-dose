@@ -13,7 +13,10 @@ const ArticleCard = ({ articleDetails, onDelete }) => {
           fill
           alt="Article Title Thumbnail"
           className="object-cover"
-          priority
+          // priority
+          // loading="lazy"
+          // quality={1}
+          // placeholder="empty"
         />
       </div>
       <div className="mt-2">
@@ -29,6 +32,7 @@ const ArticleCard = ({ articleDetails, onDelete }) => {
             textC="#D47800"
             actionText="Update"
             slug={articleDetails.slug}
+            category={'article'}
           />
           <Tags
             backgC="rgba(255, 5, 5, 0.47)"
@@ -37,6 +41,7 @@ const ArticleCard = ({ articleDetails, onDelete }) => {
             slug={articleDetails.slug}
             thumbnail={articleDetails.thumbnail}
             renderOnDelete={onDelete}
+            category={'article'}
           />
         </div>
         <Link href={`/blog/article/${articleDetails.slug}`} target="_blank">

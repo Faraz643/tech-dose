@@ -35,7 +35,7 @@ const ProfileInfoHeader = () => {
   }
 
   return (
-    <section className="z-[999]">
+    <section className="z-[998]">
       <div className="bg-blur h-[80px] rounded-[25px]">
         <div className="h-[100%] w-full flex justify-between p-5 items-center max-[500px]:p-1">
           <span className="min-[810px]:hidden">

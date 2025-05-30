@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 
 const allowedMails = ["student.iul.ac.in"];
 
-export default async function Component() {
+export default function Component() {
   const router = useRouter();
   async function handleGoogleLogin() {
     const provider = new GoogleAuthProvider();
@@ -47,8 +47,11 @@ export default async function Component() {
         if (response.userExists) {
           const token = await result.user.getIdToken(); // Get the Firebase ID token
           document.cookie = `fireBaseToken=${token}; path=/`;
-          router.replace("/");
+          localStorage.setItem('UserFId', user.uid)
+          router.replace("/events");
         } else {
+          document.cookie = `fireBaseToken=${'temp'}; path=/`;
+
           router.replace("/student/profile-setup");
         }
       } else {

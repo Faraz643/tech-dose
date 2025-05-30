@@ -19,16 +19,29 @@ export function StudentProfileSetup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [firebaseId, setfirebaseId] = useState("");
+  const [userToken, setUserToken] = useState("");
   const router = useRouter();
   useEffect(() => {
     // Listen for auth state changes
     const unsubscribe = onAuthStateChanged(fireBaseAuth, (user) => {
       if (user) {
         // Set user name and email if the user is logged in
+        async function getToken() {
+          const result1 = await user.getIdToken();
+          setUserToken(result1);
+          // console.log(result1);
+        }
+        getToken();
         setName(user.displayName);
         setEmail(user.email);
         setfirebaseId(user.uid);
       }
+      //  console.log(user)
+      // console.log(user.getIdToken())
+
+      // if (!document.cookie.includes(user.getIdToken())) {
+      //   router.replace("/");
+      // }
     });
 
     // Clean up the listener when the component unmounts
@@ -100,6 +113,7 @@ export function StudentProfileSetup() {
       const data = await response.json();
       if (response.ok) {
         notify(data.message, 1, "success");
+        document.cookie = `fireBaseToken=${userToken}; path=/`;
         router.replace("/events");
         setTime(60);
       } else {

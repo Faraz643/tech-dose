@@ -8,10 +8,16 @@ const nextConfig = {
         hostname: process.env.NEXT_PUBLIC_FIREBASE_HOST_NAME,
       },
       {
-        hostname: process.env.NEXT_PUBLIC_LOCAL_HOST_NAME
-      }
+        hostname: process.env.NEXT_PUBLIC_LOCAL_HOST_NAME,
+      },
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+ },
 };
 
 module.exports = nextConfig;

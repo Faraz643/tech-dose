@@ -1,0 +1,105 @@
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  /* background-color: brown; */
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.cards {
+  margin: 10px;
+  height: 400px;
+  width: 300px;
+  transition: all 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+  flex: 0 1 auto;
+  cursor: pointer;
+  transition: all 0.5 ease-in;
+  position: relative;
+  overflow: hidden;
+}
+.card1 {
+  background-color: #f991f0;
+}
+.card2 {
+  background-color: #94f991;
+}
+.card3 {
+  background-color: #f9d391;
+}
+.active {
+  flex: 1 1 300px; /* Ensure active card grows while respecting wrapping */
+}
+
+/* Div Containing info */
+
+.cardEventsInfo {
+  position: relative;
+  min-width: 300px;
+  height: inherit;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: inherit;
+  transform: translateY(100%);
+  transition: all 0.1s ease-in;
+}
+
+.cardEventsInfo.infoActive {
+  transform: translateY(0);
+}
+
+.eventHeading {
+  font-weight: 600;
+}
+
+/* Single event page */
+
+.dotBr div:first-child {
+  border-top: rgb(116, 116, 116) 2px dotted;
+  border-bottom: rgb(116, 116, 116) 2px dotted;
+}
+
+.dotBr div:not(:first-child) {
+  border-bottom: rgb(116, 116, 116) 2px dotted;
+  /* border-top: rgb(116, 116, 116) 2px dotted; */
+}
+.dotBr div {
+  padding: 10px 0 10px 0;
+}
+
+@media (min-width: 1250px) {
+  .deskTPEventDetailsContainer {
+    display: flex;
+    margin-top: 75px;
+    gap: 2rem;
+  }
+  .order2 {
+    order: 2;
+    max-width: 600px;
+  }
+  .eventInfoMenu {
+    border-right: 1.5px solid black;
+    width: 300px;
+  }
+  .eventInfoMenu div div {
+    padding: 20px;
+  }
+  .eventInfoMenu button{
+    padding: 5px 15px !important;
+
+  }
+  .eventDetailsAlign {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+
+  }
+  .eventDetailsAlign h2 {
+    text-align: left !important;
+    max-width: 40px;
+    font-size: 3rem;
+    line-height: 3.5rem;
+    
+  }
+}

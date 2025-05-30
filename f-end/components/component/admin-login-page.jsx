@@ -15,7 +15,7 @@ import Link from "next/link";
 import { signInWithCustomToken } from "firebase/auth";
 import { fireBaseAuth } from "@/app/firebase";
 
-export function AdminLoginPage() {
+function AdminLoginPage() {
   const [inputWarning, setInputWarning] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const router = useRouter();
@@ -168,3 +168,5 @@ export function AdminLoginPage() {
     </div>
   );
 }
+
+export default AdminLoginPage

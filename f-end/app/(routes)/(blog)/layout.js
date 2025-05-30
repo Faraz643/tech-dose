@@ -1,3 +1,5 @@
+// 'use client'
+
 import localfont from "next/font/local";
 import "../../styles/globals.css";
 import { Header } from "@/app/_Components/_Blog/Header";
@@ -5,6 +7,10 @@ import Footer from "@/app/_Components/_Blog/Footer";
 import Contexts from "@/app/_Components/_Blog/Contexts";
 import Heading from "@/app/_Components/_Blog/Heading";
 import { FooterSignature } from "@/app/_Components/_Blog/FooterSignature";
+import { Provider } from "react-redux";
+import { store } from "@/app/Redux/store";
+import TopLoader from "@/app/_Components/TopLoader";
+
 export const futureEarth = localfont({
   src: [
     {
@@ -19,7 +25,12 @@ export const futuraBKBT = localfont({
   src: [
     {
       path: "../../../public/assets/fonts/futura-bk-bt/FutuBk.ttf",
-      weight: "900",
+      weight: "400",
+    },
+    {
+      path: "../../../public/assets/fonts/futura-bk-bt/FuturaMdBT.ttf", // Ensure correct path
+      weight: "700", // Bold weight
+      // style: "normal",
     },
   ],
   variable: "--font-futura",
@@ -38,7 +49,9 @@ export default function RootLayout(props) {
       className={`${futureEarth.variable} ${futuraBKBT.variable} font-futura`}
     >
       <head></head>
+      {/* <Provider store={store}> */}
       <body>
+        <TopLoader/>
         <Contexts>
           <Header />
           <Heading headingFor={"/blog"} />
@@ -49,6 +62,7 @@ export default function RootLayout(props) {
           <FooterSignature />
         </Contexts>
       </body>
+      {/* </Provider> */}
     </html>
   );
 }

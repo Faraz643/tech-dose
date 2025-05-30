@@ -24,20 +24,20 @@ import invalidateToken from "./redisClient.js";
 import dotenv from "dotenv";
 import { connection } from "./db.config.js";
 import { client } from "./redisClient.js";
-import createEventsTable, { deletedEventsTable } from "./models/events.js";
+import createEventsTable, { deletedEventsTable, updateEventsColumn } from "./models/events.js";
 import createParticipantsTable, {
   deletedParticipantsTable,
 } from "./models/participants.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
-
 const port = process.env.PORT || 3001;
 // console.log(typeof JSON.parse(process.env.FIREBASE_PRIVATE_KEY))
 // Allow requests from your frontend origin
 const allowedOrigins = [
   "http://localhost:3000",
   "https://tech-dose.vercel.app",
+  "https://tech-dose-git-events-page-techybadshah-gmailcoms-projects.vercel.app",
   "https://tech-dose-view.onrender.com",
 ];
 app.use(
@@ -90,8 +90,13 @@ async function createAllTables() {
     console.error("Error during database creating tables:", err);
   }
 }
-
 // createAllTables();
+
+
+// deletedParticipantsTable()
+// deletedEventsTable()
+// updateEventsColumn()
+
 
 client.on("error", (err) => {
   console.log({ "Redis Error": "In-Memory storage", "Error Name": err });

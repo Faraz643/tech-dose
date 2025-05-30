@@ -7,6 +7,7 @@ import {
   showAllEvents,
   showSingleEvent,
   registerParticipants,
+  showSingleEvent_Blog,
 } from "../controllers/eventLogic.js";
 const router = express.Router();
 import { handleEventsThumbnail } from "../fileUpload.config.js";
@@ -14,6 +15,7 @@ import { handleEventsThumbnail } from "../fileUpload.config.js";
 router.post("/registerEvent", registerParticipants);
 router
   .get("/", showAllEvents)
+  .get("/:eventId/:fireBaseId", showSingleEvent_Blog)
   .get("/:eventId", showSingleEvent)
   .post("/", handleEventsThumbnail.single("thumbnail"), addEvent)
   .put("/:eventId", handleEventsThumbnail.single("thumbnail"), updateEvent)

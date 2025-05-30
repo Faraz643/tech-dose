@@ -2,6 +2,8 @@ import Image from "next/image";
 import "../blog/styles.css";
 import MonthlyFilter from "@/app/_Components/_Blog/_BlogPage/MonthlyFilter";
 import ArticleCard from "@/app/_Components/_Blog/_BlogPage/ArticleCard";
+import MonthlyFilterContextProvider from "@/app/_Components/_AdminDashboard/MonthFilterContext";
+import YearlyFilter from "@/app/_Components/_Blog/_BlogPage/YearlyFilter ";
 export default function BlogPage() {
   return (
     <div className="flex justify-center bg-[#ff000000]">
@@ -22,9 +24,14 @@ export default function BlogPage() {
             </p>
           </div>
         </div>
-        <MonthlyFilter fiterFor={null}>
+        <MonthlyFilterContextProvider>
+          <div className="flex justify-end">
+            <YearlyFilter fiterFor={null} />
+            <MonthlyFilter fiterFor={null} />
+          </div>
+
           <ArticleCard />
-        </MonthlyFilter>
+        </MonthlyFilterContextProvider>
       </div>
     </div>
   );

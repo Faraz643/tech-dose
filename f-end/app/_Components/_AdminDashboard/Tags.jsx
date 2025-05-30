@@ -9,6 +9,8 @@ const Tags = ({
   slug,
   renderOnDelete,
   thumbnail,
+  category,
+  eventId,
 }) => {
   const router = useRouter();
   const bgColor = backgC;
@@ -16,9 +18,14 @@ const Tags = ({
   const action = actionText;
   async function handleDelete() {
     const token = Cookies.get("token");
-    // console.log('article deleted', slug)
+    let dynamicRoute
+    if (category === "article") {
+      dynamicRoute = `/article/${slug}`;
+    } else if (category === "event") {
+       dynamicRoute = `/event/${eventId}`;
+    }
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/article/${slug}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API}${dynamicRoute}`,
       {
         method: "DELETE",
         credentials: "include",
@@ -29,7 +36,7 @@ const Tags = ({
         body: JSON.stringify({ thumbnailPath: thumbnail }),
       }
     );
-    renderOnDelete((prev) => !prev)
+    renderOnDelete((prev) => !prev);
 
     // if (response.status === 204) {
     //   const data = await response.json();
@@ -37,7 +44,12 @@ const Tags = ({
     // }
   }
   function handleUpdate() {
-    router.push(`/admin/edit-article?slug=${slug}`);
+    if (category === "article") {
+      router.push(`/admin/edit-article?slug=${slug}`);
+    } else if (category === "event") {
+      router.push(`/admin/edit-event?eventId=${eventId}`);
+      // console.log(eventId)
+    }
   }
 
   return (

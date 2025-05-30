@@ -257,10 +257,10 @@ export const deleteArticle = async (req, res) => {
   }
 };
 
+// Upload articles using excel file for content and zip file for thumbnail
+
 export const uploadArticleByFile = async (req, res) => {
-  // console.log(file.buffer);
   const { authorName } = req.body;
-  // console.log(req.files.excelFile[0].fieldname);
   const file = req.files.excelFile;
   const imageBuffer = req.imageBuffer;
   const userId = req.userId;
@@ -297,4 +297,24 @@ export const uploadArticleByFile = async (req, res) => {
       .status(500)
       .json({ Message: "An Error Occured while processing the file" });
   }
+};
+
+export const getParticipantList = async (req, res) => {
+  const event_id = req.params.event_id;
+  const getParticipantListQuery = `SELECT 
+  p.*, 
+  u.name, 
+  u.enroll_id, 
+  u.year, 
+  u.email,
+  u.branch
+FROM 
+  participants p
+JOIN 
+  users u ON p.user_id = u.enroll_id
+WHERE 
+  p.event_id = ?`;
+  const result = await connection.query(getParticipantListQuery, [event_id]);
+
+  res.json({ data: result[0] });
 };

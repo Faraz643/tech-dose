@@ -7,6 +7,7 @@ import {
   updateArticle,
   showImage,
   uploadArticleByFile,
+  getParticipantList
 } from "../controllers/commonLogic.js";
 import {
   uploadThumbnail,
@@ -43,5 +44,7 @@ router
     updateArticle
   ) // update article via admin/editor page
   .delete("/:slug", authMiddleware, deleteArticle); //  delete article via admin/editor page
+
+router.get("/participant-list/:event_id", getParticipantList);
 
 export default router;

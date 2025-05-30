@@ -1,13 +1,21 @@
-import ArticleForm from "@/app/_Components/_AdminCreatePost/ArticleForm";
+// import ArticleForm from "@/app/_Components/_AdminCreatePost/ArticleForm";
 import MainContentWrapper from "@/app/_Components/_AdminDashboard/MainContentWrapper";
 import React from "react";
+import dynamic from "next/dynamic";
+
+const ArticleForm = dynamic(
+  () => import("@/app/_Components/_AdminCreatePost/ArticleForm"),
+  {
+    ssr: false,
+  }
+);
 
 const page = () => {
   return (
     <MainContentWrapper>
       <h1 className="text-center text-2xl">Edit Post</h1>
       <div id="form-area">
-        <ArticleForm formMode={'edit'} />
+        <ArticleForm formMode={"edit"} />
       </div>
     </MainContentWrapper>
   );

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
-const menuNotToShow = ['edit-article']
+const menuNotToShow = ['edit-article','edit-event','show-participants']
 
 const SideMenuLinks = () => {
     const pathName = usePathname()
