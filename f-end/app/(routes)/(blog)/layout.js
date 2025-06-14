@@ -1,6 +1,7 @@
 // 'use client'
 
 import localfont from "next/font/local";
+import { Suspense } from "react";
 import "../../styles/globals.css";
 import { Header } from "@/app/_Components/_Blog/Header";
 import Footer from "@/app/_Components/_Blog/Footer";
@@ -51,16 +52,18 @@ export default function RootLayout(props) {
       <head></head>
       {/* <Provider store={store}> */}
       <body>
-        <TopLoader/>
-        <Contexts>
-          <Header />
-          <Heading headingFor={"/blog"} />
-          {props.children}
-          <Footer />
-          <Heading headingFor={"/"} />
-          {props.modal}
-          <FooterSignature />
-        </Contexts>
+        <Suspense fallback={null}>
+          <TopLoader />
+          <Contexts>
+            <Header />
+            <Heading headingFor={"/blog"} />
+            {props.children}
+            <Footer />
+            <Heading headingFor={"/"} />
+            {props.modal}
+            <FooterSignature />
+          </Contexts>
+        </Suspense>
       </body>
       {/* </Provider> */}
     </html>

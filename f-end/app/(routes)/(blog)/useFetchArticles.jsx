@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 const useFetchArticles = (slug = null) => {
-
+// 
 
   // all states
   const [singleArticleDetails, setSingleArticleDetails] = useState({})
