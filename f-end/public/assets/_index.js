@@ -114,6 +114,8 @@ import dateIcon from "./images/events-images/date-icon.png";
 import eligibilityIcon from "./images/events-images/eligibility-icon.png";
 import closeIcon from "./images/mini-icons/close.png";
 
+import notFoundImage from "./images/mini-icons/404_image.jpeg";
+
 // Excel file template
 
 // export
@@ -178,4 +180,5 @@ export {
   eligibilityIcon,
   clock,
   closeIcon,
+  notFoundImage,
 };
